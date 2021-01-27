@@ -1,0 +1,11 @@
+ type User {
+   id: ID!
+ }
+
+ type Query {
+    user(id: ID!):User
+ }
+
+ type Mutation {
+     createUser(name: String!):User
+ }

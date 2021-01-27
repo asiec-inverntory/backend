@@ -1,0 +1,26 @@
+version: '3'
+services:
+  bot:
+    image: registry.centralhardware.synology.me/inventory-backend
+    depends_on:
+      - "db"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_SHOW_SQL: "false"
+
+    ports:
+      - 5555:8080
+
+  db:
+    image: postgres:12.4
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    volumes:
+      - ./psql/:/var/lib/postgresql/data
+    ports:
+      - 546:5432
+
