@@ -1,3 +1,3 @@
 
 
-(test server)[http://staging.centralhardware.synology.me/graphiql]
+[test server](http://staging.centralhardware.synology.me/graphiql)
