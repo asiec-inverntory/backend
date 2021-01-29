@@ -4,6 +4,9 @@
 
  type Query {
     user(id: ID!):User
+#     QR
+#    encode(code: String): String
+#    decode(image: String): String
  }
 
  type Mutation {
