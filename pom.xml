@@ -125,6 +125,35 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>io.github.kobylynskyi</groupId>
+                <artifactId>graphql-codegen-maven-plugin</artifactId>
+                <version>4.1.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- all config options:
+                            https://github.com/kobylynskyi/graphql-java-codegen/blob/master/docs/codegen-options.md
+                            -->
+                            <outputDir>${project.build.sourceDirectory}</outputDir>
+                            <packageName>ru.centralhardware.asiec.inventory.graphql.model</packageName>
+                            <customTypesMapping>
+                                <DateTime>java.util.Date</DateTime>
+                                <Price.amount>java.math.BigDecimal</Price.amount>
+                            </customTypesMapping>
+                            <customAnnotationsMapping>
+                                <EpochMillis>
+                                    <annotation>com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class)</annotation>
+                                </EpochMillis>
+                            </customAnnotationsMapping>
+                            <modelNameSuffix>TO</modelNameSuffix>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
