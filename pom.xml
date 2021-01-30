@@ -84,11 +84,11 @@
             <artifactId>jackson-core</artifactId>
             <version>2.12.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.4.2</version>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
 
     </dependencies>
@@ -124,35 +124,6 @@
                         <version>42.2.18</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>io.github.kobylynskyi</groupId>
-                <artifactId>graphql-codegen-maven-plugin</artifactId>
-                <version>4.1.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <!-- all config options:
-                            https://github.com/kobylynskyi/graphql-java-codegen/blob/master/docs/codegen-options.md
-                            -->
-                            <outputDir>${project.build.sourceDirectory}</outputDir>
-                            <packageName>ru.centralhardware.asiec.inventory.graphql.model</packageName>
-                            <customTypesMapping>
-                                <DateTime>java.util.Date</DateTime>
-                                <Price.amount>java.math.BigDecimal</Price.amount>
-                            </customTypesMapping>
-                            <customAnnotationsMapping>
-                                <EpochMillis>
-                                    <annotation>com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class)</annotation>
-                                </EpochMillis>
-                            </customAnnotationsMapping>
-                            <modelNameSuffix>TO</modelNameSuffix>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

@@ -264,100 +264,100 @@ type Repair {
      deleteUser(
          id: ID!
      ):Boolean
-#     p[eration with building
-     createBuilding(
-         input: BuildingInput
-     ):Building
-     updateBuilding(
-         id: ID!
-         input: BuildingInput
-     ):Building
-     deleteBuilding(
-         id: ID!
-     ):Boolean
-#    operation with room
-     createRoom(
-         input: RoomInput
-         building: ID!
-     ):Room
-     updateRoom(
-         id: ID!
-         input: RoomInput
-     ):Room
-     deleteRoom(
-         id: ID!
-     ):Boolean
-#    operation with position
-     createPosition(
-         input: PositionInput
-         room: ID!
-     ):Position
-     updatePosition(
-         id: ID!
-         input: PositionInput
-     ):Position
-     deletePosition(
-         id: ID!
-     ):Boolean
-#    operation with equipment
-     createEquipment(
-         input: EquipmentInput
-         room: ID!
-         child_equipment: ID
-         position: ID
-         characteristic: [ID]
-     ):Equipment
-     updateEquipment(
-         id: ID!
-         input: EquipmentInput
-     ): Equipment
-     deleteEquipment(
-         id: ID!
-     ):Boolean
-#    operation with attribute
-    createAtrribute(
-        input: AtributeInput
-    ):Attribute
-     updateAttribute(
-         id: ID!
-         input: AtributeInput
-     ):Attribute
-     deleteAttribute(
-        id: ID!
-     ):Boolean
-#    operation with unit
-     createUnit(
-         input: UnitInput
-     ):Unit
-     updateUnit(
-         id: ID!
-         input: UnitInput
-     ):Unit
-     deleteUnit(
-         id: ID!
-     ):Boolean
-#     operation with Characteristic
-     createCharacteristic(
-         attribute: ID!
-         value: String
-         unit: ID
-     ):Characteristic
-     updateCharacteristic(
-         value: String
-     ): Characteristic
-     deleteCharacteristic(
-         id: ID!
-     ):Boolean
-#     operation with order
-#     operatin with RepairService
-     createRepairService(
-         input: RepairServiceInput
-     ):RepairService
-     updateRepairService(
-         id: ID!
-         input: RepairServiceInput
-     ):RepairService
-     deleteRepairService(
-         id: ID!
-     ):Boolean
+##     p[eration with building
+#     createBuilding(
+#         input: BuildingInput
+#     ):Building
+#     updateBuilding(
+#         id: ID!
+#         input: BuildingInput
+#     ):Building
+#     deleteBuilding(
+#         id: ID!
+#     ):Boolean
+##    operation with room
+#     createRoom(
+#         input: RoomInput
+#         building: ID!
+#     ):Room
+#     updateRoom(
+#         id: ID!
+#         input: RoomInput
+#     ):Room
+#     deleteRoom(
+#         id: ID!
+#     ):Boolean
+##    operation with position
+#     createPosition(
+#         input: PositionInput
+#         room: ID!
+#     ):Position
+#     updatePosition(
+#         id: ID!
+#         input: PositionInput
+#     ):Position
+#     deletePosition(
+#         id: ID!
+#     ):Boolean
+##    operation with equipment
+#     createEquipment(
+#         input: EquipmentInput
+#         room: ID!
+#         child_equipment: ID
+#         position: ID
+#         characteristic: [ID]
+#     ):Equipment
+#     updateEquipment(
+#         id: ID!
+#         input: EquipmentInput
+#     ): Equipment
+#     deleteEquipment(
+#         id: ID!
+#     ):Boolean
+##    operation with attribute
+#    createAtrribute(
+#        input: AtributeInput
+#    ):Attribute
+#     updateAttribute(
+#         id: ID!
+#         input: AtributeInput
+#     ):Attribute
+#     deleteAttribute(
+#        id: ID!
+#     ):Boolean
+##    operation with unit
+#     createUnit(
+#         input: UnitInput
+#     ):Unit
+#     updateUnit(
+#         id: ID!
+#         input: UnitInput
+#     ):Unit
+#     deleteUnit(
+#         id: ID!
+#     ):Boolean
+##     operation with Characteristic
+#     createCharacteristic(
+#         attribute: ID!
+#         value: String
+#         unit: ID
+#     ):Characteristic
+#     updateCharacteristic(
+#         value: String
+#     ): Characteristic
+#     deleteCharacteristic(
+#         id: ID!
+#     ):Boolean
+##     operation with order
+##     operatin with RepairService
+#     createRepairService(
+#         input: RepairServiceInput
+#     ):RepairService
+#     updateRepairService(
+#         id: ID!
+#         input: RepairServiceInput
+#     ):RepairService
+#     deleteRepairService(
+#         id: ID!
+#     ):Boolean
  }
