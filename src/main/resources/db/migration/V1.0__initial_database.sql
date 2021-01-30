@@ -13,8 +13,7 @@ CREATE TABLE inventory_users (
 
     created_at  TIMESTAMP NOT NULL,
     updated_at  TIMESTAMP NOT NULL,
-    created_by  INTEGER   REFERENCES inventory_users (id),
-    updated_by  INTEGER   REFERENCES inventory_users (id)
+    created_by  INTEGER   REFERENCES inventory_users (id)
 );
 
 CREATE INDEX username_index ON inventory_users(username);
@@ -67,17 +66,13 @@ CREATE TABLE equipment (
     child_equipment INTEGER REFERENCES equipment (id),
     is_atomic       BOOLEAN     NOT NULL,
     appointment     VARCHAR(50) NOT NULL,
+    position        INTEGER REFERENCES position (id),
 
     created_at      TIMESTAMP   NOT NULL,
     updated_at      TIMESTAMP   NOT NULL,
     created_by      INTEGER REFERENCES inventory_users (id),
     updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
-);
-
-CREATE TABLE equipment2position (
-    position_id     INTEGER REFERENCES position (id),
-    equipment_id    INTEGER REFERENCES equipment (id)
 );
 
 
@@ -116,7 +111,7 @@ CREATE TABLE event (
 CREATE TABLE inventory_order (
     id              SERIAL UNIQUE,
     type            VARCHAR(20) NOT NULL,
-    appointment     VARCHAR(50) NOT NULL,
+    appointed       VARCHAR(50) NOT NULL,
     equipment       INTEGER REFERENCES equipment (id),
     from_position   INTEGER REFERENCES position (id),
     to_position     INTEGER REFERENCES position (id),
@@ -149,7 +144,7 @@ CREATE TABLE repair (
     id              SERIAL UNIQUE,
     equipment       INT         NOT NULL,
     repair_service  INT         NOT NULL,
-    appointment     INT         NOT NULL,
+    appointed       INT         NOT NULL,
 
     created_at      TIMESTAMP   NOT NULL,
     updated_at      TIMESTAMP   NOT NULL,
