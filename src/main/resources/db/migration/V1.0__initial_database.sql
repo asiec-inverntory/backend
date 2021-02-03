@@ -142,13 +142,28 @@ CREATE TABLE repair_service (
 
 CREATE TABLE repair (
     id              SERIAL UNIQUE,
-    equipment       INT         NOT NULL,
-    repair_service  INT         NOT NULL,
-    appointed       INT         NOT NULL,
+    equipment       INT REFERENCES equipment (id),
+    repair_service  INT REFERENCES repair_service (id),
+    appointed       INT REFERENCES inventory_users (id),
 
     created_at      TIMESTAMP   NOT NULL,
     updated_at      TIMESTAMP   NOT NULL,
     created_by      INTEGER REFERENCES inventory_users (id),
     updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
-)
+);
+
+INSERT INTO unit (unit, description) VALUES
+    ('килограмм', ''),
+    ('грамм', ''),
+    ('метр', ''),
+    ('сантиметр', ''),
+    ('милиметр', ''),
+    ('ватт', ''),
+    ('вольт', '')
+
+INSERT INTO attribute (attribute, description) VALUES
+    ('длина', ''),
+    ('ширина', ''),
+    ('вес', ''),
+    ('цвет', '')

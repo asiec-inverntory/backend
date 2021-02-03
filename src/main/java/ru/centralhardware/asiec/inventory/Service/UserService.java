@@ -1,5 +1,8 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Entity.User;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
@@ -7,7 +10,7 @@ import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -15,11 +18,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findById(int id){
-        return userRepository.findById(id);
-    }
-
-    public User createUser(String name){
-        return userRepository.save(new User());
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }
