@@ -50,7 +50,7 @@ public class Equipment {
     @JoinColumn(name="updated_by")
     private User updatedBy;
 
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "childEquipment")
     private Set<Equipment> childEquipments = new HashSet<>();
 
 }

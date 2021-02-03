@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Configuration;
 
+import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -15,10 +16,16 @@ import java.util.List;
 
 @Configuration
 @EnableSwagger2
-public class SpringFoxConfig {
+public class SwaggerConfiguration {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String DEFAULT_INCLUDE_PATTERN = "/data/.*";
+
+    private final Config config;
+
+    public SwaggerConfiguration(Config config) {
+        this.config = config;
+    }
 
     /**
      * init swagger documentation
@@ -28,7 +35,7 @@ public class SpringFoxConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).
                 select().
-                apis(RequestHandlerSelectors.basePackage("ru.asiec.natureReserve.server.RestController")).
+                apis(RequestHandlerSelectors.basePackage("ru.centralhardware.asiec.inventory.web")).
                 paths(PathSelectors.any()).
                 build().
                 apiInfo(apiEndPointsInfo()).
@@ -46,9 +53,9 @@ public class SpringFoxConfig {
                 "Федечкин А.Б и Павлов ",
                 "-",
                 "-");
-        return new ApiInfoBuilder().title("тагерецкий заповедник")
-                .description("тагерецкий заповедник")
-                .version(String.valueOf(config.getApiVersion())).contact(contact)
+        return new ApiInfoBuilder().title("КГБПОУ АПЭК система учета перемещения материальных средств")
+                .description("")
+                .version(String.valueOf(config.apiVersion)).contact(contact)
                 .build();
     }
 

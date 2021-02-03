@@ -2,6 +2,7 @@ package ru.centralhardware.asiec.inventory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("ru.centralhardware.asiec.inventory.Repository")
 @EnableAutoConfiguration
 @Configuration
+@SpringBootApplication
 //@EnableScheduling
 public class Main {
 

@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import ru.centralhardware.asiec.inventory.Config;
+import ru.centralhardware.asiec.inventory.Configuration.Config;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
@@ -27,7 +27,7 @@ public class LoggingAttemptService {
     @PostConstruct
     public void init(){
         attemptsCache = CacheBuilder.newBuilder().
-                expireAfterWrite(Duration.ofMinutes(config.getPreventBruteForceMinutes())).build(new CacheLoader<>() {
+                expireAfterWrite(Duration.ofMinutes(config.preventBruteforceDelay)).build(new CacheLoader<>() {
             @Override
             public Integer load(@NotNull String key) {
                 return 0;
@@ -67,7 +67,7 @@ public class LoggingAttemptService {
      */
     public boolean isBlocked(String ip) {
         try {
-            return attemptsCache.get(ip) >= config.getMaxLoginAttempt();
+            return attemptsCache.get(ip) >= config.maxLoginAttempt;
         } catch (ExecutionException e) {
             return false;
         }

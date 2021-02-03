@@ -36,25 +36,25 @@ public class User {
     private Date updatedAt;
 
     @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="manager_id")
-    private User created_by;
+    @JoinColumn(name="created_by")
+    private User createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
 
-    @OneToMany(mappedBy="created_by")
+    @OneToMany(mappedBy="createdBy")
     private Set<User> createdUsers = new HashSet<>();
 
-    @OneToMany(mappedBy="created_by")
+    @OneToMany(mappedBy="createdBy")
     private Set<Building> createdBuildings = new HashSet<>();
-    @OneToMany(mappedBy="updated_by")
+    @OneToMany(mappedBy="updatedBy")
     private Set<Building> updatedBuildings = new HashSet<>();
 
-    @OneToMany(mappedBy="created_by")
+    @OneToMany(mappedBy="createdBy")
     private Set<Room> createdRooms = new HashSet<>();
-    @OneToMany(mappedBy="updated_by")
+    @OneToMany(mappedBy="updatedBy")
     private Set<Room> updatedRooms = new HashSet<>();
 
-    @OneToMany(mappedBy="created_by")
+    @OneToMany(mappedBy="createdBy")
     private Set<Position> createdPositions = new HashSet<>();
-    @OneToMany(mappedBy="updated_by")
+    @OneToMany(mappedBy="updatedBy")
     private Set<Position> updatedPositions = new HashSet<>();
 
 }

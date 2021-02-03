@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ru.centralhardware.asiec.inventory.Config;
+import ru.centralhardware.asiec.inventory.Configuration.Config;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    private static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60;
 
     private final Config config;
 
@@ -58,7 +58,7 @@ public class JwtTokenUtil {
      * @return
      */
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(config.secret).parseClaimsJws(token).getBody();
     }
 
     /**
@@ -79,7 +79,17 @@ public class JwtTokenUtil {
      */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getUsername(), new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000));
+    }
+
+    /**
+     * generate refresh token for user
+     * @param userDetails object with username and password
+     * @return jwt token
+     */
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername(), new Date(System.currentTimeMillis() + 31536000000L));
     }
 
     /**
@@ -91,11 +101,12 @@ public class JwtTokenUtil {
      * @param subject
      * @return jwt token
      */
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, String subject, Date validTo) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, config.getSecret()).compact();
+                .setExpiration(validTo)
+                .signWith(SignatureAlgorithm.HS512, config.secret).compact();
     }
+
 
     /**
      * validate token

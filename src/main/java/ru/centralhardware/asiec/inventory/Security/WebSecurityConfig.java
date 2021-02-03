@@ -69,10 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        //don't need beaus this rest api does not use cookie session
         httpSecurity.csrf().disable()
-                //allow to get authorizing and testing entrypoint
-                .authorizeRequests().antMatchers("/authenticate", "/isAlive").permitAll().
+                .authorizeRequests().antMatchers("/authenticate").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

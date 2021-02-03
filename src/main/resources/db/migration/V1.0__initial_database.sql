@@ -105,7 +105,7 @@ CREATE TABLE characteristic2equipment (
 CREATE TABLE event (
     id      SERIAL,
     type    VARCHAR(20) NOT NULL,
-    data    JSON       NOT NULL
+    data    TEXT        NOT NULL
 );
 
 CREATE TABLE inventory_order (
@@ -152,18 +152,3 @@ CREATE TABLE repair (
     updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );
-
-INSERT INTO unit (unit, description) VALUES
-    ('килограмм', ''),
-    ('грамм', ''),
-    ('метр', ''),
-    ('сантиметр', ''),
-    ('милиметр', ''),
-    ('ватт', ''),
-    ('вольт', '')
-
-INSERT INTO attribute (attribute, description) VALUES
-    ('длина', ''),
-    ('ширина', ''),
-    ('вес', ''),
-    ('цвет', '')

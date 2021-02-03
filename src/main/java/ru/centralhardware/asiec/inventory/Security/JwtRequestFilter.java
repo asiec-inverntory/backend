@@ -2,6 +2,7 @@ package ru.centralhardware.asiec.inventory.Security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Log4j
+@Slf4j
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Security;
+package ru.centralhardware.asiec.inventory.Security.Model;
 
 import lombok.Getter;
 import lombok.Setter;
