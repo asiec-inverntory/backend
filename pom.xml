@@ -11,9 +11,6 @@
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
-        <flyway.user>databaseUser</flyway.user>
-        <flyway.password>databasePassword</flyway.password>
-        <flyway.schemas>schemaName</flyway.schemas>
         <flyway-core.version>7.5.1</flyway-core.version>
         <flyway-maven-plugin.version>5.0.2</flyway-maven-plugin.version>
     </properties>
@@ -54,11 +51,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.4.2</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -75,7 +67,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.1-jre</version>
+            <version>30.1-jre</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -107,6 +99,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
     </dependencies>
 

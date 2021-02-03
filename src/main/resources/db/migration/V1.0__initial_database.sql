@@ -1,7 +1,7 @@
 CREATE TABLE inventory_users (
     id          SERIAL               UNIQUE,
     username    VARCHAR(50) NOT NULL UNIQUE,
-    password    VARCHAR(64) NOT NULL,
+    password    VARCHAR(128) NOT NULL,
     name        VARCHAR(30) NOT NULL,
     surname     VARCHAR(30) NOT NULL,
     last_name   VARCHAR(30),
@@ -12,7 +12,7 @@ CREATE TABLE inventory_users (
     last_login  TIMESTAMP,
 
     created_at  TIMESTAMP NOT NULL,
-    updated_at  TIMESTAMP NOT NULL,
+    updated_at  TIMESTAMP,
     created_by  INTEGER   REFERENCES inventory_users (id)
 );
 

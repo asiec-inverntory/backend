@@ -5,6 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Configuration.Config;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
+@Service
 public class LoggingAttemptService {
 
     private final Config config;
