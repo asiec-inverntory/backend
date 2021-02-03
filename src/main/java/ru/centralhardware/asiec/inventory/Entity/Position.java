@@ -6,7 +6,6 @@ import ru.centralhardware.asiec.inventory.Entity.Enum.Status;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
