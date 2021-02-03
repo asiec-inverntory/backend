@@ -28,10 +28,10 @@ public class Building {
     private Date updatedAt;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by")
-    private User createdBy;
+    private InventoryUser createdBy;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="updated_by")
-    private User updatedBy;
+    private InventoryUser updatedBy;
 
 
     @OneToMany(mappedBy = "building")

@@ -1,6 +1,8 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
@@ -13,7 +15,8 @@ import java.util.Set;
 @Table(name = "inventory_users")
 @Entity
 @Getter
-public class User {
+@Accessors(chain = true)
+public class InventoryUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +29,8 @@ public class User {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
     @Column(name = "is_deleted")
+    @Setter
     private boolean isDeleted;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -39,10 +41,11 @@ public class User {
 
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by")
-    private User createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
+    @Setter
+    private InventoryUser createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
 
     @OneToMany(mappedBy="createdBy")
-    private Set<User> createdUsers = new HashSet<>();
+    private Set<InventoryUser> createdInventoryUsers = new HashSet<>();
 
     @OneToMany(mappedBy="createdBy")
     private Set<Building> createdBuildings = new HashSet<>();

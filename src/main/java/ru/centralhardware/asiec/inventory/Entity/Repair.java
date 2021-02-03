@@ -2,7 +2,6 @@ package ru.centralhardware.asiec.inventory.Entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import ru.centralhardware.asiec.inventory.Entity.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,9 +24,9 @@ public class Repair {
     private Date updatedAt;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by")
-    private User createdBy;
+    private InventoryUser createdBy;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="updated_by")
-    private User updatedBy;
+    private InventoryUser updatedBy;
 
 }

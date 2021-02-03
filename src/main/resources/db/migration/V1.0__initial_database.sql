@@ -7,7 +7,6 @@ CREATE TABLE inventory_users (
     last_name   VARCHAR(30),
     UNIQUE (name, surname, last_name),
     role        VARCHAR(20) NOT NULL,
-    is_enabled  BOOLEAN     NOT NULL DEFAULT true,
     is_deleted  BOOLEAN     NOT NULL DEFAULT false,
     last_login  TIMESTAMP,
 

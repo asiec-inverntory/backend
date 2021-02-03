@@ -6,10 +6,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Dto.UserDto;
+import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
+import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 
 @RestController
@@ -18,9 +19,11 @@ import ru.centralhardware.asiec.inventory.Service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtTokenUtil jwtTokenUtil) {
         this.userService = userService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @ApiOperation(
@@ -34,8 +37,13 @@ public class UserController {
             @ApiResponse(code = 401, message = "unauthorized" )}
     )
     @GetMapping(path = "/me")
-    public ResponseEntity<?> me(){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> me(@RequestHeader(name = "Authorization") String authorization){
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+        if (userOptional.isPresent()){
+            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @ApiOperation(
@@ -48,9 +56,37 @@ public class UserController {
             @ApiResponse(code = 200, message = "successfully get user"),
             @ApiResponse(code = 401, message = "no permission")
     })
-    @GetMapping(path = "/user")
-    public ResponseEntity<?> user(){
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getUser(@RequestParam int id){
+        var userOptional = userService.findById(id);
+        if (userOptional.isPresent()){
+            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
+    @PutMapping(path = "/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> updateUser(UserDto userDto, @RequestHeader(name = "Authorization") String authorization){
+        var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+        if (createdBy.isPresent()){
+            return ResponseEntity.ok(userService.create(userDto, createdBy.get()));
+        } else {
+            return ResponseEntity.status(401).build();
+        }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteUser(@RequestParam int id){
+        var userOptional = userService.findById(id);
+        if (userOptional.isPresent()){
+            userService.delete(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
