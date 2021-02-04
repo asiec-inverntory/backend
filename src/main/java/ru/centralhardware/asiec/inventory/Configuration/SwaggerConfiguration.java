@@ -15,9 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String DEFAULT_INCLUDE_PATTERN = "*";
-
     private final Config config;
 
     public SwaggerConfiguration(Config config) {
@@ -32,7 +29,6 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).
                 select().
-                apis(RequestHandlerSelectors.basePackage("ru.centralhardware.asiec.inventory.web")).
                 paths(PathSelectors.any()).
                 build().
                 apiInfo(apiEndPointsInfo()).
