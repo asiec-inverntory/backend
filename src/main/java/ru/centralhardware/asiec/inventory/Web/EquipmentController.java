@@ -1,9 +1,11 @@
 package ru.centralhardware.asiec.inventory.Web;
 
+import io.swagger.annotations.Api;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Dto.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
@@ -11,6 +13,9 @@ import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 
+@RestController
+@Api(value = "equipment")
+@RequestMapping("/equipment")
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
@@ -23,6 +28,7 @@ public class EquipmentController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
+    @PostMapping(path = "create")
     public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,
                                              @RequestHeader(name = "Authorisation") String authorisation){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
@@ -34,6 +40,7 @@ public class EquipmentController {
 
     }
 
+    @PostMapping(path = "update")
     public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,
                                              @RequestHeader(name = "Authorisation") String authorisation){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
@@ -49,6 +56,7 @@ public class EquipmentController {
         return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.update(equipmentDto, userOptional.get())));
     }
 
+    @GetMapping(path = "{id}")
     public ResponseEntity<?> deleteEquipment(@RequestParam int id,
                                              @RequestHeader(name = "Authorisation") String authorisation){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
@@ -66,7 +74,18 @@ public class EquipmentController {
         }
     }
 
-//    public ResponseEntity<?> getEquipment(){
-//
-//    }
+    @GetMapping(path = "list")
+    public ResponseEntity<?> getEquipment(@RequestParam int page,
+                                          @RequestParam int size,
+                                          @RequestParam String sortBy,
+                                          @RequestHeader(name = "Authorisation") String authorisation){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
+        if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
+        if (userOptional.get().getRole() == Role.ADMIN){
+            return ResponseEntity.ok(equipmentService.list(pageable));
+        } else {
+            return ResponseEntity.ok(equipmentService.list(userOptional.get().getUsername(), pageable));
+        }
+    }
 }

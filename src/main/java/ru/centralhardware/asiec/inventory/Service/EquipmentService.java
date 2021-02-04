@@ -1,11 +1,16 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Dto.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.CreateEquipmentMapper;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentRepository;
+
+import java.util.List;
 
 @Service
 public class EquipmentService {
@@ -41,5 +46,13 @@ public class EquipmentService {
 
     public void delete(int id) {
         equipmentRepository.deleteById(id);
+    }
+
+    public List<Equipment> list(String username, Pageable sort){
+        return equipmentRepository.findAllByUsername(username, sort);
+    }
+
+    public Page<Equipment> list(Pageable sort){
+        return equipmentRepository.findAll(sort);
     }
 }

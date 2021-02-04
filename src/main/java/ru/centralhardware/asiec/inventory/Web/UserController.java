@@ -120,7 +120,7 @@ public class UserController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteUser(@RequestParam int id, @RequestHeader(name = "Authorization") String authorization) throws NotFoundException {
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
-        if (!userOptional.isPresent()) return ResponseEntity.notFound().build();
+        if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();
         var userToDeleteOptional = userService.findById(id);
         if (userToDeleteOptional.isPresent()){
