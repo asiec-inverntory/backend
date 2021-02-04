@@ -40,8 +40,8 @@ public class UserController {
             @ApiResponse(code = 401, message = "unauthorized" )}
     )
     @GetMapping(path = "/me")
-    public ResponseEntity<?> me(@RequestHeader(name = "Authorization") String authorization){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+    public ResponseEntity<?> me(@CookieValue(name = "authorisation") String token){
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
         } else {
@@ -82,8 +82,8 @@ public class UserController {
     })
     @PutMapping(path = "/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto, @RequestHeader(name = "Authorization") String authorization){
-        var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto, @CookieValue(name = "authorisation") String token){
+        var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (createdBy.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userService.create(userDto, createdBy.get())));
         } else {
@@ -118,8 +118,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "user not found")
     })
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id, @RequestHeader(name = "Authorization") String authorization) throws NotFoundException {
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+    public ResponseEntity<?> deleteUser(@PathVariable int id, @CookieValue(name = "authorisation") String token) throws NotFoundException {
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();
         var userToDeleteOptional = userService.findById(id);

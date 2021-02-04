@@ -34,7 +34,7 @@ public class EquipmentController {
     }
 
     @ApiOperation(
-            value = "get user of current session",
+            value = "create equipment",
             response = EquipmentDto.class,
             httpMethod = "POST",
             produces = MediaType.APPLICATION_NDJSON_VALUE
@@ -42,12 +42,12 @@ public class EquipmentController {
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user"),
             @ApiResponse(code = 401 , message = "unauthorized" ),
-            @ApiResponse(code = 404 , message = "unauthorized" )}
+            @ApiResponse(code = 404 , message = "not found" )}
     )
     @PostMapping(path = "create")
     public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @RequestHeader(name = "Authorisation") String authorisation){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
+                                             @CookieValue(name = "authorisation") String token){
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isPresent()){
             return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.create(equipmentDto,userOptional.get())));
         } else {
@@ -57,7 +57,7 @@ public class EquipmentController {
     }
 
     @ApiOperation(
-            value = "get user of current session",
+            value = "update equipment",
             response = EquipmentDto.class,
             httpMethod = "POST",
             produces = MediaType.APPLICATION_NDJSON_VALUE
@@ -69,8 +69,8 @@ public class EquipmentController {
     )
     @PostMapping(path = "update")
     public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @RequestHeader(name = "Authorisation") String authorisation){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
+                                             @CookieValue(name = "authorisation") String token){
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -84,7 +84,7 @@ public class EquipmentController {
     }
 
     @ApiOperation(
-            value = "get user of current session",
+            value = "delete equipment",
             httpMethod = "DELETE",
             produces = MediaType.APPLICATION_NDJSON_VALUE
     )
@@ -95,8 +95,8 @@ public class EquipmentController {
     )
     @DeleteMapping(path = "{id}")
     public ResponseEntity<?> deleteEquipment(@RequestParam int id,
-                                             @RequestHeader(name = "Authorisation") String authorisation){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
+                                             @CookieValue(name = "authorisation") String token){
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -112,7 +112,7 @@ public class EquipmentController {
     }
 
     @ApiOperation(
-            value = "get user of current session",
+            value = "get pageable list of equipment",
             response = EquipmentDto.class,
             responseContainer = "List",
             httpMethod = "GET",
@@ -125,9 +125,9 @@ public class EquipmentController {
     public ResponseEntity<?> getEquipment(@RequestParam int page,
                                           @RequestParam int size,
                                           @RequestParam String sortBy,
-                                          @RequestHeader(name = "Authorisation") String authorisation){
+                                          @CookieValue(name = "authorisation") String token){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorisation));
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
             return ResponseEntity.ok(equipmentService.list(pageable));
