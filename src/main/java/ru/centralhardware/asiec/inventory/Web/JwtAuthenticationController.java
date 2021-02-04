@@ -50,6 +50,7 @@ public class JwtAuthenticationController {
     @ApiOperation(value = "authenticate user",
             notes = "use for getting jwt token",
             httpMethod = "POST",
+            response = JwtResponse.class,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
@@ -81,9 +82,10 @@ public class JwtAuthenticationController {
      * @param refreshTokenRequest object with token
      * @return jwt token
      */
-    @ApiOperation(value = "authenticate user",
+    @ApiOperation(value = "get new token",
             notes = "use for getting jwt token",
             httpMethod = "POST",
+            response = JwtRefreshToken.class,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {

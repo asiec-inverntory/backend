@@ -1,12 +1,15 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import javassist.NotFoundException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.centralhardware.asiec.inventory.Dto.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Dto.UserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
+import ru.centralhardware.asiec.inventory.Mapper.CreateUserMapper;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
@@ -29,15 +32,28 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public void delete(int id){
+    public void delete(int id) throws NotFoundException {
         var userOptional = userRepository.findById(id);
-        userRepository.save(userOptional.get().setDeleted(true));
+        if (userOptional.isPresent()){
+            userRepository.save(userOptional.get().setDeleted(true));
+        } else {
+            throw new NotFoundException(String.format("user with id = %s not found", id));
+        }
     }
 
-    public InventoryUser create(UserDto userDto, InventoryUser createdBy){
-        var user = UserMapper.INSTANCE.dtoToUser(userDto);
+    public InventoryUser create(CreateUserDto userDto, InventoryUser createdBy){
+        var user = CreateUserMapper.INSTANCE.dtoToUser(userDto);
         user.setCreatedBy(createdBy);
         return userRepository.save(user);
+    }
+
+    public InventoryUser update(UserDto userDto){
+        var user = UserMapper.INSTANCE.dtoToUser(userDto);
+        return userRepository.save(user);
+    }
+
+    public boolean existById(int id){
+        return userRepository.existsById(id);
     }
 
     @Override

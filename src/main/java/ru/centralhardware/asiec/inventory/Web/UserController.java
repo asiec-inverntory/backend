@@ -4,11 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import javassist.NotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.centralhardware.asiec.inventory.Dto.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Dto.UserDto;
+import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.UserService;
@@ -67,22 +70,60 @@ public class UserController {
         }
     }
 
+    @ApiOperation(
+            value = "create user",
+            httpMethod = "PUT",
+            response = UserDto.class,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successfully delete user"),
+            @ApiResponse(code = 404, message = "user not found")
+    })
     @PutMapping(path = "/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> updateUser(UserDto userDto, @RequestHeader(name = "Authorization") String authorization){
+    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto, @RequestHeader(name = "Authorization") String authorization){
         var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
         if (createdBy.isPresent()){
-            return ResponseEntity.ok(userService.create(userDto, createdBy.get()));
+            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userService.create(userDto, createdBy.get())));
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(404).build();
         }
     }
 
-    @DeleteMapping(path = "/{id}")
+    @ApiOperation(
+            value = "update user",
+            httpMethod = "PUT"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successfully delete user"),
+            @ApiResponse(code = 404, message = "user not found")
+    })
+    @PutMapping(path = "/update")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> deleteUser(@RequestParam int id){
-        var userOptional = userService.findById(id);
-        if (userOptional.isPresent()){
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String authorization){
+        if (!userService.existById(userDto.id)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userService.update(userDto));
+    }
+
+    @ApiOperation(
+            value = "delete user by id",
+            httpMethod = "DELETE"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successfully delete user"),
+            @ApiResponse(code = 401, message = "no permission"),
+            @ApiResponse(code = 404, message = "user not found")
+    })
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteUser(@RequestParam int id, @RequestHeader(name = "Authorization") String authorization) throws NotFoundException {
+        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
+        if (!userOptional.isPresent()) return ResponseEntity.notFound().build();
+        if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();
+        var userToDeleteOptional = userService.findById(id);
+        if (userToDeleteOptional.isPresent()){
             userService.delete(id);
             return ResponseEntity.ok().build();
         } else {
