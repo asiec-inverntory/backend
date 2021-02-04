@@ -16,15 +16,16 @@ public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private int number;
     @ManyToOne
-    @JoinColumn(name = "room")
+    @JoinColumn(name = "room", nullable = false)
     private Room room;
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

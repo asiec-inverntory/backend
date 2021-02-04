@@ -12,8 +12,9 @@ public class Characteristic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name = "attribute")
+    @JoinColumn(name = "attribute", nullable = false)
     private Attribute attribute;
+    @Column(nullable = false)
     private String value;
     @ManyToOne
     @JoinColumn(name = "unit")

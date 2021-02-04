@@ -15,17 +15,20 @@ public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(length = 50, nullable = false)
     private String inventory_code;
     @ManyToOne
-    @JoinColumn(name = "room")
+    @JoinColumn(name = "room", nullable = false)
     private Room room;
     @ManyToOne
     @JoinColumn(name = "child_equipment")
     private Equipment childEquipment;
+    @Column(nullable = false)
     private boolean isAtomic;
+    @Column(length = 50, nullable = false)
     private String appointment;
     @ManyToOne
-    @JoinColumn(name = "position")
+    @JoinColumn(name = "position", nullable = false)
     private Position position;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -35,8 +38,8 @@ public class Equipment {
     )
     private Set<Characteristic> characteristics = new HashSet<>();
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

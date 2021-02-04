@@ -15,16 +15,19 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true)
     private int number;
+    @Column(nullable = false)
     private int flour;
     private String description;
+    @Column(length = 50, nullable = false)
     private String appointment;
     @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "building")
+    @JoinColumn(name = "building", nullable = false)
     private Building building;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

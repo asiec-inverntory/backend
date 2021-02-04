@@ -11,9 +11,11 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String unit;
     private String description;
-    private boolean isDeleted;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 
 
     @OneToMany(mappedBy = "unit")

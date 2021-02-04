@@ -23,7 +23,7 @@ CREATE TABLE building (
     building_identifier VARCHAR(50)  NOT NULL UNIQUE,
 
     created_at          TIMESTAMP   NOT NULL,
-    updated_at          TIMESTAMP   NOT NULL,
+    updated_at          TIMESTAMP,
     created_by          INTEGER REFERENCES inventory_users (id),
     updated_by          INTEGER REFERENCES inventory_users (id),
     is_deleted          BOOLEAN     NOT NULL DEFAULT false
@@ -31,7 +31,7 @@ CREATE TABLE building (
 
 CREATE TABLE room (
     id          SERIAL UNIQUE,
-    number      INT UNIQUE,
+    number      INT         NOT NULL UNIQUE,
     flour       int         NOT NULL,
     description TEXT,
     appointment VARCHAR(50) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE room (
 
 CREATE TABLE position (
     id          SERIAL UNIQUE,
-    number      INT,
+    number      INT NOT NULL,
     room        INTEGER REFERENCES room (id),
     status      VARCHAR(20),
 
@@ -133,7 +133,7 @@ CREATE TABLE repair_service (
     telephone   VARCHAR(11)     NOT NULL UNIQUE,
 
     created_at  TIMESTAMP       NOT NULL,
-    updated_at  TIMESTAMP       NOT NULL,
+    updated_at  TIMESTAMP,
     created_by  INTEGER REFERENCES inventory_users (id),
     updated_by  INTEGER REFERENCES inventory_users (id),
     is_deleted  BOOLEAN         NOT NULL DEFAULT false

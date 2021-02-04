@@ -21,26 +21,30 @@ public class InventoryUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(length = 50, nullable = false, unique = true)
     private String username;
+    @Column(length = 128, nullable = false)
     private String password;
+    @Column(length = 30, nullable = false)
     private String name;
+    @Column(length = 30, nullable = false)
     private String surname;
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 30)
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "is_deleted")
     @Setter
-    private boolean isDeleted;
+    private boolean isDeleted = false;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
     @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
     @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="created_by")
+    @JoinColumn(name="created_by", nullable = false)
     @Setter
     private InventoryUser createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
 

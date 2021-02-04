@@ -13,6 +13,5 @@ public class Event {
     private Integer id;
     @Enumerated(EnumType.STRING)
     private EventType type;
-    private String data;
 
 }
