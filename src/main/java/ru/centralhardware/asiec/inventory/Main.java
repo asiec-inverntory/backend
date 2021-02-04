@@ -12,8 +12,7 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 @EnableJpaRepositories("ru.centralhardware.asiec.inventory.Repository")
 @EnableAutoConfiguration
 @Configuration
-@SpringBootApplication(exclude = SecurityConfiguration.class)
-//@EnableScheduling
+@SpringBootApplication()
 public class Main {
 
     public static void main(String[] args) {

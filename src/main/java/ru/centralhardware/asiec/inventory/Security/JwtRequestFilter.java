@@ -72,6 +72,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private String getCookieValue(HttpServletRequest req, String cookieName) {
+        if (req.getCookies() == null) return "";
         return Arrays.stream(req.getCookies())
                 .filter(c -> c.getName().equals(cookieName))
                 .findFirst()
