@@ -55,26 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "/refreshToken").permitAll().
+                .authorizeRequests().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    /**
-     * allow access to swagger documentation without authorization
-     * @param web builder for set web security config
-     */
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(
-                "/v2/api-docs",
-                "/swagger-ui.html",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources",
-                "/swagger-resources/configuration/security",
-                "/webjars/**");
     }
 
 }
