@@ -29,6 +29,7 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).
                 select().
+                apis(RequestHandlerSelectors.basePackage("ru.centralhardware.asiec.inventory")).
                 paths(PathSelectors.any()).
                 build().
                 apiInfo(apiEndPointsInfo()).
