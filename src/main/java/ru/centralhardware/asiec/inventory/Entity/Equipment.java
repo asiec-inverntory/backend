@@ -1,5 +1,7 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +12,7 @@ import java.util.Set;
 
 @Table(name = "equipment")
 @Entity
+@Getter
 public class Equipment {
 
     @Id
@@ -37,6 +40,9 @@ public class Equipment {
             inverseJoinColumns = { @JoinColumn(name = "characteristic_id") }
     )
     private Set<Characteristic> characteristics = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "responsible")
+    private InventoryUser responsible;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
@@ -48,9 +54,11 @@ public class Equipment {
     private Date updatedAt;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by")
+    @Setter
     private InventoryUser createdBy;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="updated_by")
+    @Setter
     private InventoryUser updatedBy;
 
     @OneToMany(mappedBy = "childEquipment")

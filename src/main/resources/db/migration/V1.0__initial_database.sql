@@ -66,6 +66,7 @@ CREATE TABLE equipment (
     is_atomic       BOOLEAN     NOT NULL,
     appointment     VARCHAR(50) NOT NULL,
     position        INTEGER REFERENCES position (id),
+    responsible INTEGER REFERENCES inventory_users (id),
 
     created_at      TIMESTAMP   NOT NULL,
     updated_at      TIMESTAMP   NOT NULL,

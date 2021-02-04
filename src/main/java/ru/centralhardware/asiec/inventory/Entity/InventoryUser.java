@@ -66,4 +66,9 @@ public class InventoryUser {
     @OneToMany(mappedBy="updatedBy")
     private Set<Position> updatedPositions = new HashSet<>();
 
+    @OneToMany(mappedBy = "responsible")
+    private Set<Equipment> equipment = new HashSet<>();
+
+    @OneToMany(mappedBy = "responsible")
+    private Set<Room> rooms = new HashSet<>();
 }

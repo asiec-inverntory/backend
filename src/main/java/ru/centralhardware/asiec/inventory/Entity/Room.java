@@ -25,6 +25,9 @@ public class Room {
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name = "building", nullable = false)
     private Building building;
+    @ManyToOne
+    @JoinColumn(name = "responsible")
+    private InventoryUser responsible;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
