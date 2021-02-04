@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Security.Ip;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Security.LoggingAttemptService;
-import ru.centralhardware.asiec.inventory.Security.Model.JwtRefreshToken;
 import ru.centralhardware.asiec.inventory.Security.Model.JwtRequest;
-import ru.centralhardware.asiec.inventory.Security.Model.JwtResponse;
 import ru.centralhardware.asiec.inventory.Service.UserService;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
@@ -50,7 +52,6 @@ public class JwtAuthenticationController {
     @ApiOperation(value = "authenticate user",
             notes = "use for getting jwt token",
             httpMethod = "POST",
-            response = JwtResponse.class,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
@@ -59,7 +60,7 @@ public class JwtAuthenticationController {
             @ApiResponse(code = 403, message = "user is blocked")
     })
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> authenticate(@RequestBody JwtRequest authenticationRequest) {
+    public ResponseEntity<?> authenticate(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) {
         if (loginAttemptService.isBlocked(ip.getClientIP())){
             return ResponseEntity.status(401).build();
         }
@@ -73,43 +74,13 @@ public class JwtAuthenticationController {
         }
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwtTokenUtil.generateToken(userDetails),
-                                     jwtTokenUtil.generateRefreshToken(userDetails)));
-    }
 
-    /**
-     * handler authenticated post request
-     * @param refreshTokenRequest object with token
-     * @return jwt token
-     */
-    @ApiOperation(value = "get new token",
-            notes = "use for getting jwt token",
-            httpMethod = "POST",
-            response = JwtRefreshToken.class,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved jwt token"),
-            @ApiResponse(code = 403, message = "user is blocked")
-    })
-    @PostMapping(value = "/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestBody JwtRefreshToken refreshTokenRequest){
-        UserDetails userDetails;
-        try{
-            userDetails = userDetailsService
-                    .loadUserByUsername(jwtTokenUtil.getUsernameFromToken(refreshTokenRequest.getToken()));
-        } catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-        if (userDetails.isAccountNonExpired()           &&
-                userDetails.isAccountNonLocked()        &&
-                userDetails.isCredentialsNonExpired()   &&
-                userDetails.isEnabled()
-        ){
-            return ResponseEntity.ok(new JwtRefreshToken(jwtTokenUtil.generateToken(userDetails)));
-        } else {
-            return ResponseEntity.status(403).build();
-        }
+        Cookie cookie = new Cookie("authorisation",jwtTokenUtil.generateToken(userDetails));
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseEntity.ok().build();
     }
 
     /**

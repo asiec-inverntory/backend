@@ -83,16 +83,6 @@ public class JwtTokenUtil {
     }
 
     /**
-     * generate refresh token for user
-     * @param userDetails object with username and password
-     * @return jwt token
-     */
-    public String generateRefreshToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername(), new Date(System.currentTimeMillis() + 31536000000L));
-    }
-
-    /**
      * compaction of the JWT to a URL-safe string
      * 1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
      * 2. Sign the JWT using the HS512 algorithm and secret key.

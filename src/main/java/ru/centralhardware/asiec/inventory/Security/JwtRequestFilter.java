@@ -13,9 +13,11 @@ import ru.centralhardware.asiec.inventory.Service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Slf4j
 @Component
@@ -43,7 +45,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String username = null;
-        var jwtToken = request.getHeader("Authorization");
+        var jwtToken = getCookieValue(request, "authorisation");
         try {
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
         } catch (IllegalArgumentException e) {
@@ -62,6 +64,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
         chain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getRequestURI().equals("/authenticate");
+    }
+
+    private String getCookieValue(HttpServletRequest req, String cookieName) {
+        return Arrays.stream(req.getCookies())
+                .filter(c -> c.getName().equals(cookieName))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null);
     }
 
 }
