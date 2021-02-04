@@ -5,7 +5,8 @@ INSERT INTO inventory_users  (
     surname,
     last_name,
     role,
-    created_at
+    created_at,
+    created_by
 )  VALUES (
     'admin',
     '8201c12212ab1aaa8acf4d2f5386939db503003eb43bac0dd7abd5d6080ebd65',
@@ -13,5 +14,6 @@ INSERT INTO inventory_users  (
     'Попов',
     'Попович',
     'ADMIN',
-    now()
+    now(),
+    1
 );

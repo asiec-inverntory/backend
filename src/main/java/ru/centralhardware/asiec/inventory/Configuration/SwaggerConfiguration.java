@@ -19,7 +19,7 @@ import java.util.List;
 public class SwaggerConfiguration {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String DEFAULT_INCLUDE_PATTERN = "/data/.*";
+    private static final String DEFAULT_INCLUDE_PATTERN = "*";
 
     private final Config config;
 

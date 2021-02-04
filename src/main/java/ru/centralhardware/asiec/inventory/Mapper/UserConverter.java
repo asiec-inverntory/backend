@@ -12,6 +12,7 @@ public class UserConverter {
     }
 
     public int toDto(InventoryUser user){
+        if (user == null) return -1;
         return user.getId();
     }
 

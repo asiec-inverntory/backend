@@ -61,7 +61,7 @@ public class UserController {
     })
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getUser(@RequestParam int id){
+    public ResponseEntity<?> getUser(@PathVariable Integer id){
         var userOptional = userService.findById(id);
         if (userOptional.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
@@ -117,8 +117,8 @@ public class UserController {
             @ApiResponse(code = 401, message = "no permission"),
             @ApiResponse(code = 404, message = "user not found")
     })
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteUser(@RequestParam int id, @RequestHeader(name = "Authorization") String authorization) throws NotFoundException {
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable int id, @RequestHeader(name = "Authorization") String authorization) throws NotFoundException {
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(authorization));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();

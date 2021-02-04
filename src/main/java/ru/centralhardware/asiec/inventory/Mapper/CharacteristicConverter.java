@@ -4,7 +4,6 @@ import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
 import ru.centralhardware.asiec.inventory.SpringContext;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

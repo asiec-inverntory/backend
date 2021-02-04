@@ -40,7 +40,7 @@ public class InventoryUser {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Date updatedAt;
 
     @ManyToOne(cascade={CascadeType.ALL})
