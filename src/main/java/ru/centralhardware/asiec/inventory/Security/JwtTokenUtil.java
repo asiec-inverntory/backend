@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    private static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 365 * 24 * 60 * 60;
 
     private final Config config;
 
