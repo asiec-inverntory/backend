@@ -13,8 +13,4 @@ public class CreateUserDto {
     public String surname;
     public String lastName;
     public Role role;
-    public Date createdAt;
-    public Date updatedAt;
-    public int createdBy;
-
 }
