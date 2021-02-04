@@ -10,6 +10,7 @@ import ru.centralhardware.asiec.inventory.Mapper.CreateEquipmentMapper;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipmentService {
@@ -20,6 +21,10 @@ public class EquipmentService {
     public EquipmentService(EquipmentRepository equipmentRepository, UserService userService) {
         this.equipmentRepository = equipmentRepository;
         this.userService = userService;
+    }
+
+    public Optional<Equipment> findById(int id){
+        return equipmentRepository.findById(id);
     }
 
     public boolean existById(int id){

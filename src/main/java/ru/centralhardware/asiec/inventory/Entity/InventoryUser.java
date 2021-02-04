@@ -15,6 +15,7 @@ import java.util.Set;
 @Table(name = "inventory_users")
 @Entity
 @Getter
+@Setter
 @Accessors(chain = true)
 public class InventoryUser {
 
@@ -34,7 +35,6 @@ public class InventoryUser {
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "is_deleted")
-    @Setter
     private boolean isDeleted = false;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -45,7 +45,6 @@ public class InventoryUser {
 
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by", nullable = false)
-    @Setter
     private InventoryUser createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
 
     @OneToMany(mappedBy="createdBy")

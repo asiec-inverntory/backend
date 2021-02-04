@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Table(name = "room")
 @Entity
+@Getter
 public class Room {
 
     @Id

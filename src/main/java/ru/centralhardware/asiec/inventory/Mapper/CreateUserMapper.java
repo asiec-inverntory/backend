@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import ru.centralhardware.asiec.inventory.Dto.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 
-@Mapper
+@Mapper(uses = { UserConverter.class })
 public interface CreateUserMapper {
 
     CreateUserMapper INSTANCE = Mappers.getMapper(CreateUserMapper.class);

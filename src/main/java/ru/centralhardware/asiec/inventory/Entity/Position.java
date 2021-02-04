@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Status;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Table(name = "position")
 @Entity
+@Getter
 public class Position {
 
     @Id

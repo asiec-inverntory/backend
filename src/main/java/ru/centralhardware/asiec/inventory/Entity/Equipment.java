@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "equipment")
 @Entity
 @Getter
+@Setter
 public class Equipment {
 
     @Id
@@ -54,11 +55,9 @@ public class Equipment {
     private Date updatedAt;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="created_by")
-    @Setter
     private InventoryUser createdBy;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="updated_by")
-    @Setter
     private InventoryUser updatedBy;
 
     @OneToMany(mappedBy = "childEquipment")
