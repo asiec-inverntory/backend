@@ -3,10 +3,8 @@ package ru.centralhardware.asiec.inventory.Test;
 import org.flywaydb.core.Flyway;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-@SpringBootTest
 public class FlywayMigrationTest {
 
     @ClassRule
