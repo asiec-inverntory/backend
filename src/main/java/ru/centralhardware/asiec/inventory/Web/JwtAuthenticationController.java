@@ -53,7 +53,6 @@ public class JwtAuthenticationController {
     @ApiOperation(value = "authenticate user",
             notes = "use for getting jwt token",
             httpMethod = "POST",
-            produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved jwt token"),

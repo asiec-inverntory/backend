@@ -75,7 +75,8 @@ public class UserController {
             value = "create user",
             httpMethod = "PUT",
             response = UserDto.class,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successfully delete user"),
@@ -95,7 +96,10 @@ public class UserController {
 
     @ApiOperation(
             value = "update user",
-            httpMethod = "PUT"
+            response = UserDto.class,
+            httpMethod = "PUT",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successfully delete user"),
