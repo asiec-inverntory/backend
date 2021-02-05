@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 
 @ComponentScan("ru.centralhardware.asiec.inventory")
 @EnableJpaRepositories("ru.centralhardware.asiec.inventory.Repository")
