@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Test;
+package ru.centralhardware.asiec.inventory;
 
 import org.flywaydb.core.Flyway;
 import org.junit.ClassRule;
