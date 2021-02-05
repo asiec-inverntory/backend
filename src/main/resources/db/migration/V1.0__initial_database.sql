@@ -60,7 +60,7 @@ CREATE TABLE position (
 
 CREATE TABLE equipment (
     id              SERIAL UNIQUE,
-    name            VARCHAR(50)
+    name            VARCHAR(50),
     inventory_code  VARCHAR(50) NOT NULL UNIQUE,
     room            INTEGER REFERENCES room (id),
     child_equipment INTEGER REFERENCES equipment (id),
