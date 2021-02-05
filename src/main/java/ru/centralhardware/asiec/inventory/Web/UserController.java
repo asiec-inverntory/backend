@@ -15,6 +15,7 @@ import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(value = "user")
@@ -40,7 +41,7 @@ public class UserController {
             @ApiResponse(code = 401, message = "unauthorized" )}
     )
     @GetMapping(path = "/me")
-    public ResponseEntity<?> me(@CookieValue(name = "authorisation") String token){
+    public ResponseEntity<?> me(@ApiIgnore @CookieValue(name = "authorisation") String token){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
@@ -82,7 +83,8 @@ public class UserController {
     })
     @PutMapping(path = "/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto, @CookieValue(name = "authorisation") String token){
+    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto,
+                                        @ApiIgnore @CookieValue(name = "authorisation") String token){
         var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (createdBy.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userService.create(userDto, createdBy.get())));
@@ -118,7 +120,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "user not found")
     })
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id, @CookieValue(name = "authorisation") String token) throws NotFoundException {
+    public ResponseEntity<?> deleteUser(@PathVariable int id,
+                                        @ApiIgnore @CookieValue(name = "authorisation") String token) throws NotFoundException {
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();

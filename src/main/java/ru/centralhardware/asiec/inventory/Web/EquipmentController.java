@@ -17,6 +17,7 @@ import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(value = "equipment")
@@ -46,7 +47,7 @@ public class EquipmentController {
     )
     @PostMapping(path = "create")
     public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @CookieValue(name = "authorisation") String token){
+                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isPresent()){
             return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.create(equipmentDto,userOptional.get())));
@@ -69,7 +70,7 @@ public class EquipmentController {
     )
     @PostMapping(path = "update")
     public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @CookieValue(name = "authorisation") String token){
+                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -95,7 +96,7 @@ public class EquipmentController {
     )
     @DeleteMapping(path = "{id}")
     public ResponseEntity<?> deleteEquipment(@RequestParam int id,
-                                             @CookieValue(name = "authorisation") String token){
+                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -125,7 +126,7 @@ public class EquipmentController {
     public ResponseEntity<?> getEquipment(@RequestParam int page,
                                           @RequestParam int size,
                                           @RequestParam String sortBy,
-                                          @CookieValue(name = "authorisation") String token){
+                                          @ApiIgnore @CookieValue(name = "authorisation") String token){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
