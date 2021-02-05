@@ -20,9 +20,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 15
-    - name: clean
-      run: mvn clean --file pom.xml    
     - name: test
-      run: mvn  surefire:test --file pom.xml
+      run: mvn  test "-Dtest=src/test/java" --file pom.xml
     - name: build
       run: mvn package --file pom.xml
