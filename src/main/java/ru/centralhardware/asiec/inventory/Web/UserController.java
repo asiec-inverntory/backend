@@ -34,11 +34,11 @@ public class UserController {
             value = "get user of current session",
             response = UserDto.class,
             httpMethod = "GET",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user"),
-            @ApiResponse(code = 401, message = "unauthorized" )}
+            @ApiResponse(code = 204, message = "no content" )}
     )
     @GetMapping(path = "/me")
     public ResponseEntity<?> me(@ApiIgnore @CookieValue(name = "authorisation") String token){
@@ -54,11 +54,11 @@ public class UserController {
             value = "get user by id",
             response = UserDto.class,
             httpMethod = "GET",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successfully get user"),
-            @ApiResponse(code = 401, message = "no permission")
+            @ApiResponse(code = 404, message = "user not found")
     })
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/{id}")
@@ -67,7 +67,7 @@ public class UserController {
         if (userOptional.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

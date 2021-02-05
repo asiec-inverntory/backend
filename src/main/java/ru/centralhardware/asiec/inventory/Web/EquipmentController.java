@@ -38,11 +38,10 @@ public class EquipmentController {
             value = "create equipment",
             response = EquipmentDto.class,
             httpMethod = "POST",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get user"),
-            @ApiResponse(code = 401 , message = "unauthorized" ),
+            @ApiResponse(code = 200, message = "successfully get equipment"),
             @ApiResponse(code = 404 , message = "not found" )}
     )
     @PostMapping(path = "create")
@@ -61,12 +60,12 @@ public class EquipmentController {
             value = "update equipment",
             response = EquipmentDto.class,
             httpMethod = "POST",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user"),
             @ApiResponse(code = 401 , message = "unauthorized" ),
-            @ApiResponse(code = 404 , message = "unauthorized" )}
+            @ApiResponse(code = 404 , message = "equipment not found" )}
     )
     @PostMapping(path = "update")
     public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,
@@ -87,12 +86,12 @@ public class EquipmentController {
     @ApiOperation(
             value = "delete equipment",
             httpMethod = "DELETE",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user"),
             @ApiResponse(code = 401 , message = "unauthorized" ),
-            @ApiResponse(code = 404 , message = "unauthorized" )}
+            @ApiResponse(code = 404 , message = "equipment not found" )}
     )
     @DeleteMapping(path = "{id}")
     public ResponseEntity<?> deleteEquipment(@RequestParam int id,
@@ -117,7 +116,7 @@ public class EquipmentController {
             response = EquipmentDto.class,
             responseContainer = "List",
             httpMethod = "GET",
-            produces = MediaType.APPLICATION_NDJSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user")
