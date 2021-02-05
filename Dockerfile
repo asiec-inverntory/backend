@@ -6,7 +6,7 @@ RUN mvn dependency:go-offline -B
 
 COPY ./src ./src
 
-RUN mvn package
+RUN mvn package -DskipTests
 
 FROM openjdk:15-alpine
 
