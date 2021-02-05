@@ -19,6 +19,6 @@ RUN apk update && \
 
 ENV TZ Asia/Novosibirsk
 
-#HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:8080/healthcheck || exit 1
+HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:8080/healthcheck || exit 1
 
 CMD ["java", "-jar", "inventory_backend-1.0-SNAPSHOT.jar" ]
