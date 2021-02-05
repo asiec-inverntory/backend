@@ -14,7 +14,7 @@ public class FlywayMigrationTest {
             .withPassword("sa");
 
     @Test
-    public void testSomethingOnYourCustomerTable() {
+    public void testMigration() {
         Flyway.configure()
                 .dataSource(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword())
                 .load()
