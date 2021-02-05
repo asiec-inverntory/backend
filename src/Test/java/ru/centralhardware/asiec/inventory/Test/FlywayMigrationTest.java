@@ -1,10 +1,9 @@
-package ru.centralhardware.asiec.inventory.test;
+package ru.centralhardware.asiec.inventory.Test;
 
 import org.flywaydb.core.Flyway;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
-
 
 public class FlywayMigrationTest {
 
