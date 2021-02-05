@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.CreateUserDto;
+import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
-import ru.centralhardware.asiec.inventory.Mapper.CreateUserMapper;
+import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
 import java.util.Optional;
@@ -40,13 +40,13 @@ public class UserService implements UserDetailsService {
     }
 
     public InventoryUser create(CreateUserDto userDto, InventoryUser createdBy){
-        var user = CreateUserMapper.INSTANCE.dtoToUser(userDto);
+        var user = UserMapper.INSTANCE.dtoToUser(userDto);
         user.setCreatedBy(createdBy);
         return userRepository.save(user);
     }
 
     public InventoryUser update(CreateUserDto userDto){
-        var user = CreateUserMapper.INSTANCE.dtoToUser(userDto);
+        var user = UserMapper.INSTANCE.dtoToUser(userDto);
         return userRepository.save(user);
     }
 

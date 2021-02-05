@@ -7,17 +7,18 @@ import java.util.Set;
 public class EquipmentDto {
 
     public int id;
+    public String name;
     public String inventory_code;
-    public int room;
-    public int childEquipment;
+    public HumanReadableHolder room;
+    public HumanReadableHolder childEquipment;
     public boolean isAtomic;
     public String appointment;
-    public int position;
-    public Set<Integer> characteristics = new HashSet<>();
+    public HumanReadableHolder position;
+    public Set<HumanReadableHolder> characteristics = new HashSet<>();
 
     public Date createdAt;
     public Date updatedAt;
-    public int createdBy;
-    public int updatedBy;
+    public HumanReadableHolder createdBy;
+    public HumanReadableHolder updatedBy;
 
 }

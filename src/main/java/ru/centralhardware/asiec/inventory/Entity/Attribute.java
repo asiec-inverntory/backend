@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Table(name = "attribute")
 @Entity
+@Getter
 public class Attribute {
 
     @Id

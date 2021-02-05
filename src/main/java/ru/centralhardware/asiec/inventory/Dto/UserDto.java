@@ -14,6 +14,6 @@ public class UserDto {
     public Role role;
     public Date createdAt;
     public Date updatedAt;
-    public int createdBy;
+    public HumanReadableHolder createdBy;
 
 }

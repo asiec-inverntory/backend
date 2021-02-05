@@ -1,6 +1,7 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Table(name = "characteristic")
 @Entity
 @Getter
+@Setter
 public class Characteristic {
 
     @Id

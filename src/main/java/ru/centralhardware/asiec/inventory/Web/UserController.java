@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.centralhardware.asiec.inventory.Dto.CreateUserDto;
+import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Dto.UserDto;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;

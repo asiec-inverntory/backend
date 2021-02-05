@@ -2,11 +2,10 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.CreateEquipmentDto;
+import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
-import ru.centralhardware.asiec.inventory.Mapper.CreateEquipmentMapper;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentRepository;
 
@@ -39,13 +38,13 @@ public class EquipmentService {
     }
 
     public Equipment create(CreateEquipmentDto dto, InventoryUser createdBy){
-        var equipment = CreateEquipmentMapper.INSTANCE.dtoToEquipment(dto);
+        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
         equipment.setCreatedBy(createdBy);
         return equipmentRepository.save(equipment);
     }
 
     public Equipment update(CreateEquipmentDto dto, InventoryUser updatedBy){
-        var equipment = CreateEquipmentMapper.INSTANCE.dtoToEquipment(dto);
+        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
         equipment.setUpdatedBy(updatedBy);
         return equipmentRepository.save(equipment);
     }

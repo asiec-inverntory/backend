@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.centralhardware.asiec.inventory.Dto.CreateEquipmentDto;
+import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;

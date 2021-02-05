@@ -1,11 +1,14 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "unit")
 @Entity
+@Getter
 public class Unit {
 
     @Id
