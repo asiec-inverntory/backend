@@ -21,8 +21,8 @@ jobs:
       with:
         java-version: 15
     - name: clean
-      run: mvn -B clean --file pom.xml    
+      run: mvn clean --file pom.xml    
     - name: test
-      run: mvn  test --file pom.xml
+      run: mvn  surefire:test --file pom.xml
     - name: build
-      run: mvn -B package --file pom.xml
+      run: mvn package --file pom.xml
