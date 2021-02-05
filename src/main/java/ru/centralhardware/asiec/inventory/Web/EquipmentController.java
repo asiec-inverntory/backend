@@ -36,12 +36,11 @@ public class EquipmentController {
 
     @ApiOperation(
             value = "create equipment",
-            response = EquipmentDto.class,
             httpMethod = "POST",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get equipment"),
+            @ApiResponse(code = 200, message = "successfully get equipment", response = EquipmentDto.class),
             @ApiResponse(code = 404 , message = "not found" )}
     )
     @PostMapping(path = "create")
@@ -58,12 +57,11 @@ public class EquipmentController {
 
     @ApiOperation(
             value = "update equipment",
-            response = EquipmentDto.class,
             httpMethod = "POST",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get user"),
+            @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class),
             @ApiResponse(code = 401 , message = "unauthorized" ),
             @ApiResponse(code = 404 , message = "equipment not found" )}
     )
@@ -113,13 +111,11 @@ public class EquipmentController {
 
     @ApiOperation(
             value = "get pageable list of equipment",
-            response = EquipmentDto.class,
-            responseContainer = "List",
             httpMethod = "GET",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get user")
+            @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class, responseContainer = "List")
     })
     @GetMapping(path = "list")
     public ResponseEntity<?> getEquipment(@RequestParam int page,

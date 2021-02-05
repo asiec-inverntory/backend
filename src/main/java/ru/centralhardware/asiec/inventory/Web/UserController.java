@@ -32,12 +32,11 @@ public class UserController {
 
     @ApiOperation(
             value = "get user of current session",
-            response = UserDto.class,
             httpMethod = "GET",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get user"),
+            @ApiResponse(code = 200, message = "successfully get user", response = UserDto.class),
             @ApiResponse(code = 204, message = "no content" )}
     )
     @GetMapping(path = "/me")
@@ -52,12 +51,11 @@ public class UserController {
 
     @ApiOperation(
             value = "get user by id",
-            response = UserDto.class,
             httpMethod = "GET",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "successfully get user"),
+            @ApiResponse(code = 200, message = "successfully get user", response = UserDto.class),
             @ApiResponse(code = 404, message = "user not found")
     })
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -74,12 +72,11 @@ public class UserController {
     @ApiOperation(
             value = "create user",
             httpMethod = "PUT",
-            response = UserDto.class,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "successfully delete user"),
+            @ApiResponse(code = 200, message = "successfully delete user", response = UserDto.class),
             @ApiResponse(code = 404, message = "user not found")
     })
     @PutMapping(path = "/create")
@@ -96,13 +93,12 @@ public class UserController {
 
     @ApiOperation(
             value = "update user",
-            response = UserDto.class,
             httpMethod = "PUT",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "successfully delete user"),
+            @ApiResponse(code = 200, message = "successfully delete user", response = UserDto.class),
             @ApiResponse(code = 404, message = "user not found")
     })
     @PutMapping(path = "/update")
