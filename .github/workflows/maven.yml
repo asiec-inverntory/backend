@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 15
+    - name: clean
+      run: mvn -B clean --file pom.xml    
     - name: test
       run: mvn -B test --file pom.xml
     - name: build
