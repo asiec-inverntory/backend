@@ -21,6 +21,6 @@ jobs:
       with:
         java-version: 15
     - name: test
-      run: mvn  test "-Dtest=src/test/java/*" --file pom.xml
+      run: mvn  test "-Dtest=./src/test/java/*" --file pom.xml
     - name: build
       run: mvn package --file pom.xml
