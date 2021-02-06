@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class InventoryUser {
+public class InventoryUser implements Deletable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

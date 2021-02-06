@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Position {
+public class Position implements Deletable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

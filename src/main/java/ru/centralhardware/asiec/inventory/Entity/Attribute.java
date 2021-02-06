@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "attribute")
 @Entity
 @Getter
-public class Attribute {
+public class Attribute implements Deletable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,6 +13,7 @@ import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {

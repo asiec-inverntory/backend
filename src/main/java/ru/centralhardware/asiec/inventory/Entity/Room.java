@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "room")
 @Entity
 @Getter
-public class Room {
+public class Room implements Deletable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

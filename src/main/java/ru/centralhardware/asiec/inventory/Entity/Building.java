@@ -1,5 +1,7 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,7 +12,9 @@ import java.util.Set;
 
 @Table(name = "building")
 @Entity
-public class Building {
+@Getter
+@Setter
+public class Building implements Deletable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

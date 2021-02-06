@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "unit")
 @Entity
 @Getter
-public class Unit {
+public class Unit implements Deletable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
