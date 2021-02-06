@@ -11,9 +11,8 @@ public class FilterDeleteHibernateInterceptor extends EmptyInterceptor {
     @Override
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         if (entity instanceof Deletable){
-            Deletable deletable = (Deletable) entity;
-            if (deletable.isDeleted()){
-                throw new RuntimeException();
+            if (state[7] instanceof Boolean){
+                if ((boolean)state[7]) throw new UserAlreadyDeleted();
             }
         }
         return super.onLoad(entity, id, state, propertyNames, types);

@@ -68,7 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getRequestURI().equals("/authenticate") || request.getRequestURI().equals("/healthcheck");
+        return request.getRequestURI().equals("/authenticate") ;
     }
 
     private String getCookieValue(HttpServletRequest req, String cookieName) {
