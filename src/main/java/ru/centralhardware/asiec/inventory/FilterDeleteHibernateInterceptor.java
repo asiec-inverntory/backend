@@ -12,7 +12,7 @@ public class FilterDeleteHibernateInterceptor extends EmptyInterceptor {
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         if (entity instanceof Deletable){
             if (state[7] instanceof Boolean){
-                if ((boolean)state[7]) throw new UserAlreadyDeleted();
+                if ((boolean)state[7]) throw new EntityAlreadyDeleted();
             }
         }
         return super.onLoad(entity, id, state, propertyNames, types);

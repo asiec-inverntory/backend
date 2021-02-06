@@ -10,10 +10,10 @@ import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
+import ru.centralhardware.asiec.inventory.EntityAlreadyDeleted;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
