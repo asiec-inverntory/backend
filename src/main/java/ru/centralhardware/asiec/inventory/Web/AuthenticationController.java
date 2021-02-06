@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
-public class JwtAuthenticationController {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
@@ -35,10 +35,10 @@ public class JwtAuthenticationController {
     @Autowired
     private Ip ip;
 
-    public JwtAuthenticationController(AuthenticationManager authenticationManager,
-                                       JwtTokenUtil jwtTokenUtil,
-                                       UserService userDetailsService,
-                                       LoggingAttemptService loginAttemptService) {
+    public AuthenticationController(AuthenticationManager authenticationManager,
+                                    JwtTokenUtil jwtTokenUtil,
+                                    UserService userDetailsService,
+                                    LoggingAttemptService loginAttemptService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

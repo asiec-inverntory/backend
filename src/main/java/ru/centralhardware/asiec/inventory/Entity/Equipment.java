@@ -27,8 +27,8 @@ public class Equipment {
     @JoinColumn(name = "room", nullable = false)
     private Room room;
     @ManyToOne
-    @JoinColumn(name = "child_equipment")
-    private Equipment childEquipment;
+    @JoinColumn(name = "parent_equipment")
+    private Equipment parentEquipment;
     @Column(nullable = false)
     private boolean isAtomic;
     @Column(length = 50, nullable = false)
@@ -62,7 +62,7 @@ public class Equipment {
     @JoinColumn(name="updated_by")
     private InventoryUser updatedBy;
 
-    @OneToMany(mappedBy = "childEquipment")
-    private Set<Equipment> childEquipments = new HashSet<>();
+    @OneToMany(mappedBy = "parentEquipment")
+    private Set<Equipment> parentEquipments = new HashSet<>();
 
 }

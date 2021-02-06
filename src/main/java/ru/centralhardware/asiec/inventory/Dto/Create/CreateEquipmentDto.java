@@ -6,7 +6,7 @@ public class CreateEquipmentDto {
     public String name;
     public String inventory_code;
     public int room;
-    public int childEquipment;
+    public int parentEquipment;
     public boolean isAtomic;
     public String appointment;
     public int position;

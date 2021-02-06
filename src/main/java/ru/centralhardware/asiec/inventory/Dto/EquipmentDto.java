@@ -10,7 +10,7 @@ public class EquipmentDto {
     public String name;
     public String inventory_code;
     public HumanReadableHolder room;
-    public HumanReadableHolder childEquipment;
+    public HumanReadableHolder parentEquipment;
     public boolean isAtomic;
     public String appointment;
     public HumanReadableHolder position;

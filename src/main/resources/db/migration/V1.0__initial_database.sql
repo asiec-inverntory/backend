@@ -63,7 +63,7 @@ CREATE TABLE equipment (
     name            VARCHAR(50),
     inventory_code  VARCHAR(50) NOT NULL UNIQUE,
     room            INTEGER REFERENCES room (id),
-    child_equipment INTEGER REFERENCES equipment (id),
+    parent_equipment INTEGER REFERENCES equipment (id),
     is_atomic       BOOLEAN     NOT NULL,
     appointment     VARCHAR(50) NOT NULL,
     position        INTEGER REFERENCES position (id),
