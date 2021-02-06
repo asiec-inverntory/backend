@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Status;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Table(name = "position")
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class Position implements Deletable {
