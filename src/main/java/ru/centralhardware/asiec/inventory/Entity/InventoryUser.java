@@ -39,7 +39,7 @@ public class InventoryUser implements Deletable{
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Date createdAt;
     @LastModifiedDate
     @Column(name = "updated_at")
