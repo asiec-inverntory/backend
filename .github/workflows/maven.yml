@@ -27,4 +27,4 @@ jobs:
     - name: test
       run: mvn test --file pom.xml 
     - name: build
-      run: mvn package --file pom.xml
+      run: mvn package --file pom.xml -DskipTests
