@@ -34,6 +34,8 @@ public class InventoryUser {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(name = "last_login")
+    private Date lastLogin;
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
     @CreatedDate

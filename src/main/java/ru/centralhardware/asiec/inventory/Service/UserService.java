@@ -11,6 +11,7 @@ import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -48,6 +49,10 @@ public class UserService implements UserDetailsService {
     public InventoryUser update(CreateUserDto userDto){
         var user = UserMapper.INSTANCE.dtoToUser(userDto);
         return userRepository.save(user);
+    }
+
+    public void setLastLogin(String username){
+        userRepository.findByUsername(username).ifPresent(user -> user.setLastLogin(new Date()));
     }
 
     public boolean existById(int id){

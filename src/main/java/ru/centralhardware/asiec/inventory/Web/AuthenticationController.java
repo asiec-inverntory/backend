@@ -67,6 +67,7 @@ public class AuthenticationController {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             loginAttemptService.loginSucceeded(ip.getClientIP());
+            userDetailsService.setLastLogin(authenticationRequest.getUsername());
         } catch (Exception ex){
             log.warn("", ex);
             loginAttemptService.loginFailed(ip.getClientIP());
