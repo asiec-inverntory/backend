@@ -124,7 +124,11 @@ public class UserController {
                                         @ApiIgnore @CookieValue(name = "authorisation") String token) throws NotFoundException {
         var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
-        if (!userOptional.get().getId().equals(id) || userOptional.get().getRole() != Role.ADMIN) return ResponseEntity.status(401).build();
+        if (userOptional.get().getRole() != Role.ADMIN){
+            if (!userOptional.get().getId().equals(id)){
+                return ResponseEntity.status(401).build();
+            }
+        }
         var userToDeleteOptional = userService.findById(id);
         if (userToDeleteOptional.isPresent()){
             userService.delete(id);
