@@ -16,8 +16,10 @@ public class CustomInterceptorImpl extends EmptyInterceptor {
             Deletable deletable = (Deletable) entity;
             if (deletable.isDeleted()){
                 return false;
+            } else {
+                return super.onLoad(entity, id, state, propertyNames, types);
             }
         }
-        return super.onLoad(entity, id, state, propertyNames, types);
+        return false;
     }
 }
