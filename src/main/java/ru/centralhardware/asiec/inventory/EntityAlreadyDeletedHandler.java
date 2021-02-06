@@ -1,12 +1,12 @@
 package ru.centralhardware.asiec.inventory;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Optional;
 
-@Controller
+@RestControllerAdvice
 public class EntityAlreadyDeletedHandler {
 
     @ExceptionHandler(EntityAlreadyDeleted.class)
