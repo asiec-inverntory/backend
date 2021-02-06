@@ -14,6 +14,7 @@ public class EquipmentDto {
     public boolean isAtomic;
     public String appointment;
     public HumanReadableHolder position;
+    public HumanReadableHolder responsible;
     public Set<HumanReadableHolder> characteristics = new HashSet<>();
 
     public Date createdAt;

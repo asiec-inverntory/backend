@@ -43,6 +43,7 @@ public class UserService implements UserDetailsService {
 
     public InventoryUser create(CreateUserDto userDto, InventoryUser createdBy){
         var user = UserMapper.INSTANCE.dtoToUser(userDto);
+        user.setId(null);
         user.setCreatedBy(createdBy);
         return userRepository.save(user);
     }

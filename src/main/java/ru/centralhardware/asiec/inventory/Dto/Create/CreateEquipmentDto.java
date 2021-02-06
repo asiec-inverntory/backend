@@ -10,5 +10,6 @@ public class CreateEquipmentDto {
     public boolean isAtomic;
     public String appointment;
     public int position;
+    public int responsible;
 
 }
