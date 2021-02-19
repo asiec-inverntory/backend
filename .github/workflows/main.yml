@@ -1,0 +1,18 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  inspect:
+    runs-on: self-hosted
+    steps:
+      - name: Qodana - Code Inspection
+        uses: JetBrains/qodana-action@v1.0-eap
