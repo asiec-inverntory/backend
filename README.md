@@ -1,6 +1,6 @@
 
 
-[test server](https://staging.centralhardware.synology.me/swagger-ui/index.html)
+[test server](https://staging.centralhardware.ru/swagger-ui/index.html)
 
 default user: 
 
