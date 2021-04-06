@@ -1,13 +1,3 @@
-INSERT INTO building (
-    id,
-    address,
-    building_identifier
-) VALUES (
-    1,
-    '656010, Алтайский край, город Барнаул, улица Горно-Алтайская, 17. ',
-    '1 корпус'
-);
-
 INSERT INTO room (
     id,
     number,
