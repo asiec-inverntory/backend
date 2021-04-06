@@ -12,8 +12,5 @@ public class UserDto {
     public String surname;
     public String lastName;
     public Role role;
-    public Date createdAt;
-    public Date updatedAt;
-    public HumanReadableHolder createdBy;
 
 }

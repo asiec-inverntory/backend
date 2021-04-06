@@ -33,11 +33,6 @@ public class Equipment implements Deletable{
     private Equipment parentEquipment;
     @Column(nullable = false)
     private boolean isAtomic;
-    @Column(length = 50, nullable = false)
-    private String appointment;
-    @ManyToOne
-    @JoinColumn(name = "position", nullable = false)
-    private Position position;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "characteristic2equipment",
@@ -51,18 +46,6 @@ public class Equipment implements Deletable{
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Date updatedAt;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="created_by")
-    private InventoryUser createdBy;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="updated_by")
-    private InventoryUser updatedBy;
 
     @OneToMany(mappedBy = "parentEquipment")
     private Set<Equipment> parentEquipments = new HashSet<>();

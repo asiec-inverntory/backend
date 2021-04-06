@@ -24,8 +24,6 @@ public class Room implements Deletable {
     @Column(nullable = false)
     private int flour;
     private String description;
-    @Column(length = 50, nullable = false)
-    private String appointment;
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name = "building", nullable = false)
     private Building building;
@@ -35,21 +33,7 @@ public class Room implements Deletable {
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Date updatedAt;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="created_by")
-    private InventoryUser createdBy;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="updated_by")
-    private InventoryUser updatedBy;
 
-    @OneToMany(mappedBy = "room")
-    private Set<Position> positions = new HashSet<>();
     @OneToMany(mappedBy = "room")
     private Set<Equipment> equipments = new HashSet<>();
 

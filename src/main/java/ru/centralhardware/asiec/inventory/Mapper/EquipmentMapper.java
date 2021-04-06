@@ -6,7 +6,7 @@ import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 
-@Mapper(uses = {UserConverter.class, CharacteristicConverter.class, RoomConverter.class, EquipmentConverter.class, PositionConverter.class})
+@Mapper(uses = {UserConverter.class, CharacteristicConverter.class, RoomConverter.class, EquipmentConverter.class})
 public interface EquipmentMapper {
 
     EquipmentMapper INSTANCE = Mappers.getMapper(EquipmentMapper.class);

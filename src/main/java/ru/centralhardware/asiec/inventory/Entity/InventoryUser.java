@@ -40,34 +40,7 @@ public class InventoryUser implements Deletable{
     private Date lastLogin;
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Date updatedAt;
 
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="created_by", nullable = false)
-    private InventoryUser createdBy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
-
-    @OneToMany(mappedBy="createdBy")
-    private Set<InventoryUser> createdInventoryUsers = new HashSet<>();
-
-    @OneToMany(mappedBy="createdBy")
-    private Set<Building> createdBuildings = new HashSet<>();
-    @OneToMany(mappedBy="updatedBy")
-    private Set<Building> updatedBuildings = new HashSet<>();
-
-    @OneToMany(mappedBy="createdBy")
-    private Set<Room> createdRooms = new HashSet<>();
-    @OneToMany(mappedBy="updatedBy")
-    private Set<Room> updatedRooms = new HashSet<>();
-
-    @OneToMany(mappedBy="createdBy")
-    private Set<Position> createdPositions = new HashSet<>();
-    @OneToMany(mappedBy="updatedBy")
-    private Set<Position> updatedPositions = new HashSet<>();
 
     @OneToMany(mappedBy = "responsible")
     private Set<Equipment> equipment = new HashSet<>();

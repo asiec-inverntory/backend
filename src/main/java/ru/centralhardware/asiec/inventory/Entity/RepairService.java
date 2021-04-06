@@ -28,17 +28,5 @@ public class RepairService implements Deletable {
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Date createdAt;
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Date updatedAt;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="created_by")
-    private InventoryUser createdBy;
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="updated_by")
-    private InventoryUser updatedBy;
 
 }

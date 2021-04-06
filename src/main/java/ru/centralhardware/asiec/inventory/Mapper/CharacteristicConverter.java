@@ -30,7 +30,7 @@ public class CharacteristicConverter {
                 String.format("%s %s %s",
                         characteristic.getAttribute().getAttribute(),
                         characteristic.getValue(),
-                        characteristic.getUnit().getUnit()));
+                        characteristic.getUnit() == null? "" : characteristic.getUnit().getUnit()));
     }
 
     public Set<HumanReadableHolder> toHumanReadableSet(Set<Characteristic> characteristics){

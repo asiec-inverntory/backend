@@ -39,13 +39,11 @@ public class EquipmentService {
 
     public Equipment create(CreateEquipmentDto dto, InventoryUser createdBy){
         var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
-        equipment.setCreatedBy(createdBy);
         return equipmentRepository.save(equipment);
     }
 
     public Equipment update(CreateEquipmentDto dto, InventoryUser updatedBy){
         var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
-        equipment.setUpdatedBy(updatedBy);
         return equipmentRepository.save(equipment);
     }
 
@@ -58,6 +56,6 @@ public class EquipmentService {
     }
 
     public List<EquipmentDto> list(Pageable sort){
-        return equipmentRepository.findAll(sort).map(EquipmentMapper.INSTANCE::equipmentToDto).stream().collect(Collectors.toList());
+        return equipmentRepository.findAll(sort).get().map(EquipmentMapper.INSTANCE::equipmentToDto).collect(Collectors.toList());
     }
 }

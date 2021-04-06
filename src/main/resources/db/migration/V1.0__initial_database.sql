@@ -10,8 +10,6 @@ CREATE TABLE inventory_users (
     is_deleted  BOOLEAN     NOT NULL DEFAULT false,
     last_login  TIMESTAMP,
 
-    created_at  TIMESTAMP NOT NULL,
-    updated_at  TIMESTAMP,
     created_by  INTEGER   REFERENCES inventory_users (id)
 );
 
@@ -22,10 +20,6 @@ CREATE TABLE building (
     address             VARCHAR(100) NOT NULL UNIQUE,
     building_identifier VARCHAR(50)  NOT NULL UNIQUE,
 
-    created_at          TIMESTAMP   NOT NULL,
-    updated_at          TIMESTAMP,
-    created_by          INTEGER REFERENCES inventory_users (id),
-    updated_by          INTEGER REFERENCES inventory_users (id),
     is_deleted          BOOLEAN     NOT NULL DEFAULT false
 );
 
@@ -34,29 +28,12 @@ CREATE TABLE room (
     number      INT         NOT NULL UNIQUE,
     flour       int         NOT NULL,
     description TEXT,
-    appointment VARCHAR(50) NOT NULL,
     building    INTEGER REFERENCES building (id),
     responsible INTEGER REFERENCES inventory_users (id),
 
-    created_at  TIMESTAMP   NOT NULL,
-    updated_at  TIMESTAMP   NOT NULL,
-    created_by  INTEGER REFERENCES inventory_users (id),
-    updated_by  INTEGER REFERENCES inventory_users (id),
     is_deleted  BOOLEAN     NOT NULL DEFAULT false
 );
 
-CREATE TABLE position (
-    id          SERIAL UNIQUE,
-    number      INT NOT NULL,
-    room        INTEGER REFERENCES room (id),
-    status      VARCHAR(20),
-
-    created_at  TIMESTAMP   NOT NULL,
-    updated_at  TIMESTAMP   NOT NULL,
-    created_by  INTEGER REFERENCES inventory_users (id),
-    updated_by  INTEGER REFERENCES inventory_users (id),
-    is_deleted  BOOLEAN     NOT NULL DEFAULT false
-);
 
 CREATE TABLE equipment (
     id              SERIAL UNIQUE,
@@ -65,14 +42,8 @@ CREATE TABLE equipment (
     room            INTEGER REFERENCES room (id),
     parent_equipment INTEGER REFERENCES equipment (id),
     is_atomic       BOOLEAN     NOT NULL,
-    appointment     VARCHAR(50) NOT NULL,
-    position        INTEGER REFERENCES position (id),
     responsible INTEGER REFERENCES inventory_users (id),
 
-    created_at      TIMESTAMP   NOT NULL,
-    updated_at      TIMESTAMP   NOT NULL,
-    created_by      INTEGER REFERENCES inventory_users (id),
-    updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );
 
@@ -114,17 +85,11 @@ CREATE TABLE inventory_order (
     type            VARCHAR(20) NOT NULL,
     appointed       VARCHAR(50) NOT NULL,
     equipment       INTEGER REFERENCES equipment (id),
-    from_position   INTEGER REFERENCES position (id),
-    to_position     INTEGER REFERENCES position (id),
     from_room       INTEGER REFERENCES room (id),
     to_room         INTEGER REFERENCES room (id),
     from_user       INTEGER REFERENCES inventory_users (id),
     to_user         INTEGER REFERENCES inventory_users (id),
 
-    created_at      TIMESTAMP   NOT NULL,
-    updated_at      TIMESTAMP   NOT NULL,
-    created_by      INTEGER REFERENCES inventory_users (id),
-    updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );
 
@@ -134,10 +99,6 @@ CREATE TABLE repair_service (
     address     VARCHAR(100)    NOT NULL UNIQUE,
     telephone   VARCHAR(11)     NOT NULL UNIQUE,
 
-    created_at  TIMESTAMP       NOT NULL,
-    updated_at  TIMESTAMP,
-    created_by  INTEGER REFERENCES inventory_users (id),
-    updated_by  INTEGER REFERENCES inventory_users (id),
     is_deleted  BOOLEAN         NOT NULL DEFAULT false
 );
 
@@ -145,11 +106,6 @@ CREATE TABLE repair (
     id              SERIAL UNIQUE,
     equipment       INT REFERENCES equipment (id),
     repair_service  INT REFERENCES repair_service (id),
-    appointed       INT REFERENCES inventory_users (id),
 
-    created_at      TIMESTAMP   NOT NULL,
-    updated_at      TIMESTAMP   NOT NULL,
-    created_by      INTEGER REFERENCES inventory_users (id),
-    updated_by      INTEGER REFERENCES inventory_users (id),
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );

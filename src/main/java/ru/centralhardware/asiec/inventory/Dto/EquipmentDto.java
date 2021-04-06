@@ -12,14 +12,7 @@ public class EquipmentDto {
     public HumanReadableHolder room;
     public HumanReadableHolder parentEquipment;
     public boolean isAtomic;
-    public String appointment;
-    public HumanReadableHolder position;
     public HumanReadableHolder responsible;
     public Set<HumanReadableHolder> characteristics = new HashSet<>();
-
-    public Date createdAt;
-    public Date updatedAt;
-    public HumanReadableHolder createdBy;
-    public HumanReadableHolder updatedBy;
 
 }

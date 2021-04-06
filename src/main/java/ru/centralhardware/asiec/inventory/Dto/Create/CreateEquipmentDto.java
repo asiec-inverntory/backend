@@ -8,8 +8,6 @@ public class CreateEquipmentDto {
     public int room;
     public int parentEquipment;
     public boolean isAtomic;
-    public String appointment;
-    public int position;
     public int responsible;
 
 }
