@@ -1,0 +1,6 @@
+--INSERT INTO room (
+--    id,
+--    number,
+--    flour,
+--    building
+--) VALUES ( );
