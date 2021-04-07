@@ -8,9 +8,7 @@ CREATE TABLE inventory_users (
     UNIQUE (name, surname, last_name),
     role        VARCHAR(20) NOT NULL,
     is_deleted  BOOLEAN     NOT NULL DEFAULT false,
-    last_login  TIMESTAMP,
-
-    created_by  INTEGER   REFERENCES inventory_users (id)
+    last_login  TIMESTAMP
 );
 
 CREATE INDEX username_index ON inventory_users(username);
@@ -43,6 +41,7 @@ CREATE TABLE equipment (
     parent_equipment INTEGER REFERENCES equipment (id),
     is_atomic       BOOLEAN     NOT NULL,
     responsible INTEGER REFERENCES inventory_users (id),
+    equipment_type VARCHAR(50) NOT NULL,
 
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );

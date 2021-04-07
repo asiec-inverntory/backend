@@ -39,7 +39,8 @@ INSERT INTO equipment (
     room,
     parent_equipment,
     is_atomic,
-    responsible
+    responsible,
+    equipment_type
 ) VALUES (
     1,
     'Рабочее место',
@@ -47,7 +48,8 @@ INSERT INTO equipment (
     1,
     NULL,
     false,
-    2
+    2,
+    'WORKPLACE'
 ),  (
     2,
     'Монитор',
@@ -55,7 +57,8 @@ INSERT INTO equipment (
     1,
     1,
     true,
-    2
+    2,
+    'COMPONENT'
 ),  (
      3,
      'Монитор',
@@ -63,7 +66,8 @@ INSERT INTO equipment (
      1,
      1,
      true,
-     2
+     2,
+     'COMPONENT'
 ),  (
       4,
       'ОЗУ',
@@ -71,7 +75,8 @@ INSERT INTO equipment (
       1,
       1,
       true,
-      2
+      2,
+      'COMPONENT'
  );
 
 INSERT INTO characteristic (

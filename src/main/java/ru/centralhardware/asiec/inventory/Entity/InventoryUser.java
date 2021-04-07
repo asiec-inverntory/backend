@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Table(name = "inventory_users")
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @Accessors(chain = true)
