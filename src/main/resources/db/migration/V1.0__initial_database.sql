@@ -23,7 +23,8 @@ CREATE TABLE building (
 
 CREATE TABLE room (
     id          SERIAL UNIQUE,
-    number      INT         NOT NULL UNIQUE,
+    number      INT         NOT NULL,
+    UNIQUE(number, building),
     flour       int         NOT NULL,
     description TEXT,
     building    INTEGER REFERENCES building (id),
