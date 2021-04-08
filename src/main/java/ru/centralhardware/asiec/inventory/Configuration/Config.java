@@ -19,5 +19,6 @@ public class Config {
      */
     public final int maxLoginAttempt = Integer.parseInt(System.getenv("MAX_LOGIN_ATTEMPT"));
     public final String apiVersion = System.getenv("API_VERSION");
+    public final boolean enableAuth = Boolean.parseBoolean(System.getenv("ENABLE_AUTH"));
 
 }

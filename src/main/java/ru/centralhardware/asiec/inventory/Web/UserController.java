@@ -17,6 +17,8 @@ import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.security.Principal;
+
 @RestController
 @Api(value = "user")
 @RequestMapping("/user")
@@ -40,8 +42,8 @@ public class UserController {
             @ApiResponse(code = 204, message = "no content" )}
     )
     @GetMapping(path = "/me")
-    public ResponseEntity<?> me(@ApiIgnore @CookieValue(name = "authorisation") String token){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> me(@ApiIgnore Principal principal){
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
         } else {
@@ -81,9 +83,8 @@ public class UserController {
     })
     @PutMapping(path = "/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto,
-                                        @ApiIgnore @CookieValue(name = "authorisation") String token){
-        var createdBy = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto,@ApiIgnore Principal principal){
+        var createdBy = userService.findByUsername(principal.getName());
         if (createdBy.isPresent()){
             return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userService.create(userDto, createdBy.get())));
         } else {
@@ -120,9 +121,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "user not found")
     })
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id,
-                                        @ApiIgnore @CookieValue(name = "authorisation") String token) throws NotFoundException {
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> deleteUser(@PathVariable int id,@ApiIgnore Principal principal) throws NotFoundException {
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() != Role.ADMIN){
             if (!userOptional.get().getId().equals(id)){

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ru.centralhardware.asiec.inventory.Configuration.Config;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 
 import javax.servlet.FilterChain;
@@ -25,12 +26,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final Config config;
     @Autowired
     private Ip ip;
 
-    public JwtRequestFilter(UserService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
+    public JwtRequestFilter(UserService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil, Config config) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.config = config;
     }
 
     /**
@@ -45,11 +48,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String username = null;
-        var jwtToken = getCookieValue(request, "authorisation");
+        var jwtToken = getAuthCookie(request);
         try {
-            // TODO: remove after testing
-            username = "admin";
-//            username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+            if (config.enableAuth){
+                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+            } else {
+                username = "admin";
+            }
         } catch (IllegalArgumentException e) {
             log.info("Unable to get JWT Token");
         } catch (ExpiredJwtException e) {
@@ -57,9 +62,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-            // TODO: remove after testing
-            if (true)  {
-//            if (jwtTokenUtil.validateToken(jwtToken, userDetails) ) {
+            if (jwtTokenUtil.validateToken(jwtToken, userDetails) || !config.enableAuth) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
@@ -71,14 +74,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         return request.getRequestURI().equals("/authenticate") || request.getRequestURI().equals("/healthcheck");
     }
 
-    private String getCookieValue(HttpServletRequest req, String cookieName) {
+    private String getAuthCookie(HttpServletRequest req) {
         if (req.getCookies() == null) return "";
         return Arrays.stream(req.getCookies())
-                .filter(c -> c.getName().equals(cookieName))
+                .filter(c -> c.getName().equals("authorisation"))
                 .findFirst()
                 .map(Cookie::getValue)
                 .orElse(null);

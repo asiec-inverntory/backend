@@ -7,8 +7,8 @@ import lombok.Getter;
 public class HumanReadableHolder {
 
     @Getter
-    private int id;
+    private final int id;
     @Getter
-    private String humanReadable;
+    private final String humanReadable;
 
 }

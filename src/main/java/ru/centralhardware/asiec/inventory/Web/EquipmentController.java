@@ -19,6 +19,8 @@ import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.security.Principal;
+
 @RestController
 @Api(value = "equipment")
 @RequestMapping("/equipment")
@@ -44,9 +46,8 @@ public class EquipmentController {
             @ApiResponse(code = 404 , message = "not found" )}
     )
     @PostMapping(path = "create")
-    public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,@ApiIgnore Principal principal){
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isPresent()){
             return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.create(equipmentDto,userOptional.get())));
         } else {
@@ -66,9 +67,8 @@ public class EquipmentController {
             @ApiResponse(code = 404 , message = "equipment not found" )}
     )
     @PostMapping(path = "update")
-    public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,
-                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,@ApiIgnore Principal principal){
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -92,9 +92,8 @@ public class EquipmentController {
             @ApiResponse(code = 404 , message = "equipment not found" )}
     )
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<?> deleteEquipment(@RequestParam int id,
-                                             @ApiIgnore @CookieValue(name = "authorisation") String token){
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+    public ResponseEntity<?> deleteEquipment(@RequestParam int id,@ApiIgnore Principal principal){
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -121,9 +120,9 @@ public class EquipmentController {
     public ResponseEntity<?> getEquipment(@RequestParam int page,
                                           @RequestParam int size,
                                           @RequestParam String sortBy,
-                                          @ApiIgnore @CookieValue(name = "authorisation") String token){
+                                          @ApiIgnore Principal principal){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        var userOptional = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+        var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
             return ResponseEntity.ok(equipmentService.list(pageable));
