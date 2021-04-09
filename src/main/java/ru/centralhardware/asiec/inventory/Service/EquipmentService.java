@@ -1,6 +1,5 @@
 package ru.centralhardware.asiec.inventory.Service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;

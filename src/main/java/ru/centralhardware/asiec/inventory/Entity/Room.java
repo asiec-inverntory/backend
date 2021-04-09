@@ -32,6 +32,6 @@ public class Room implements Deletable {
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "room")
-    private Set<Equipment> equipments = new HashSet<>();
+    private final Set<Equipment> equipments = new HashSet<>();
 
 }

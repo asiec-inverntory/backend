@@ -22,5 +22,5 @@ public class Unit implements Deletable {
 
 
     @OneToMany(mappedBy = "unit")
-    private Set<Characteristic> characteristics = new HashSet<>();
+    private final Set<Characteristic> characteristics = new HashSet<>();
 }

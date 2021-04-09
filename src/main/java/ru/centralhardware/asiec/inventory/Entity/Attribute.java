@@ -23,5 +23,5 @@ public class Attribute implements Deletable{
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "attribute")
-    private Set<Characteristic> characteristics = new HashSet<>();
+    private final Set<Characteristic> characteristics = new HashSet<>();
 }

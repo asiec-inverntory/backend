@@ -145,7 +145,7 @@ public class EquipmentController {
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
                                           @ApiIgnore Principal principal) throws JsonProcessingException {
-        List<FilterRequest> filterRequest = new ObjectMapper().readValue(filter, new TypeReference<List<FilterRequest>>() {});
+        List<FilterRequest> filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
 
         Pageable pageable = PageRequest.of(page - 1, pageSIze, Sort.by(sortBy.orElse("name")));
         var userOptional = userService.findByUsername(principal.getName());
