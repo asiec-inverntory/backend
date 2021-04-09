@@ -117,11 +117,11 @@ public class EquipmentController {
             @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class, responseContainer = "List")
     })
     @GetMapping(path = "list")
-    public ResponseEntity<?> getEquipment(@RequestParam int page,
+    public ResponseEntity<?> getEquipment(@RequestParam int pageSize,
                                           @RequestParam int size,
                                           @RequestParam String sortBy,
                                           @ApiIgnore Principal principal){
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(pageSize+1, size, Sort.by(sortBy));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
