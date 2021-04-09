@@ -77,7 +77,16 @@ INSERT INTO equipment (
       true,
       2,
       'COMPONENT'
- );
+ ),  (
+        5,
+        'ОЗУ',
+        '12345678',
+        1,
+        1,
+        true,
+        2,
+        'COMPONENT'
+   );
 
 INSERT INTO characteristic (
     id,
@@ -99,11 +108,29 @@ INSERT INTO characteristic (
     7,
     '3600',
     8
-);
+), (
+     4,
+     5,
+     'ballistic',
+     NULL
+ ), (
+     5,
+     6,
+     'ddr4',
+     NULL
+ ), (
+     6,
+     7,
+     '3500',
+     8
+ );;
 
 INSERT INTO characteristic2equipment (
     characteristic_id,
     equipment_id
 ) VALUES    (1, 4 ),
             (2, 4),
-            (3, 4);
+            (3, 4),
+            (4, 5),
+            (5, 5),
+            (6, 5);

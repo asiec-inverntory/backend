@@ -1,5 +1,8 @@
 package ru.centralhardware.asiec.inventory.Web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,9 +20,11 @@ import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
+import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -109,6 +114,22 @@ public class EquipmentController {
         }
     }
 
+    /**
+     * example filter json:
+     * [
+     *      {
+     *          "attributeName": "",
+     *          "operation": "=",
+     *          "value": ""
+     *      }
+     * ]
+     * list of support operation:
+     *      - != : filter request value and characteristic value are NOT equals
+     *      - =  : filter request value and characteristic value are equals
+     *      - >  : filter request value grater then characteristic value
+     *      - <  : filter request value lower then characteristic value
+     */
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @ApiOperation(
             value = "get pageable list of equipment",
             httpMethod = "GET",
@@ -121,14 +142,17 @@ public class EquipmentController {
     public ResponseEntity<?> getEquipment(@RequestParam int page,
                                           @RequestParam int pageSIze,
                                           @RequestParam(required = false) Optional<String> sortBy,
-                                          @ApiIgnore Principal principal){
+                                          @RequestParam(required = false) String filter,
+                                          @ApiIgnore Principal principal) throws JsonProcessingException {
+        List<FilterRequest> filterRequest = new ObjectMapper().readValue(filter, new TypeReference<List<FilterRequest>>() {});
+
         Pageable pageable = PageRequest.of(page - 1, pageSIze, Sort.by(sortBy.orElse("name")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
-            return ResponseEntity.ok(equipmentService.list(pageable));
+            return ResponseEntity.ok(equipmentService.list(pageable, filterRequest));
         } else {
-            return ResponseEntity.ok(equipmentService.list(userOptional.get(), pageable));
+            return ResponseEntity.ok(equipmentService.list(userOptional.get(), pageable, filterRequest));
         }
     }
 }
