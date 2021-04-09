@@ -50,7 +50,7 @@ CREATE TABLE equipment (
 
 CREATE TABLE attribute (
     id SERIAL UNIQUE,
-    attribute   TEXT NOT NULL,
+    attribute   TEXT NOT NULL UNIQUE,
     description TEXT,
     is_deleted  BOOLEAN NOT NULL DEFAULT false
 );
