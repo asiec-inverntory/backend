@@ -128,6 +128,7 @@ public class EquipmentController {
      *      - =  : filter request value and characteristic value are equals
      *      - >  : filter request value grater then characteristic value
      *      - <  : filter request value lower then characteristic value
+     * WARNING: for < and > operation, if string can not be parsed its length is taken
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @ApiOperation(
