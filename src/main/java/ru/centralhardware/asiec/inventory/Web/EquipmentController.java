@@ -20,6 +20,7 @@ import ru.centralhardware.asiec.inventory.Service.UserService;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @Api(value = "equipment")
@@ -117,11 +118,11 @@ public class EquipmentController {
             @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class, responseContainer = "List")
     })
     @GetMapping(path = "list")
-    public ResponseEntity<?> getEquipment(@RequestParam int pageSize,
-                                          @RequestParam int size,
-                                          @RequestParam String sortBy,
+    public ResponseEntity<?> getEquipment(@RequestParam int page,
+                                          @RequestParam int pageSIze,
+                                          @RequestParam(required = false) Optional<String> sortBy,
                                           @ApiIgnore Principal principal){
-        Pageable pageable = PageRequest.of(pageSize+1, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page - 1, pageSIze, Sort.by(sortBy.orElse("name")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
