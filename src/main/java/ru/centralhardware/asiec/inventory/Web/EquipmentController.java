@@ -24,6 +24,7 @@ import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,13 +142,16 @@ public class EquipmentController {
     })
     @GetMapping(path = "list")
     public ResponseEntity<?> getEquipment(@RequestParam int page,
-                                          @RequestParam int pageSIze,
+                                          @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
                                           @ApiIgnore Principal principal) throws JsonProcessingException {
-        List<FilterRequest> filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
+        List<FilterRequest> filterRequest = null;
+        if (filter != null){
+            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});;
+        }
 
-        Pageable pageable = PageRequest.of(page - 1, pageSIze, Sort.by(sortBy.orElse("name")));
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("name")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
