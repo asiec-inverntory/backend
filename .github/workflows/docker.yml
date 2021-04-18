@@ -28,6 +28,8 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v2
         with:
           images: registry.centralhardware.ru/inventory-backend
+          tags: |
+           type=sha
       -
         name: Build and push
         uses: docker/build-push-action@v2
