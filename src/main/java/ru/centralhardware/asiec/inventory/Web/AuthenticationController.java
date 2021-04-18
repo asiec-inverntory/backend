@@ -96,7 +96,7 @@ public class AuthenticationController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully logout user"),
     })
-    @DeleteMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/logout", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("authorisation", "");
         cookie.setSecure(true);

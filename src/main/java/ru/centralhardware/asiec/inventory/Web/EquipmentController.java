@@ -140,7 +140,7 @@ public class EquipmentController {
     @ApiResponses( value = {
             @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class, responseContainer = "List")
     })
-    @GetMapping(path = "list")
+    @GetMapping(path = "/list")
     public ResponseEntity<?> getEquipment(@RequestParam int page,
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
