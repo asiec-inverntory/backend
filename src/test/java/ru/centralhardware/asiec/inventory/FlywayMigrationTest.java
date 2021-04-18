@@ -16,7 +16,8 @@ public class FlywayMigrationTest {
     @Test
     public void testMigration() {
         Flyway.configure()
-                .dataSource(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword())
+                .dataSource(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword()).
+                locations("classpath:/db/migration,classpath:/dev/db/migration")
                 .load()
                 .migrate();
     }
