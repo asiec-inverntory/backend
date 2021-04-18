@@ -25,6 +25,6 @@ jobs:
       with:
         java-version: 15
     - name: test
-      run: mvn test --file pom.xml  -Dspring-boot.run.profiles=dev
+      run: mvn test --file pom.xml
     - name: build
       run: mvn package --file pom.xml -DskipTests
