@@ -73,8 +73,8 @@ public class EquipmentService {
     }
 
     /**
-     * @param filterRequests
-     * @param equipment
+     * @param filterRequests filter conditions
+     * @param equipment list of equipment for filter
      * @return true if must filtered
      */
     private boolean isFiltered(List<FilterRequest> filterRequests, Equipment equipment){
@@ -84,33 +84,33 @@ public class EquipmentService {
         if (characteristics.size() == 0) return false;
 
         for (FilterRequest request : filterRequests){
-            switch (request.operation){
+            switch (request.operation()){
                 case "=" -> {
                     for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName)) continue;
+                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (characteristic.getValue().equals(request.value)) return true;
+                        if (characteristic.getValue().equals(request.value())) return true;
                     }
                 }
                 case "!=" -> {
                     for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName)) continue;
+                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (!characteristic.getValue().equals(request.value)) return true;
+                        if (!characteristic.getValue().equals(request.value())) return true;
                     }
                 }
                 case ">" -> {
                     for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName)) continue;
+                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (graterThen(request.value, characteristic.getValue())) return true;
+                        if (graterThen(request.value(), characteristic.getValue())) return true;
                     }
                 }
                 case "<" -> {
                     for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName)) continue;
+                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (lowerThen(request.value, characteristic.getValue())) return true;
+                        if (lowerThen(request.value(), characteristic.getValue())) return true;
                     }
                 }
             }

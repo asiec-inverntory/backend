@@ -1,13 +1,13 @@
 package ru.centralhardware.asiec.inventory.Dto.Create;
 
-public class CreateEquipmentDto {
+public record CreateEquipmentDto (
 
-    public int id;
-    public String name;
-    public String inventory_code;
-    public int room;
-    public int parentEquipment;
-    public boolean isAtomic;
-    public int responsible;
+    int id,
+    String name,
+    String inventory_code,
+    int room,
+    int parentEquipment,
+    boolean isAtomic,
+    int responsible
 
-}
+) {}

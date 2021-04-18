@@ -38,11 +38,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     /**
      * scan jwt token and validate it
-     * @param request
-     * @param response
-     * @param chain
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

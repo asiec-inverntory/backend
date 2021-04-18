@@ -42,21 +42,11 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    /**
-     * @param token jwt token
-     * @param claimsResolver
-     * @param <T>
-     * @return
-     */
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final var claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-    /**
-     * @param token jwt token
-     * @return
-     */
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(config.secret).parseClaimsJws(token).getBody();
     }
@@ -87,8 +77,6 @@ public class JwtTokenUtil {
      * 1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
      * 2. Sign the JWT using the HS512 algorithm and secret key.
      * 3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-     * @param claims
-     * @param subject
      * @return jwt token
      */
     private String doGenerateToken(Map<String, Object> claims, String subject, Date validTo) {

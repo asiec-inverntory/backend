@@ -8,7 +8,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 public class FlywayMigrationTest {
 
     @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres")
+    public static final PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres")
             .withDatabaseName("integration-tests-db")
             .withUsername("sa")
             .withPassword("sa");

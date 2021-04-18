@@ -1,4 +1,4 @@
-FROM maven:3.6.3-openjdk-15 as maven
+FROM maven:3.6.3-openjdk-16 as maven
 
 COPY ./pom.xml ./pom.xml
 
@@ -8,7 +8,7 @@ COPY ./src ./src
 
 RUN mvn package -DskipTests
 
-FROM openjdk:15-alpine
+FROM openjdk:16-alpine
 
 WORKDIR /inventory-backend
 

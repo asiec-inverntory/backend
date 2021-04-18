@@ -105,7 +105,7 @@ public class UserController {
     @PutMapping(path = "/update")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateUser(@RequestBody CreateUserDto userDto){
-        if (!userService.existById(userDto.id)){
+        if (!userService.existById(userDto.id())){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(userService.update(userDto));

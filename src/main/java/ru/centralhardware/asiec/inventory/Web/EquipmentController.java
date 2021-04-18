@@ -24,7 +24,6 @@ import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,10 +78,10 @@ public class EquipmentController {
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        if (userOptional.get().getRole() != Role.ADMIN || !equipmentService.hasAccess(equipmentDto.id, userOptional.get())){
+        if (userOptional.get().getRole() != Role.ADMIN || !equipmentService.hasAccess(equipmentDto.id(), userOptional.get())){
             return ResponseEntity.status(401).build();
         }
-        if (!equipmentService.existById(equipmentDto.id)){
+        if (!equipmentService.existById(equipmentDto.id())){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.update(equipmentDto, userOptional.get())));
@@ -148,7 +147,7 @@ public class EquipmentController {
                                           @ApiIgnore Principal principal) throws JsonProcessingException {
         List<FilterRequest> filterRequest = null;
         if (filter != null){
-            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});;
+            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
         }
 
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("name")));

@@ -41,8 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * get authentication manager for spring
-     * @return authenticationManger
-     * @throws Exception
      */
     @SuppressWarnings("EmptyMethod")
     @Bean
