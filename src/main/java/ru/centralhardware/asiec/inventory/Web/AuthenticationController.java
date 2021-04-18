@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,6 +78,27 @@ public class AuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         Cookie cookie = new Cookie("authorisation",jwtTokenUtil.generateToken(userDetails));
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge((int) JwtTokenUtil.JWT_TOKEN_VALIDITY);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * logout user
+     * @return jwt token
+     */
+    @ApiOperation(value = "authenticate user",
+            notes = "use for logout user",
+            httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully logout user"),
+    })
+    @DeleteMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("authorisation", "");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setMaxAge((int) JwtTokenUtil.JWT_TOKEN_VALIDITY);
