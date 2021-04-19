@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory;
+package ru.centralhardware.asiec.inventory.Web;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.http.ResponseEntity;

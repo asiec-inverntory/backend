@@ -8,6 +8,8 @@ import ru.centralhardware.asiec.inventory.Repository.AttributeRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class AttributeService {
 
@@ -23,6 +25,7 @@ public class AttributeService {
         return repository.
                 findAll(sort).
                 get().
+                filter(not(Attribute::isDeleted)).
                 map(Attribute::getAttribute).
                 collect(Collectors.toList());
     }
@@ -32,6 +35,7 @@ public class AttributeService {
         return equipment.map(value -> value.
                 getCharacteristics().
                 stream().
+                filter(it -> !it.getAttribute().isDeleted()).
                 map(it -> it.getAttribute().getAttribute()).
                 collect(Collectors.toList())).orElseGet(List::of);
     }

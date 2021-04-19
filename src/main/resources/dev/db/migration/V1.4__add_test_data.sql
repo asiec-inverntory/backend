@@ -40,7 +40,8 @@ INSERT INTO equipment (
     parent_equipment,
     is_atomic,
     responsible,
-    equipment_type
+    equipment_type,
+    is_deleted
 ) VALUES (
     1,
     'Рабочее место',
@@ -49,7 +50,8 @@ INSERT INTO equipment (
     NULL,
     false,
     2,
-    'WORKPLACE'
+    'WORKPLACE',
+    false
 ),  (
     2,
     'Монитор',
@@ -58,7 +60,8 @@ INSERT INTO equipment (
     1,
     true,
     2,
-    'COMPONENT'
+    'COMPONENT',
+    false
 ),  (
      3,
      'Монитор',
@@ -67,7 +70,8 @@ INSERT INTO equipment (
      1,
      true,
      2,
-     'COMPONENT'
+     'COMPONENT',
+     false
 ),  (
       4,
       'ОЗУ',
@@ -76,7 +80,8 @@ INSERT INTO equipment (
       1,
       true,
       2,
-      'COMPONENT'
+      'COMPONENT',
+      false
  ),  (
         5,
         'ОЗУ',
@@ -85,8 +90,19 @@ INSERT INTO equipment (
         1,
         true,
         2,
-        'COMPONENT'
-   );
+        'COMPONENT',
+        false
+),  (
+         6,
+         'ОЗУ',
+         '123456789',
+         1,
+         1,
+         true,
+         2,
+         'COMPONENT',
+         true
+);
 
 INSERT INTO characteristic (
     id,
@@ -133,4 +149,5 @@ INSERT INTO characteristic2equipment (
             (3, 4),
             (4, 5),
             (5, 5),
-            (6, 5);
+            (6, 5),
+            (6, 6);

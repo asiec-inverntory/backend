@@ -14,6 +14,8 @@ import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 import java.util.Date;
 import java.util.Optional;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -24,11 +26,11 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<InventoryUser> findByUsername(String username){
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).filter(not(InventoryUser::isDeleted));
     }
 
     public Optional<InventoryUser> findById(int id){
-        return userRepository.findById(id);
+        return userRepository.findById(id).filter(not(InventoryUser::isDeleted));
     }
 
     public void delete(int id) throws NotFoundException {
@@ -56,7 +58,8 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean existById(int id){
-        return userRepository.existsById(id);
+        var user = findById(id);
+        return user.isPresent() && !user.get().isDeleted();
     }
 
     @Override

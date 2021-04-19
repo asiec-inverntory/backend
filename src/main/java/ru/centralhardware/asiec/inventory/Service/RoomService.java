@@ -6,6 +6,8 @@ import ru.centralhardware.asiec.inventory.Repository.RoomRepository;
 
 import java.util.Optional;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class RoomService {
 
@@ -16,6 +18,6 @@ public class RoomService {
     }
 
     public Optional<Room> findById(int id){
-        return roomRepository.findById(id);
+        return roomRepository.findById(id).filter(not(Room::isDeleted));
     }
 }

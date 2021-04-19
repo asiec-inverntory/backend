@@ -16,6 +16,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class EquipmentService {
 
@@ -28,11 +30,12 @@ public class EquipmentService {
     }
 
     public Optional<Equipment> findById(int id){
-        return equipmentRepository.findById(id);
+        return equipmentRepository.findById(id).filter(not(Equipment::isDeleted));
     }
 
     public boolean existById(int id){
-        return equipmentRepository.existsById(id);
+        var equipment = equipmentRepository.findById(id);
+        return equipment.isPresent() && !equipment.get().isDeleted();
     }
 
     public boolean hasAccess(int id, InventoryUser user){
@@ -58,6 +61,7 @@ public class EquipmentService {
         return equipmentRepository.
                 findAllByResponsible(user, sort).
                 stream().
+                filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
                 map(EquipmentMapper.INSTANCE::equipmentToDto).
                 collect(Collectors.toList());
@@ -67,6 +71,7 @@ public class EquipmentService {
         return equipmentRepository.
                 findAll(sort).
                 get().
+                filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
                 map(EquipmentMapper.INSTANCE::equipmentToDto).
                 collect(Collectors.toList());
