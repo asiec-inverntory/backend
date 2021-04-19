@@ -17,7 +17,7 @@ import java.util.Optional;
 import static java.util.function.Predicate.not;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -62,18 +62,4 @@ public class UserService implements UserDetailsService {
         return user.isPresent() && !user.get().isDeleted();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var userOptional = userRepository.findByUsername(username);
-        User.UserBuilder builder;
-        if (userOptional.isPresent()){
-            var user = userOptional.get();
-            builder = User.withUsername(username);
-            builder.password(user.getPassword());
-            builder.roles(user.getRole().name());
-        } else {
-            throw new UsernameNotFoundException("User not found.");
-        }
-        return builder.build();
-    }
 }

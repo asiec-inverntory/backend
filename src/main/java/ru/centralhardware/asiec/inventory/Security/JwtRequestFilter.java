@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.centralhardware.asiec.inventory.Configuration.Config;
+import ru.centralhardware.asiec.inventory.Service.UserDetailService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 
 import javax.servlet.FilterChain;
@@ -24,13 +25,13 @@ import java.util.Arrays;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final UserService jwtUserDetailsService;
+    private final UserDetailService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
     private final Config config;
     @Autowired
     private Ip ip;
 
-    public JwtRequestFilter(UserService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil, Config config) {
+    public JwtRequestFilter(UserDetailService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil, Config config) {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.config = config;

@@ -20,6 +20,7 @@ import ru.centralhardware.asiec.inventory.Security.Ip;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Security.LoggingAttemptService;
 import ru.centralhardware.asiec.inventory.Security.Model.JwtRequest;
+import ru.centralhardware.asiec.inventory.Service.UserDetailService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 
 import javax.servlet.http.Cookie;
@@ -31,18 +32,20 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userDetailsService;
+    private final UserDetailService userDetailsService;
+    private final UserService userService;
     private final LoggingAttemptService loginAttemptService;
     @Autowired
     private Ip ip;
 
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     JwtTokenUtil jwtTokenUtil,
-                                    UserService userDetailsService,
-                                    LoggingAttemptService loginAttemptService) {
+                                    UserDetailService userDetailsService,
+                                    UserService userService, LoggingAttemptService loginAttemptService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
         this.loginAttemptService = loginAttemptService;
     }
 
@@ -68,7 +71,7 @@ public class AuthenticationController {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             loginAttemptService.loginSucceeded(ip.getClientIP());
-            userDetailsService.setLastLogin(authenticationRequest.getUsername());
+            userService.setLastLogin(authenticationRequest.getUsername());
         } catch (Exception ex){
             log.warn("", ex);
             loginAttemptService.loginFailed(ip.getClientIP());
