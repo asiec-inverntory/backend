@@ -13,6 +13,6 @@ INSERT INTO attribute (id, type, minimum, maximum, attribute, description) VALUE
     (2, 'NUMBER', null, null, 'ширина', ''),
     (3, 'NUMBER', null, null, 'вес', ''),
     (4, 'STRING', null, null, 'цвет', ''),
-    (5, 'STRING', null, null, 'производитель ОЗУ', ''),
-    (6, 'STRING', null, null, 'тип ОЗУ', ''),
-    (7, 'RANGE',  0,    4000, 'частота ОЗУ', '');
+    (5, 'STRING', null, null, 'RAM manufacture', ''),
+    (6, 'STRING', null, null, 'RAM type', ''),
+    (7, 'RANGE',  0,    4000, 'RAM frequency', '');

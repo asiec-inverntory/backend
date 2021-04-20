@@ -44,7 +44,7 @@ INSERT INTO equipment (
     is_deleted
 ) VALUES (
     1,
-    'Рабочее место',
+    'workplace',
     '1234',
     1,
     NULL,
@@ -54,7 +54,7 @@ INSERT INTO equipment (
     false
 ),  (
     2,
-    'Монитор',
+    'monitor',
     '12345',
     1,
     1,
@@ -64,7 +64,7 @@ INSERT INTO equipment (
     false
 ),  (
      3,
-     'Монитор',
+     'monitor',
      '123456',
      1,
      1,
@@ -74,7 +74,7 @@ INSERT INTO equipment (
      false
 ),  (
       4,
-      'ОЗУ',
+      'RAM',
       '1234567',
       1,
       1,
@@ -84,7 +84,7 @@ INSERT INTO equipment (
       false
  ),  (
         5,
-        'ОЗУ',
+        'RAM',
         '12345678',
         1,
         1,
@@ -94,7 +94,7 @@ INSERT INTO equipment (
         false
 ),  (
          6,
-         'ОЗУ',
+         'RAM',
          '123456789',
          1,
          1,
