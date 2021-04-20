@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -34,7 +35,7 @@ public class AttributeController {
             @ApiResponse(code = 200, message = "successfully get attribute", response = String.class, responseContainer = "List")
     })
     @GetMapping(path = "list")
-    public ResponseEntity<?> getAttribute(@RequestParam int page, @RequestParam int pageSIze) {
+    public ResponseEntity<?> getAttribute(@RequestParam int page, @RequestParam int pageSIze) throws JsonProcessingException {
         Pageable pageable = PageRequest.of(page - 1, pageSIze);
         return ResponseEntity.ok().body(service.getAttributesName(pageable));
     }
@@ -48,7 +49,7 @@ public class AttributeController {
             @ApiResponse(code = 200, message = "successfully get attribute", response = String.class, responseContainer = "List")
     })
     @GetMapping(path = "list-for-equipment")
-    public ResponseEntity<?> getAttributeForEquipment(@RequestParam int equipmentId) {
+    public ResponseEntity<?> getAttributeForEquipment(@RequestParam int equipmentId) throws JsonProcessingException {
         return ResponseEntity.ok().body(service.getAttributesForEquipment(equipmentId));
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.function.Predicate.not;
 
@@ -31,6 +32,22 @@ public class EquipmentService {
 
     public Optional<Equipment> findById(int id){
         return equipmentRepository.findById(id).filter(not(Equipment::isDeleted));
+    }
+
+    public List<Equipment> findAll(){
+        return equipmentRepository.
+                findAll().
+                stream().
+                filter(not(Equipment::isDeleted)).
+                collect(Collectors.toList());
+    }
+
+    public List<Equipment> findAll(Pageable pageable){
+        return equipmentRepository.
+                findAll(pageable).
+                stream().
+                filter(not(Equipment::isDeleted)).
+                collect(Collectors.toList());
     }
 
     public boolean existById(int id){

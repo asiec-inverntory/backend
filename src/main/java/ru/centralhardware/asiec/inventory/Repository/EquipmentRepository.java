@@ -13,4 +13,6 @@ public interface EquipmentRepository extends PagingAndSortingRepository<Equipmen
 
     List<Equipment> findAllByResponsible(InventoryUser responsible, Pageable sort);
 
+    List<Equipment> findAll();
+
 }

@@ -7,10 +7,10 @@ import java.time.Instant;
 @Getter
 public class ApiError {
 
-    private int code;
-    private String message;
-    private Instant timestamp;
-    private String path;
+    private final int code;
+    private final String message;
+    private final Instant timestamp;
+    private final String path;
 
     public ApiError(int code, String message, String path) {
         this(code, message, path, Instant.now());
