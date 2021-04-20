@@ -2,6 +2,7 @@ package ru.centralhardware.asiec.inventory.Entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
+import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,6 +16,10 @@ public class Attribute implements Deletable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Enumerated(EnumType.STRING)
+    private AttributeType type;
+    private Integer minimum;
+    private Integer maximum;
     @Column(nullable = false)
     private String attribute;
     private String description;

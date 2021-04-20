@@ -8,11 +8,11 @@ INSERT INTO unit (id, unit, description) VALUES
     (7, 'вольт', ''),
     (8, 'Mhz', '');
 
-INSERT INTO attribute (id, attribute, description) VALUES
-    (1, 'длина', ''),
-    (2, 'ширина', ''),
-    (3, 'вес', ''),
-    (4, 'цвет', ''),
-    (5, 'производитель ОЗУ', ''),
-    (6, 'тип ОЗУ', ''),
-    (7, 'частота ОЗУ', '');
+INSERT INTO attribute (id, type, minimum, maximum, attribute, description) VALUES
+    (1, 'NUMBER', null, null, 'длина', ''),
+    (2, 'NUMBER', null, null, 'ширина', ''),
+    (3, 'NUMBER', null, null, 'вес', ''),
+    (4, 'STRING', null, null, 'цвет', ''),
+    (5, 'STRING', null, null, 'производитель ОЗУ', ''),
+    (6, 'STRING', null, null, 'тип ОЗУ', ''),
+    (7, 'RANGE',  0,    4000, 'частота ОЗУ', '');

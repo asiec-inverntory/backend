@@ -50,6 +50,9 @@ CREATE TABLE equipment (
 
 CREATE TABLE attribute (
     id SERIAL UNIQUE,
+    type VARCHAR(10) NOT NULL,
+    minimum INT,
+    maximum INT,
     attribute   TEXT NOT NULL UNIQUE,
     description TEXT,
     is_deleted  BOOLEAN NOT NULL DEFAULT false
