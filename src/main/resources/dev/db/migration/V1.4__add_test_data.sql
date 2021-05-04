@@ -36,7 +36,7 @@ INSERT INTO equipment (
     id,
     equipment_key,
     human_readable,
-    inventory_code,
+    serial_code,
     room,
     parent_equipment,
     is_atomic,

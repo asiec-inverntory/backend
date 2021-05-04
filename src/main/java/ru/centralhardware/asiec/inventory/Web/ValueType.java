@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Web.Dto;
+package ru.centralhardware.asiec.inventory.Web;
 
 public enum ValueType {
 

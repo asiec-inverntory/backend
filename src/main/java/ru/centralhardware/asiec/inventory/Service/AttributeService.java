@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Attr;
 import ru.centralhardware.asiec.inventory.Dto.AttributeDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
@@ -13,15 +14,13 @@ import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Repository.AttributeRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
 
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class AttributeService {
 
     private final AttributeRepository repository;
@@ -30,6 +29,10 @@ public class AttributeService {
     public AttributeService(AttributeRepository repository, EquipmentService equipmentService) {
         this.repository = repository;
         this.equipmentService = equipmentService;
+    }
+
+    public Optional<Attribute> findByName(String name){
+        return repository.findByAttribute(name);
     }
 
     public String getAttributesName() throws JsonProcessingException {

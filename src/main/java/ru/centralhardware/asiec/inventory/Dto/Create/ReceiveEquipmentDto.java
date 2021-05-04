@@ -1,6 +1,6 @@
 package ru.centralhardware.asiec.inventory.Dto.Create;
 
-public record CreateEquipmentDto (
+public record ReceiveEquipmentDto(
 
     int id,
     String name,

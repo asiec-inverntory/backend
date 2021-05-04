@@ -1,6 +1,7 @@
 package ru.centralhardware.asiec.inventory.Entity;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "attribute")
 @Entity
 @Getter
+@Setter
 public class Attribute implements Deletable{
 
     @Id

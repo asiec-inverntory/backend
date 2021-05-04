@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static java.util.function.Predicate.not;
 
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class UserService {
 
     private final UserRepository userRepository;

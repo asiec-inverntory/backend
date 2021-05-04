@@ -15,17 +15,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
+import ru.centralhardware.asiec.inventory.Entity.Attribute;
+import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
+import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentType;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
+import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.AttributeService;
+import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
-import ru.centralhardware.asiec.inventory.Web.Dto.ValueType;
+import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -39,12 +43,14 @@ import java.util.Optional;
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
+    private final CharacteristicService characteristicService;
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AttributeService attributeService;
 
-    public EquipmentController(EquipmentService equipmentService, UserService userService, JwtTokenUtil jwtTokenUtil, AttributeService attributeService) {
+    public EquipmentController(EquipmentService equipmentService, CharacteristicService characteristicService, UserService userService, JwtTokenUtil jwtTokenUtil, AttributeService attributeService) {
         this.equipmentService = equipmentService;
+        this.characteristicService = characteristicService;
         this.userService = userService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.attributeService = attributeService;
@@ -53,47 +59,74 @@ public class EquipmentController {
     @ApiOperation(
             value = "create equipment",
             httpMethod = "POST",
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get equipment", response = EquipmentDto.class),
-            @ApiResponse(code = 404 , message = "not found" )}
-    )
-    @PostMapping(path = "create")
-    public ResponseEntity<?> createEquipment(@RequestBody CreateEquipmentDto equipmentDto,@ApiIgnore Principal principal){
-        var userOptional = userService.findByUsername(principal.getName());
-        if (userOptional.isPresent()){
-            return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.create(equipmentDto,userOptional.get())));
-        } else {
-            return ResponseEntity.notFound().build();
+            @ApiResponse(code = 200, message = "successfully receive equipment", response = EquipmentDto.class)
         }
-
+    )
+    @PostMapping(path = "receiving")
+    public ResponseEntity<?> receivingEquipment(@RequestBody ReceiveEquipment receiveEquipment){
+        Equipment equipment = new Equipment();
+        equipment.setEquipmentKey(receiveEquipment.type());
+        equipment.setSerialCode(receiveEquipment.serialCode());
+        equipment.setEquipmentType(EquipmentType.COMPONENT);
+        equipmentService.save(equipment);
+        receiveEquipment.properties().forEach(it -> {
+            var attributeOptional = attributeService.findByName(it.key());
+            var characteristic = new Characteristic();
+            characteristic.getEquipments().add(equipment);
+            characteristic.setValue(it.value());
+            if (attributeOptional.isPresent()){
+                var attribute = attributeOptional.get();
+                switch (attribute.getType()){
+                    case NUMBER -> {
+                        Integer.parseInt(it.value());
+                    }
+                    case RANGE -> {
+                        var value = Integer.parseInt(it.value());
+                        if (!(value >= attribute.getMinimum() && value <= attribute.getMaximum())) throw new OutOfRangeException();
+                    }
+                }
+                characteristic.setAttribute(attributeOptional.get());
+            } else {
+                var attribute = new Attribute();
+                attribute.setAttribute(it.key());
+                attribute.setType(AttributeType.STRING);
+                characteristic.setAttribute(attribute);
+            }
+            characteristicService.save(characteristic);
+            equipment.getCharacteristics().add(characteristic);
+        });
+        equipmentService.save(equipment);
+        return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipment));
     }
 
-    @ApiOperation(
-            value = "update equipment",
-            httpMethod = "POST",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class),
-            @ApiResponse(code = 401 , message = "unauthorized" ),
-            @ApiResponse(code = 404 , message = "equipment not found" )}
-    )
-    @PostMapping(path = "update")
-    public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,@ApiIgnore Principal principal){
-        var userOptional = userService.findByUsername(principal.getName());
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        if (userOptional.get().getRole() != Role.ADMIN || !equipmentService.hasAccess(equipmentDto.id(), userOptional.get())){
-            return ResponseEntity.status(401).build();
-        }
-        if (!equipmentService.existById(equipmentDto.id())){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.update(equipmentDto, userOptional.get())));
-    }
+//    @ApiOperation(
+//            value = "update equipment",
+//            httpMethod = "POST",
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    @ApiResponses( value = {
+//            @ApiResponse(code = 200, message = "successfully get user", response = EquipmentDto.class),
+//            @ApiResponse(code = 401 , message = "unauthorized" ),
+//            @ApiResponse(code = 404 , message = "equipment not found" )}
+//    )
+//    @PostMapping(path = "update")
+//    public ResponseEntity<?> updateEquipment(@RequestBody CreateEquipmentDto equipmentDto,@ApiIgnore Principal principal){
+//        var userOptional = userService.findByUsername(principal.getName());
+//        if (userOptional.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        if (userOptional.get().getRole() != Role.ADMIN || !equipmentService.hasAccess(equipmentDto.id(), userOptional.get())){
+//            return ResponseEntity.status(401).build();
+//        }
+//        if (!equipmentService.existById(equipmentDto.id())){
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipmentService.update(equipmentDto, userOptional.get())));
+//    }
 
     @ApiOperation(
             value = "delete equipment",

@@ -24,6 +24,7 @@ public class Equipment implements Deletable{
     private String humanReadable;
     @Column(length = 50, nullable = false)
     private String inventory_code;
+    private String serialCode;
     @ManyToOne
     @JoinColumn(name = "room", nullable = false)
     private Room room;
