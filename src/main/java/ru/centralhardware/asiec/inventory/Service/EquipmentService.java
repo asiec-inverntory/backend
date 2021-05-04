@@ -101,7 +101,8 @@ public class EquipmentService {
      * @return true if must filtered
      */
     private boolean isFiltered(List<FilterRequest> filterRequests, Equipment equipment){
-        if (filterRequests == null || filterRequests.isEmpty()) return true;
+        if (filterRequests == null) return true;
+        if (filterRequests.isEmpty()) return false;
 
         Set<Characteristic> characteristics = equipment.getCharacteristics();
         if (characteristics.size() == 0) return false;

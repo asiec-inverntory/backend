@@ -155,9 +155,7 @@ public class EquipmentController {
                                           @ApiIgnore Principal principal) throws JsonProcessingException, ParseException {
         List<FilterRequest> filterRequest = new ArrayList<>();
         if (filter != null){
-//            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
             JSONObject object = (JSONObject) new JSONParser().parse(filter);
-            object.isEmpty();
             object.forEach((k,v) -> {
                 if (!(v instanceof JSONObject)) return;
 
