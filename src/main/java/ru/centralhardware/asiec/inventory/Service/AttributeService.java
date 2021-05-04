@@ -9,6 +9,7 @@ import ru.centralhardware.asiec.inventory.Dto.AttributeDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Attribute;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
+import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Repository.AttributeRepository;
 
@@ -34,6 +35,12 @@ public class AttributeService {
     public String getAttributesName(Pageable sort) throws JsonProcessingException {
         List<Equipment> equipment = equipmentService.findAll(sort);
         return formatAnswer(equipment);
+    }
+
+    public AttributeType getAttributeType(String name){
+        var attribute =  repository.findByAttribute(name);
+
+        return attribute.map(Attribute::getType).orElse(null);
     }
 
     public String getAttributesForEquipment(int equipmentId) throws JsonProcessingException {

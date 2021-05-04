@@ -10,6 +10,7 @@ import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentRepository;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
+import ru.centralhardware.asiec.inventory.Web.Dto.ValueType;
 
 import java.util.List;
 import java.util.Optional;
@@ -100,12 +101,14 @@ public class EquipmentService {
      * @return true if must filtered
      */
     private boolean isFiltered(List<FilterRequest> filterRequests, Equipment equipment){
-        if (filterRequests == null) return true;
+        if (filterRequests == null || filterRequests.isEmpty()) return true;
 
         Set<Characteristic> characteristics = equipment.getCharacteristics();
         if (characteristics.size() == 0) return false;
 
         for (FilterRequest request : filterRequests){
+            if (!request.equipmentKey().equals(equipment.getEquipmentKey())) return false;
+
             switch (request.operation()){
                 case "=" -> {
                     for (Characteristic characteristic : characteristics){
@@ -124,6 +127,7 @@ public class EquipmentService {
                 case ">" -> {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
+                        if (request.type() != ValueType.NUMBER) continue;
 
                         if (graterThen(request.value(), characteristic.getValue())) return true;
                     }
@@ -131,6 +135,7 @@ public class EquipmentService {
                 case "<" -> {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
+                        if (request.type() != ValueType.NUMBER) continue;
 
                         if (lowerThen(request.value(), characteristic.getValue())) return true;
                     }
@@ -141,41 +146,17 @@ public class EquipmentService {
     }
 
     /**
-     * @param f
-     * @param s
      * @return true if first grater then second
      */
-    private boolean graterThen(String f, String s){
-        int first = str2int(f);
-        int second = str2int(s);
-        return first < second;
+    private boolean graterThen(String first, String second){
+        return Integer.parseInt(first) < Integer.parseInt(second);
     }
 
     /**
-     * @param f
-     * @param s
      * @return true if first lower then second
      */
-    private boolean lowerThen(String f, String s){
-        int first = str2int(f);
-        int second = str2int(s);
-        return first > second;
+    private boolean lowerThen(String first, String second){
+        return Integer.parseInt(first) > Integer.parseInt(second);
     }
 
-    private int str2int(String str){
-        if (tryParse(str)){
-            return Integer.parseInt(str);
-        } else {
-            return str.length();
-        }
-    }
-
-    private boolean tryParse(String str){
-        try {
-            int i = Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e){
-            return false;
-        }
-    }
 }

@@ -1,12 +1,13 @@
 package ru.centralhardware.asiec.inventory.Web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,15 +16,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Dto.Create.CreateEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
+import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
+import ru.centralhardware.asiec.inventory.Service.AttributeService;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +39,13 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final AttributeService attributeService;
 
-    public EquipmentController(EquipmentService equipmentService, UserService userService, JwtTokenUtil jwtTokenUtil) {
+    public EquipmentController(EquipmentService equipmentService, UserService userService, JwtTokenUtil jwtTokenUtil, AttributeService attributeService) {
         this.equipmentService = equipmentService;
         this.userService = userService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.attributeService = attributeService;
     }
 
     @ApiOperation(
@@ -144,13 +150,36 @@ public class EquipmentController {
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
-                                          @ApiIgnore Principal principal) throws JsonProcessingException {
-        List<FilterRequest> filterRequest = null;
-        if (filter != null){
-            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
-        }
+                                          @ApiIgnore Principal principal) throws JsonProcessingException, ParseException {
+        List<FilterRequest> filterRequest = new ArrayList<>();
+//        if (filter != null){
+////            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
+//            JSONObject object = (JSONObject) new JSONParser().parse(filter);
+//            object.isEmpty();
+//            object.forEach((k,v) -> {
+//                if (!(v instanceof JSONObject)) return;
+//
+//                ((JSONObject) v).forEach((key,value) -> {
+//                    AttributeType type = attributeService.getAttributeType((String) key);
+//                    if (type == null) return;
+//
+//                    switch (type){
+//                        case STRING -> {
+//
+//                        }
+//                        case NUMBER -> {
+//
+//                        }
+//                        case RANGE -> {
+//
+//                        }
+//                    }
+//                });
+//            });
+//
+//        }
 
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("name")));
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentKey")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
