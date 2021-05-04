@@ -28,7 +28,7 @@ public class CharacteristicConverter {
         if (characteristic == null) return null;
         return new HumanReadableHolder(characteristic.getId(),
                 String.format("%s %s %s",
-                        characteristic.getAttribute().getAttribute(),
+                        characteristic.getAttribute().getHumanReadable(),
                         characteristic.getValue(),
                         characteristic.getUnit() == null? "" : characteristic.getUnit().getUnit()));
     }

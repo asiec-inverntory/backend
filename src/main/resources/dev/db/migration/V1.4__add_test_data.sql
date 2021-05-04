@@ -46,7 +46,7 @@ INSERT INTO equipment (
 ) VALUES (
     1,
     'workplace',
-    'монитор',
+    'Монитор',
     '1234',
     1,
     NULL,
@@ -57,7 +57,7 @@ INSERT INTO equipment (
 ),  (
     2,
     'monitor',
-    'монитор',
+    'Монитор',
     '12345',
     1,
     1,
@@ -68,7 +68,7 @@ INSERT INTO equipment (
 ),  (
      3,
      'monitor',
-     'монитор',
+     'Монитор',
      '123456',
      1,
      1,
@@ -79,7 +79,7 @@ INSERT INTO equipment (
 ),  (
       4,
       'RAM',
-      'ОЗУ',
+      'Оперативная память',
       '1234567',
       1,
       1,
@@ -90,7 +90,7 @@ INSERT INTO equipment (
  ),  (
         5,
         'RAM',
-        'ОЗУ',
+        'Оперативная память',
         '12345678',
         1,
         1,
@@ -101,7 +101,7 @@ INSERT INTO equipment (
 ),  (
          6,
          'RAM',
-         'ОЗУ',
+         'Оперативная память',
          '123456789',
          1,
          1,
@@ -119,7 +119,7 @@ INSERT INTO characteristic (
 ) VALUES (
     1,
     5,
-    'crucial',
+    'Crucial',
     NULL
 ), (
     2,
@@ -134,7 +134,7 @@ INSERT INTO characteristic (
 ), (
      4,
      5,
-     'ballistic',
+     'Ballistic',
      NULL
  ), (
      5,
@@ -146,7 +146,17 @@ INSERT INTO characteristic (
      7,
      '3500',
      8
- );;
+ ),(
+     7,
+     8,
+     'R532G1601U1S-U',
+     null
+ ),(
+       8,
+       8,
+       'PSD34G13332',
+       null
+);
 
 INSERT INTO characteristic2equipment (
     characteristic_id,
@@ -157,4 +167,6 @@ INSERT INTO characteristic2equipment (
             (4, 5),
             (5, 5),
             (6, 5),
-            (6, 6);
+            (6, 6),
+            (7, 5),
+            (8, 4);

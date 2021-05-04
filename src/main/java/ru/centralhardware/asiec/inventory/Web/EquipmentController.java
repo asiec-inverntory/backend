@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -24,6 +25,7 @@ import ru.centralhardware.asiec.inventory.Service.AttributeService;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
+import ru.centralhardware.asiec.inventory.Web.Dto.ValueType;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -152,32 +154,80 @@ public class EquipmentController {
                                           @RequestParam(required = false) String filter,
                                           @ApiIgnore Principal principal) throws JsonProcessingException, ParseException {
         List<FilterRequest> filterRequest = new ArrayList<>();
-//        if (filter != null){
-////            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
-//            JSONObject object = (JSONObject) new JSONParser().parse(filter);
-//            object.isEmpty();
-//            object.forEach((k,v) -> {
-//                if (!(v instanceof JSONObject)) return;
-//
-//                ((JSONObject) v).forEach((key,value) -> {
-//                    AttributeType type = attributeService.getAttributeType((String) key);
-//                    if (type == null) return;
-//
-//                    switch (type){
-//                        case STRING -> {
-//
-//                        }
-//                        case NUMBER -> {
-//
-//                        }
-//                        case RANGE -> {
-//
-//                        }
-//                    }
-//                });
-//            });
-//
-//        }
+        if (filter != null){
+//            filterRequest = new ObjectMapper().readValue(filter, new TypeReference<>() {});
+            JSONObject object = (JSONObject) new JSONParser().parse(filter);
+            object.isEmpty();
+            object.forEach((k,v) -> {
+                if (!(v instanceof JSONObject)) return;
+
+                ((JSONObject) v).forEach((key,value) -> {
+                    AttributeType type = attributeService.getAttributeType((String) key);
+                    if (type == null) return;
+
+                    switch (type){
+                        case STRING -> {
+                            if (value instanceof JSONArray){
+                                ((JSONArray) value).forEach(it -> {
+                                    filterRequest.add(new FilterRequest(
+                                            ValueType.STRING,
+                                            (String) k,
+                                            (String) key,
+                                            "=",
+                                            (String) it
+                                    ));
+                                });
+                            } else {
+                                filterRequest.add(new FilterRequest(
+                                        ValueType.STRING,
+                                        (String) k,
+                                        (String) key,
+                                        "=",
+                                        (String) value
+                                ));
+                            }
+                        }
+                        case NUMBER -> {
+                            if (value instanceof JSONArray){
+                                ((JSONArray) value).forEach(it -> {
+                                    filterRequest.add(new FilterRequest(
+                                            ValueType.NUMBER,
+                                            (String) k,
+                                            (String) key,
+                                            "=",
+                                            (String) it
+                                    ));
+                                });
+                            } else {
+                                filterRequest.add(new FilterRequest(
+                                        ValueType.NUMBER,
+                                        (String) k,
+                                        (String) key,
+                                        "=",
+                                        (String) value
+                                ));
+                            }
+                        }
+                        case RANGE -> {
+                            filterRequest.add(new FilterRequest(
+                                    ValueType.NUMBER,
+                                    (String) k,
+                                    (String) key,
+                                    ">",
+                                    ((org.json.simple.JSONArray)value).get(0).toString()
+                            ));
+                            filterRequest.add(new FilterRequest(
+                                    ValueType.NUMBER,
+                                    (String) k,
+                                    (String) key,
+                                    "<",
+                                    ((org.json.simple.JSONArray)value).get(1).toString()
+                            ));
+                        }
+                    }
+                });
+            });
+        }
 
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentKey")));
         var userOptional = userService.findByUsername(principal.getName());

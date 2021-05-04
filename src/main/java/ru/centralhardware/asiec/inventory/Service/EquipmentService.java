@@ -107,7 +107,7 @@ public class EquipmentService {
         if (characteristics.size() == 0) return false;
 
         for (FilterRequest request : filterRequests){
-            if (!request.equipmentKey().equals(equipment.getEquipmentKey())) return false;
+            if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentKey())) return false;
 
             switch (request.operation()){
                 case "=" -> {
