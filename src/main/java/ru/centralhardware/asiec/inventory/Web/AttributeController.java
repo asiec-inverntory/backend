@@ -35,22 +35,21 @@ public class AttributeController {
             @ApiResponse(code = 200, message = "successfully get attribute", response = String.class, responseContainer = "List")
     })
     @GetMapping(path = "list")
-    public ResponseEntity<?> getAttribute(@RequestParam int page, @RequestParam int pageSIze) throws JsonProcessingException {
-        Pageable pageable = PageRequest.of(page - 1, pageSIze);
-        return ResponseEntity.ok().body(service.getAttributesName(pageable));
+    public ResponseEntity<?> getAttribute() throws JsonProcessingException {
+        return ResponseEntity.ok().body(service.getAttributesName());
     }
 
-    @ApiOperation(
-            value = "get pageable list of attributes",
-            httpMethod = "GET",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "successfully get attribute", response = String.class, responseContainer = "List")
-    })
-    @GetMapping(path = "list-for-equipment")
-    public ResponseEntity<?> getAttributeForEquipment(@RequestParam int equipmentId) throws JsonProcessingException {
-        return ResponseEntity.ok().body(service.getAttributesForEquipment(equipmentId));
-    }
+//    @ApiOperation(
+//            value = "get pageable list of attributes",
+//            httpMethod = "GET",
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    @ApiResponses( value = {
+//            @ApiResponse(code = 200, message = "successfully get attribute", response = String.class, responseContainer = "List")
+//    })
+//    @GetMapping(path = "list-for-equipment")
+//    public ResponseEntity<?> getAttributeForEquipment(@RequestParam int equipmentId) throws JsonProcessingException {
+//        return ResponseEntity.ok().body(service.getAttributesForEquipment(equipmentId));
+//    }
 
 }

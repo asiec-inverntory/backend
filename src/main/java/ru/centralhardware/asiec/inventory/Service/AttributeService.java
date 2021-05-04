@@ -32,8 +32,8 @@ public class AttributeService {
         this.equipmentService = equipmentService;
     }
 
-    public String getAttributesName(Pageable sort) throws JsonProcessingException {
-        List<Equipment> equipment = equipmentService.findAll(sort);
+    public String getAttributesName() throws JsonProcessingException {
+        List<Equipment> equipment = equipmentService.findAll();
         return formatAnswer(equipment);
     }
 
