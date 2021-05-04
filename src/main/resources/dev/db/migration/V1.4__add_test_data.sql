@@ -34,7 +34,8 @@ INSERT INTO inventory_users  (
 
 INSERT INTO equipment (
     id,
-    name,
+    equipment_key,
+    human_readable,
     inventory_code,
     room,
     parent_equipment,
@@ -45,6 +46,7 @@ INSERT INTO equipment (
 ) VALUES (
     1,
     'workplace',
+    'монитор',
     '1234',
     1,
     NULL,
@@ -55,6 +57,7 @@ INSERT INTO equipment (
 ),  (
     2,
     'monitor',
+    'монитор',
     '12345',
     1,
     1,
@@ -65,6 +68,7 @@ INSERT INTO equipment (
 ),  (
      3,
      'monitor',
+     'монитор',
      '123456',
      1,
      1,
@@ -75,6 +79,7 @@ INSERT INTO equipment (
 ),  (
       4,
       'RAM',
+      'ОЗУ',
       '1234567',
       1,
       1,
@@ -85,6 +90,7 @@ INSERT INTO equipment (
  ),  (
         5,
         'RAM',
+        'ОЗУ',
         '12345678',
         1,
         1,
@@ -95,6 +101,7 @@ INSERT INTO equipment (
 ),  (
          6,
          'RAM',
+         'ОЗУ',
          '123456789',
          1,
          1,

@@ -36,7 +36,8 @@ CREATE TABLE room (
 
 CREATE TABLE equipment (
     id              SERIAL UNIQUE,
-    name            VARCHAR(50),
+    equipment_key    VARCHAR(50),
+    human_readable TEXT,
     inventory_code  VARCHAR(50) NOT NULL UNIQUE,
     room            INTEGER REFERENCES room (id),
     parent_equipment INTEGER REFERENCES equipment (id),
@@ -54,7 +55,7 @@ CREATE TABLE attribute (
     minimum INT,
     maximum INT,
     attribute   TEXT NOT NULL UNIQUE,
-    description TEXT,
+    human_readable TEXT,
     is_deleted  BOOLEAN NOT NULL DEFAULT false
 );
 

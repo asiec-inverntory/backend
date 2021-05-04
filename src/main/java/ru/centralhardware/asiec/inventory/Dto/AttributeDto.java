@@ -11,5 +11,6 @@ public record AttributeDto(
     AttributeType valueType,
     Integer minimum,
     Integer maximum,
+    String humanReadable,
     List<?> values
 ) { }

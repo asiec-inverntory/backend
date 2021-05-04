@@ -19,7 +19,7 @@ public class EquipmentConverter {
         if (equipment == null) return null;
         return new HumanReadableHolder(equipment.getId(),
                 String.format("%s %s",
-                        equipment.getName(),
+                        equipment.getEquipmentKey(),
                         equipment.getInventory_code()));
     }
 

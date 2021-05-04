@@ -42,15 +42,17 @@ public class AttributeService {
 
     private String formatAnswer(List<Equipment> equipments) throws JsonProcessingException {
         Map<String, List<AttributeDto>> content = new HashMap<>();
+        Map<String, String> humanReadable = new HashMap<>();
         for (Equipment equipment : equipments){
             if (equipment.getCharacteristics().size() == 0) continue;
 
-            content.put(equipment.getName(), getDto(equipment.getCharacteristics().
+            content.put(equipment.getEquipmentKey(), getDto(equipment.getCharacteristics().
                     stream().
                     map(Characteristic::getAttribute).
-                    collect(Collectors.toList())));
+                    toList()));
+            humanReadable.put(equipment.getEquipmentKey(), equipment.getHumanReadable());
         }
-        return new ObjectMapper().writeValueAsString(content);
+        return new ObjectMapper().writeValueAsString(List.of(content, humanReadable));
     }
 
     private List<AttributeDto> getDto(List<Attribute> attributes){
@@ -61,6 +63,7 @@ public class AttributeService {
                     attribute.getType(),
                     attribute.getMinimum(),
                     attribute.getMaximum(),
+                    attribute.getHumanReadable(),
                     attribute.getCharacteristics().stream().map(Characteristic::getValue).collect(Collectors.toList())));
         }
         return res;

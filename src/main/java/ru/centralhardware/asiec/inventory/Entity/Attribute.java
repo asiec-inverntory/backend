@@ -22,7 +22,7 @@ public class Attribute implements Deletable{
     private Integer maximum;
     @Column(nullable = false)
     private String attribute;
-    private String description;
+    private String humanReadable;
     @Column(nullable = false)
     @ColumnDefault("false")
     private boolean isDeleted = false;

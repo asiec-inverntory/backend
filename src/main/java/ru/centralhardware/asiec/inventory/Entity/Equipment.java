@@ -20,7 +20,8 @@ public class Equipment implements Deletable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(length = 50, nullable = false)
-    private String name;
+    private String equipmentKey;
+    private String humanReadable;
     @Column(length = 50, nullable = false)
     private String inventory_code;
     @ManyToOne
