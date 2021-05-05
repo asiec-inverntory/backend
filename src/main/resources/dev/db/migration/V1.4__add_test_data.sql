@@ -73,7 +73,7 @@ INSERT INTO equipment (
      'COMPONENT',
      false
 ),  (
-      'RAM',
+      'ram',
       'Оперативная память',
       '1234567',
       1,
@@ -83,7 +83,7 @@ INSERT INTO equipment (
       'COMPONENT',
       false
  ),  (
-        'RAM',
+        'ram',
         'Оперативная память',
         '12345678',
         1,
@@ -93,7 +93,7 @@ INSERT INTO equipment (
         'COMPONENT',
         false
 ),  (
-         'RAM',
+         'ram',
          'Оперативная память',
          '123456789',
          1,
