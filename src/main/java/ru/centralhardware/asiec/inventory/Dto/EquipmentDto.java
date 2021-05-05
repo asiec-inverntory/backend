@@ -9,6 +9,7 @@ public record EquipmentDto (
     int id,
     String name,
     String inventory_code,
+    String serialCod,
     HumanReadableHolder room,
     EquipmentType equipmentType,
     HumanReadableHolder responsible,

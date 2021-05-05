@@ -2,8 +2,6 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.centralhardware.asiec.inventory.Dto.Create.ReceiveEquipmentDto;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
@@ -61,15 +59,15 @@ public class EquipmentService {
         return equipment.map(value -> value.getResponsible().getId().equals(id)).orElse(false);
     }
 
-    public Equipment create(ReceiveEquipmentDto dto, InventoryUser createdBy){
-        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
-        return equipmentRepository.save(equipment);
-    }
-
-    public Equipment update(ReceiveEquipmentDto dto, InventoryUser updatedBy){
-        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
-        return equipmentRepository.save(equipment);
-    }
+//    public Equipment create(ReceiveEquipmentDto dto, InventoryUser createdBy){
+//        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
+//        return equipmentRepository.save(equipment);
+//    }
+//
+//    public Equipment update(ReceiveEquipmentDto dto, InventoryUser updatedBy){
+//        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
+//        return equipmentRepository.save(equipment);
+//    }
 
     public void delete(int id) {
         equipmentRepository.deleteById(id);
