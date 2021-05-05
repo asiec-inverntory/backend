@@ -94,6 +94,7 @@ public class EquipmentController {
                 var attribute = new Attribute();
                 attribute.setAttribute(it.key());
                 attribute.setType(AttributeType.STRING);
+                attributeService.save(attribute);
                 characteristic.setAttribute(attribute);
             }
             characteristicService.save(characteristic);

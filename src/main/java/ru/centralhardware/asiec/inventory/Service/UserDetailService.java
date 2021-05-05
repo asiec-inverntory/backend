@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class UserDetailService implements UserDetailsService {
 
     private final UserRepository userRepository;

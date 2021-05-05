@@ -18,7 +18,6 @@ import java.util.Optional;
 import static java.util.function.Predicate.not;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class UserService {
 
     private final UserRepository userRepository;

@@ -10,7 +10,6 @@ import java.util.Optional;
 import static java.util.function.Predicate.not;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class RoomService {
 
     private final RoomRepository roomRepository;

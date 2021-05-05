@@ -8,7 +8,6 @@ import ru.centralhardware.asiec.inventory.Repository.CharacteristicRepository;
 import java.util.Optional;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class CharacteristicService {
 
     private final CharacteristicRepository characteristicRepository;

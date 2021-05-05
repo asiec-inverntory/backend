@@ -33,7 +33,6 @@ INSERT INTO inventory_users  (
 );
 
 INSERT INTO equipment (
-    id,
     equipment_key,
     human_readable,
     serial_code,
@@ -44,7 +43,6 @@ INSERT INTO equipment (
     equipment_type,
     is_deleted
 ) VALUES (
-    1,
     'workplace',
     'Монитор',
     '1234',
@@ -55,7 +53,6 @@ INSERT INTO equipment (
     'WORKPLACE',
     false
 ),  (
-    2,
     'monitor',
     'Монитор',
     '12345',
@@ -66,7 +63,6 @@ INSERT INTO equipment (
     'COMPONENT',
     false
 ),  (
-     3,
      'monitor',
      'Монитор',
      '123456',
@@ -77,7 +73,6 @@ INSERT INTO equipment (
      'COMPONENT',
      false
 ),  (
-      4,
       'RAM',
       'Оперативная память',
       '1234567',
@@ -88,7 +83,6 @@ INSERT INTO equipment (
       'COMPONENT',
       false
  ),  (
-        5,
         'RAM',
         'Оперативная память',
         '12345678',
@@ -99,7 +93,6 @@ INSERT INTO equipment (
         'COMPONENT',
         false
 ),  (
-         6,
          'RAM',
          'Оперативная память',
          '123456789',
@@ -112,47 +105,38 @@ INSERT INTO equipment (
 );
 
 INSERT INTO characteristic (
-    id,
     attribute,
     value,
     unit
 ) VALUES (
-    1,
     5,
     'Crucial',
     NULL
 ), (
-    2,
     6,
     'ddr3',
     NULL
 ), (
-    3,
     7,
     '3600',
     8
 ), (
-     4,
      5,
      'Ballistic',
      NULL
  ), (
-     5,
      6,
      'ddr4',
      NULL
  ), (
-     6,
      7,
      '3500',
      8
  ),(
-     7,
      8,
      'R532G1601U1S-U',
      null
  ),(
-       8,
        8,
        'PSD34G13332',
        null

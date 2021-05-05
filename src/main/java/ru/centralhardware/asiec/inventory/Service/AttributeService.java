@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import static java.util.function.Predicate.not;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class AttributeService {
 
     private final AttributeRepository repository;
@@ -29,6 +28,10 @@ public class AttributeService {
     public AttributeService(AttributeRepository repository, EquipmentService equipmentService) {
         this.repository = repository;
         this.equipmentService = equipmentService;
+    }
+
+    public void save(Attribute attribute){
+        repository.save(attribute);
     }
 
     public Optional<Attribute> findByName(String name){

@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import static java.util.function.Predicate.not;
 
 @Service
-@Transactional(rollbackFor=Exception.class)
 public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
