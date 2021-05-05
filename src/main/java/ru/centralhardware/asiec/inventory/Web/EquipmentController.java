@@ -92,7 +92,12 @@ public class EquipmentController {
             } else {
                 var attribute = new Attribute();
                 attribute.setAttribute(it.key());
-                attribute.setType(AttributeType.STRING);
+                try{
+                    Integer.parseInt(it.value());
+                    attribute.setType(AttributeType.NUMBER);
+                } catch (NumberFormatException e){
+                    attribute.setType(AttributeType.STRING);
+                }
                 attributeService.save(attribute);
                 characteristic.setAttribute(attribute);
             }
