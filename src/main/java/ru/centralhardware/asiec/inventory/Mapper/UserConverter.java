@@ -12,17 +12,12 @@ public class UserConverter {
         return SpringContext.getBean(UserService.class).findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
     }
 
-    public int toDto(InventoryUser user){
-        if (user == null) return -1;
-        return user.getId();
-    }
-
-    public HumanReadableHolder toHumanReadable(InventoryUser user){
+    public String toDto(InventoryUser user){
         if (user == null) return null;
-        return new HumanReadableHolder(user.getId(), String.format("%s %s %s",
+        return String.format("%s %s %s",
                 user.getName(),
                 user.getSurname(),
-                user.getLastName().isEmpty()? "" : user.getLastName()));
+                user.getLastName().isEmpty()? "" : user.getLastName());
     }
 
 }

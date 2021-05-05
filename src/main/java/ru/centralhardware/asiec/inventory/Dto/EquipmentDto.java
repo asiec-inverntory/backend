@@ -8,11 +8,12 @@ public record EquipmentDto (
 
     int id,
     String equipmentKey,
+    String name,
     String inventoryCode,
     String serialCode,
-    HumanReadableHolder room,
+    RoomDto room,
     EquipmentType equipmentType,
-    HumanReadableHolder responsible,
+    String responsible,
     Set<HumanReadableHolder> characteristics
 
 ) { }
