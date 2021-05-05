@@ -114,7 +114,7 @@ INSERT INTO characteristic (
     NULL
 ), (
     6,
-    'ddr3',
+    'DDR3',
     NULL
 ), (
     7,
@@ -126,7 +126,7 @@ INSERT INTO characteristic (
      NULL
  ), (
      6,
-     'ddr4',
+     'DDR4',
      NULL
  ), (
      7,
