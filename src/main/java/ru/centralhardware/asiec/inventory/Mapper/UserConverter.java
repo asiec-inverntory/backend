@@ -19,8 +19,7 @@ public class UserConverter {
 
     public HumanReadableHolder toHumanReadable(InventoryUser user){
         if (user == null) return null;
-        return new HumanReadableHolder(user.getId(), String.format("%s - %s %s %s",
-                user.getUsername(),
+        return new HumanReadableHolder(user.getId(), String.format("%s %s %s",
                 user.getName(),
                 user.getSurname(),
                 user.getLastName().isEmpty()? "" : user.getLastName()));
