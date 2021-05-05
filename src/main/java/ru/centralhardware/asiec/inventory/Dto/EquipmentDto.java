@@ -7,9 +7,9 @@ import java.util.Set;
 public record EquipmentDto (
 
     int id,
-    String name,
-    String inventory_code,
-    String serialCod,
+    String equipmentKey,
+    String inventoryCode,
+    String serialCode,
     HumanReadableHolder room,
     EquipmentType equipmentType,
     HumanReadableHolder responsible,

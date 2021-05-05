@@ -29,7 +29,7 @@ public class Room implements Deletable {
     private InventoryUser responsible;
 
     @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
+    private final boolean isDeleted = false;
 
     @OneToMany(mappedBy = "room")
     private final Set<Equipment> equipments = new HashSet<>();

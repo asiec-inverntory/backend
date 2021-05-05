@@ -30,6 +30,7 @@ import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
+import ru.centralhardware.asiec.inventory.Web.Exceptionhander.OutOfRangeException;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -81,9 +82,7 @@ public class EquipmentController {
             if (attributeOptional.isPresent()){
                 var attribute = attributeOptional.get();
                 switch (attribute.getType()){
-                    case NUMBER -> {
-                        Integer.parseInt(it.value());
-                    }
+                    case NUMBER -> Integer.parseInt(it.value());
                     case RANGE -> {
                         var value = Integer.parseInt(it.value());
                         if (!(value >= attribute.getMinimum() && value <= attribute.getMaximum())) throw new OutOfRangeException();
@@ -172,7 +171,7 @@ public class EquipmentController {
      *      - <  : filter request value lower then characteristic value
      * WARNING: for < and > operation, if string can not be parsed its length is taken
      */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "unchecked"})
     @ApiOperation(
             value = "get pageable list of equipment",
             httpMethod = "GET",
@@ -186,7 +185,7 @@ public class EquipmentController {
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
-                                          @ApiIgnore Principal principal) throws JsonProcessingException, ParseException {
+                                          @ApiIgnore Principal principal) throws ParseException {
         List<FilterRequest> filterRequest = new ArrayList<>();
         if (filter != null){
             JSONObject object = (JSONObject) new JSONParser().parse(filter);
@@ -200,15 +199,13 @@ public class EquipmentController {
                     switch (type){
                         case STRING -> {
                             if (value instanceof JSONArray){
-                                ((JSONArray) value).forEach(it -> {
-                                    filterRequest.add(new FilterRequest(
-                                            ValueType.STRING,
-                                            (String) k,
-                                            (String) key,
-                                            "=",
-                                            (String) it
-                                    ));
-                                });
+                                ((JSONArray) value).forEach(it -> filterRequest.add(new FilterRequest(
+                                        ValueType.STRING,
+                                        (String) k,
+                                        (String) key,
+                                        "=",
+                                        (String) it
+                                )));
                             } else {
                                 filterRequest.add(new FilterRequest(
                                         ValueType.STRING,
@@ -221,15 +218,13 @@ public class EquipmentController {
                         }
                         case NUMBER -> {
                             if (value instanceof JSONArray){
-                                ((JSONArray) value).forEach(it -> {
-                                    filterRequest.add(new FilterRequest(
-                                            ValueType.NUMBER,
-                                            (String) k,
-                                            (String) key,
-                                            "=",
-                                            (String) it
-                                    ));
-                                });
+                                ((JSONArray) value).forEach(it -> filterRequest.add(new FilterRequest(
+                                        ValueType.NUMBER,
+                                        (String) k,
+                                        (String) key,
+                                        "=",
+                                        (String) it
+                                )));
                             } else {
                                 filterRequest.add(new FilterRequest(
                                         ValueType.NUMBER,

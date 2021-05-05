@@ -2,12 +2,8 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Attr;
 import ru.centralhardware.asiec.inventory.Dto.AttributeDto;
-import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Attribute;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
@@ -16,8 +12,6 @@ import ru.centralhardware.asiec.inventory.Repository.AttributeRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.function.Predicate.not;
 
 @Service
 public class AttributeService {

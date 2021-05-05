@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.centralhardware.asiec.inventory.Configuration.Config;
 import ru.centralhardware.asiec.inventory.Service.UserDetailService;
-import ru.centralhardware.asiec.inventory.Service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

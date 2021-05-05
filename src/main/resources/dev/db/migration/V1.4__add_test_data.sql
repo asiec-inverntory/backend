@@ -9,7 +9,7 @@ INSERT INTO room (
     1,
     101,
     1,
-    'lorem oposum',
+    'lorem opossum',
     1,
     1
 );
