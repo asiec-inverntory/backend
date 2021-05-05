@@ -89,17 +89,6 @@ public class EquipmentController {
                     }
                 }
                 characteristic.setAttribute(attributeOptional.get());
-            } else {
-                var attribute = new Attribute();
-                attribute.setAttribute(it.key());
-                try{
-                    Integer.parseInt(it.value());
-                    attribute.setType(AttributeType.NUMBER);
-                } catch (NumberFormatException e){
-                    attribute.setType(AttributeType.STRING);
-                }
-                attributeService.save(attribute);
-                characteristic.setAttribute(attribute);
             }
             characteristicService.save(characteristic);
             equipment.getCharacteristics().add(characteristic);
