@@ -252,8 +252,7 @@ public class EquipmentController {
                 });
             });
         }
-        Cookie cookie = new Cookie("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
-        response.addCookie(cookie);
+        response.addHeader("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentKey")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
