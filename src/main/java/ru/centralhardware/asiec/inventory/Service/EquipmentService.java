@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import static java.util.function.Predicate.not;
 
 @Service
-public class EquipmentService {
+public class EquipmentService extends Equipment {
 
     private final EquipmentRepository equipmentRepository;
     private final UserService userService;
@@ -31,6 +31,10 @@ public class EquipmentService {
 
     public Optional<Equipment> findById(int id){
         return equipmentRepository.findById(id).filter(not(Equipment::isDeleted));
+    }
+
+    public int getPageCount(int pageSize){
+        return (findAll().size() % pageSize > 0) ? ((findAll().size() / pageSize) + 1) : (findAll().size() / pageSize);
     }
 
     public List<Equipment> findAll(){

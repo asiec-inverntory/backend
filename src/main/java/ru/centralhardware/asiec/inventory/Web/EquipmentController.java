@@ -33,6 +33,8 @@ import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
 import ru.centralhardware.asiec.inventory.Web.Exceptionhander.OutOfRangeException;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +181,8 @@ public class EquipmentController {
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
-                                          @ApiIgnore Principal principal) throws ParseException {
+                                          @ApiIgnore Principal principal,
+                                          HttpServletResponse response) throws ParseException {
         List<FilterRequest> filterRequest = new ArrayList<>();
         if (filter != null){
             JSONObject object = (JSONObject) new JSONParser().parse(filter);
@@ -249,7 +252,8 @@ public class EquipmentController {
                 });
             });
         }
-
+        Cookie cookie = new Cookie("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
+        response.addCookie(cookie);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentKey")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
