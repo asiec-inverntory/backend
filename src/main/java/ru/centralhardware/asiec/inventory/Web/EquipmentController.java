@@ -253,7 +253,7 @@ public class EquipmentController {
             });
         }
         response.addHeader("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentKey")));
+        Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentKey")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
