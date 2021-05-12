@@ -38,6 +38,10 @@ public class InventoryUser implements Deletable{
     private boolean isDeleted = false;
 
 
+    public String getFio(){
+        return name + " " +  surname + " " + (lastName == null? "" : lastName);
+    }
+
     @OneToMany(mappedBy = "responsible")
     private Set<Equipment> equipment = new HashSet<>();
 

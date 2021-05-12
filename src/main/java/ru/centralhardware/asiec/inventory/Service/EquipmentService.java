@@ -110,6 +110,12 @@ public class EquipmentService extends Equipment {
         if (filterRequests == null) return true;
         if (filterRequests.isEmpty()) return true;
 
+        for (FilterRequest request : filterRequests){
+            if (request.attributeName().equalsIgnoreCase("responsible")){
+                if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())) return true;
+            }
+        }
+
         Set<Characteristic> characteristics = equipment.getCharacteristics();
         if (characteristics.size() == 0) return false;
 

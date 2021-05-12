@@ -197,6 +197,17 @@ public class EquipmentController {
         if (filter != null){
             JSONObject object = (JSONObject) new JSONParser().parse(filter);
             object.forEach((k,v) -> {
+                if (v instanceof JSONArray && k.equals("responsible")){
+                    ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
+                            ValueType.STRING,
+                            (String) k,
+                            (String) k,
+                            "=",
+                            (String) it
+                    )));
+                    return;
+                }
+
                 if (!(v instanceof JSONObject)) return;
 
                 ((JSONObject) v).forEach((key,value) -> {

@@ -27,7 +27,7 @@ public class CharacteristicConverter {
 
     public PropertyDto toHumanReadable(Characteristic characteristic){
         if (characteristic == null) return null;
-        return new PropertyDto(characteristic.getId(),
+        return new PropertyDto(
                 characteristic.getAttribute().getHumanReadable(),
                 characteristic.getValue());
     }
