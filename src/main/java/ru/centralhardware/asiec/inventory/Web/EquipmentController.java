@@ -70,33 +70,37 @@ public class EquipmentController {
         }
     )
     @PostMapping(path = "receiving")
-    public ResponseEntity<?> receivingEquipment(@RequestBody ReceiveEquipment receiveEquipment){
-        Equipment equipment = new Equipment();
-        equipment.setEquipmentKey(receiveEquipment.type());
-        equipment.setSerialCode(receiveEquipment.serialCode());
-        equipment.setEquipmentType(EquipmentType.COMPONENT);
-        equipmentService.save(equipment);
-        receiveEquipment.properties().forEach(it -> {
-            var attributeOptional = attributeService.findByName(it.key());
-            var characteristic = new Characteristic();
-            characteristic.getEquipments().add(equipment);
-            characteristic.setValue(it.value());
-            if (attributeOptional.isPresent()){
-                var attribute = attributeOptional.get();
-                switch (attribute.getType()){
-                    case NUMBER -> Integer.parseInt(it.value());
-                    case RANGE -> {
-                        var value = Integer.parseInt(it.value());
-                        if (!(value >= attribute.getMinimum() && value <= attribute.getMaximum())) throw new OutOfRangeException();
+    public ResponseEntity<?> receivingEquipment(@RequestBody List<ReceiveEquipment> receiveEquipments){
+        List<EquipmentDto> res = new ArrayList<>();
+        for (ReceiveEquipment receiveEquipment : receiveEquipments){
+            Equipment equipment = new Equipment();
+            equipment.setEquipmentKey(receiveEquipment.type());
+            equipment.setSerialCode(receiveEquipment.serial_code());
+            equipment.setEquipmentType(EquipmentType.COMPONENT);
+            equipmentService.save(equipment);
+            receiveEquipment.properties().forEach(it -> {
+                var attributeOptional = attributeService.findByName(it.key());
+                var characteristic = new Characteristic();
+                characteristic.getEquipments().add(equipment);
+                characteristic.setValue(it.value());
+                if (attributeOptional.isPresent()){
+                    var attribute = attributeOptional.get();
+                    switch (attribute.getType()){
+                        case NUMBER -> Integer.parseInt(it.value());
+                        case RANGE -> {
+                            var value = Integer.parseInt(it.value());
+                            if (!(value >= attribute.getMinimum() && value <= attribute.getMaximum())) throw new OutOfRangeException();
+                        }
                     }
+                    characteristic.setAttribute(attributeOptional.get());
                 }
-                characteristic.setAttribute(attributeOptional.get());
-            }
-            characteristicService.save(characteristic);
-            equipment.getCharacteristics().add(characteristic);
-        });
-        equipmentService.save(equipment);
-        return ResponseEntity.ok(EquipmentMapper.INSTANCE.equipmentToDto(equipment));
+                characteristicService.save(characteristic);
+                equipment.getCharacteristics().add(characteristic);
+            });
+            equipmentService.save(equipment);
+            res.add(EquipmentMapper.INSTANCE.equipmentToDto(equipment));
+        }
+        return ResponseEntity.ok(res);
     }
 
 //    @ApiOperation(

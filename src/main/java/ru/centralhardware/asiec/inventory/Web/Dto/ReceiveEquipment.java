@@ -4,6 +4,6 @@ import java.util.List;
 
 public record ReceiveEquipment (
         String type,
-        String serialCode,
+        String serial_code,
         List<Pair> properties
 ) { }
