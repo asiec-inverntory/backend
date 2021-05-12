@@ -121,14 +121,14 @@ public class EquipmentService extends Equipment {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (characteristic.getValue().equals(request.value())) return true;
+                        if (characteristic.getValue().equalsIgnoreCase(request.value())) return true;
                     }
                 }
                 case "!=" -> {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (!characteristic.getValue().equals(request.value())) return true;
+                        if (!characteristic.getValue().equalsIgnoreCase(request.value())) return true;
                     }
                 }
                 case ">" -> {
@@ -156,14 +156,14 @@ public class EquipmentService extends Equipment {
      * @return true if first grater then second
      */
     private boolean graterThen(String first, String second){
-        return Integer.parseInt(first) < Integer.parseInt(second);
+        return Integer.parseInt(first) > Integer.parseInt(second);
     }
 
     /**
      * @return true if first lower then second
      */
     private boolean lowerThen(String first, String second){
-        return Integer.parseInt(first) > Integer.parseInt(second);
+        return Integer.parseInt(first) < Integer.parseInt(second);
     }
 
 }
