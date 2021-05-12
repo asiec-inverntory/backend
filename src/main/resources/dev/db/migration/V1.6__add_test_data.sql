@@ -32,13 +32,6 @@ INSERT INTO inventory_users  (
     'OWNER'
 );
 
-INSERT INTO equipment_type (
-    type_name,
-    human_readable
-) VALUES    ( 'workplace', 'Рабочее место'),
-            ('monitor', 'Монитор'),
-            ('ram', 'Оперативная память');
-
 INSERT INTO equipment (
     type,
     serial_code,
