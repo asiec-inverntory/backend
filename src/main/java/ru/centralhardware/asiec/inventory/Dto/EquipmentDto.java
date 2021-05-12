@@ -14,6 +14,6 @@ public record EquipmentDto (
     RoomDto room,
     EquipmentType equipmentType,
     String responsible,
-    Set<HumanReadableHolder> characteristics
+    Set<PropertyDto> characteristics
 
 ) { }

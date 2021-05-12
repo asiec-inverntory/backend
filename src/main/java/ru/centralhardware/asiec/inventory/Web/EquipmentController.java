@@ -241,14 +241,14 @@ public class EquipmentController {
                                     ValueType.NUMBER,
                                     (String) k,
                                     (String) key,
-                                    ">",
+                                    "<",
                                     ((org.json.simple.JSONArray)value).get(0).toString()
                             ));
                             filterRequest.add(new FilterRequest(
                                     ValueType.NUMBER,
                                     (String) k,
                                     (String) key,
-                                    "<",
+                                    ">",
                                     ((org.json.simple.JSONArray)value).get(1).toString()
                             ));
                         }

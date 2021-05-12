@@ -1,6 +1,7 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
 import ru.centralhardware.asiec.inventory.Dto.HumanReadableHolder;
+import ru.centralhardware.asiec.inventory.Dto.PropertyDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
 import ru.centralhardware.asiec.inventory.SpringContext;
@@ -24,16 +25,14 @@ public class CharacteristicConverter {
                 collect(Collectors.toSet());
     }
 
-    public HumanReadableHolder toHumanReadable(Characteristic characteristic){
+    public PropertyDto toHumanReadable(Characteristic characteristic){
         if (characteristic == null) return null;
-        return new HumanReadableHolder(characteristic.getId(),
-                String.format("%s %s %s",
-                        characteristic.getAttribute().getHumanReadable() == null? "" : characteristic.getAttribute().getHumanReadable(),
-                        characteristic.getValue(),
-                        characteristic.getUnit() == null? "" : characteristic.getUnit().getUnit()));
+        return new PropertyDto(characteristic.getId(),
+                characteristic.getAttribute().getHumanReadable(),
+                characteristic.getValue());
     }
 
-    public Set<HumanReadableHolder> toHumanReadableSet(Set<Characteristic> characteristics){
+    public Set<PropertyDto> toHumanReadableSet(Set<Characteristic> characteristics){
         return characteristics.
                 stream().
                 map(this::toHumanReadable).
