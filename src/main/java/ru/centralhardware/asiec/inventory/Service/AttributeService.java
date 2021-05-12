@@ -53,11 +53,11 @@ public class AttributeService {
         for (Equipment equipment : equipments){
             if (equipment.getCharacteristics().size() == 0) continue;
 
-            content.put(equipment.getEquipmentKey(), getDto(equipment.getCharacteristics().
+            content.put(equipment.getEquipmentType().getTypeName(), getDto(equipment.getCharacteristics().
                     stream().
                     map(Characteristic::getAttribute).
                     toList()));
-            humanReadable.put(equipment.getEquipmentKey(), equipment.getHumanReadable());
+            humanReadable.put(equipment.getEquipmentType().getTypeName(), equipment.getEquipmentType().getHumanReadable());
         }
         return new ObjectMapper().writeValueAsString(List.of(content, humanReadable));
     }

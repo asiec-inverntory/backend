@@ -13,7 +13,9 @@ public interface EquipmentMapper {
     EquipmentMapper INSTANCE = Mappers.getMapper(EquipmentMapper.class);
 
     @Mappings({
-            @Mapping(target = "name", source = "humanReadable")
+            @Mapping(target = "name", source = "equipmentType.humanReadable"),
+            @Mapping(target = "equipmentKey", source = "equipmentType.typeName"),
+            @Mapping(target = "equipmentType", source = "equipmentVariant")
     })
     EquipmentDto equipmentToDto(Equipment equipment);
 //    Equipment dtoToEquipment(ReceiveEquipmentDto dto);

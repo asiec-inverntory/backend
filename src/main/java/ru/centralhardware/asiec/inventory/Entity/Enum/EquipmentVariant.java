@@ -1,6 +1,6 @@
 package ru.centralhardware.asiec.inventory.Entity.Enum;
 
-public enum EquipmentType {
+public enum EquipmentVariant {
 
     WORKPLACE,
     COMPONENT

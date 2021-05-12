@@ -1,6 +1,5 @@
 package ru.centralhardware.asiec.inventory.Web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,24 +15,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
-import ru.centralhardware.asiec.inventory.Entity.Attribute;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
-import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentType;
+import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
+import ru.centralhardware.asiec.inventory.Entity.EquipmentType;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
-import ru.centralhardware.asiec.inventory.Service.AttributeService;
-import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
-import ru.centralhardware.asiec.inventory.Service.EquipmentService;
-import ru.centralhardware.asiec.inventory.Service.UserService;
+import ru.centralhardware.asiec.inventory.Service.*;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
 import ru.centralhardware.asiec.inventory.Web.Exceptionhander.OutOfRangeException;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -47,13 +42,20 @@ public class EquipmentController {
 
     private final EquipmentService equipmentService;
     private final CharacteristicService characteristicService;
+    private final EquipmentTypeService equipmentTypeService;
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AttributeService attributeService;
 
-    public EquipmentController(EquipmentService equipmentService, CharacteristicService characteristicService, UserService userService, JwtTokenUtil jwtTokenUtil, AttributeService attributeService) {
+    public EquipmentController(EquipmentService equipmentService,
+                               CharacteristicService characteristicService,
+                               EquipmentTypeService equipmentTypeService,
+                               UserService userService,
+                               JwtTokenUtil jwtTokenUtil,
+                               AttributeService attributeService) {
         this.equipmentService = equipmentService;
         this.characteristicService = characteristicService;
+        this.equipmentTypeService = equipmentTypeService;
         this.userService = userService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.attributeService = attributeService;
@@ -74,9 +76,13 @@ public class EquipmentController {
         List<EquipmentDto> res = new ArrayList<>();
         for (ReceiveEquipment receiveEquipment : receiveEquipments){
             Equipment equipment = new Equipment();
-            equipment.setEquipmentKey(receiveEquipment.type());
+
+            var type = equipmentTypeService.findByName(receiveEquipment.type());
+            if (type.isEmpty()) return ResponseEntity.status(410).build();
+
+            equipment.setEquipmentType(type.get());
             equipment.setSerialCode(receiveEquipment.serial_code());
-            equipment.setEquipmentType(EquipmentType.COMPONENT);
+            equipment.setEquipmentVariant(EquipmentVariant.COMPONENT);
             equipmentService.save(equipment);
             receiveEquipment.properties().forEach(it -> {
                 var attributeOptional = attributeService.findByName(it.key());
@@ -257,7 +263,7 @@ public class EquipmentController {
             });
         }
         response.addHeader("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
-        Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentKey")));
+        Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentVariant")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){

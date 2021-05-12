@@ -32,19 +32,24 @@ INSERT INTO inventory_users  (
     'OWNER'
 );
 
+INSERT INTO equipment_type (
+    type_name,
+    human_readable
+) VALUES    ( 'workplace', 'Рабочее место'),
+            ('monitor', 'Монитор'),
+            ('ram', 'Оперативная память');
+
 INSERT INTO equipment (
-    equipment_key,
-    human_readable,
+    type,
     serial_code,
     room,
     parent_equipment,
     is_atomic,
     responsible,
-    equipment_type,
+    equipment_variant,
     is_deleted
 ) VALUES (
-    'workplace',
-    'Монитор',
+    1,
     '1234',
     1,
     NULL,
@@ -53,8 +58,7 @@ INSERT INTO equipment (
     'WORKPLACE',
     false
 ),  (
-    'monitor',
-    'Монитор',
+    2,
     '12345',
     1,
     1,
@@ -63,8 +67,7 @@ INSERT INTO equipment (
     'COMPONENT',
     false
 ),  (
-     'monitor',
-     'Монитор',
+     2,
      '123456',
      1,
      1,
@@ -73,8 +76,7 @@ INSERT INTO equipment (
      'COMPONENT',
      false
 ),  (
-      'ram',
-      'Оперативная память',
+      3,
       '1234567',
       1,
       1,
@@ -83,8 +85,7 @@ INSERT INTO equipment (
       'COMPONENT',
       false
  ),  (
-        'ram',
-        'Оперативная память',
+        3,
         '12345678',
         1,
         1,
@@ -93,8 +94,7 @@ INSERT INTO equipment (
         'COMPONENT',
         false
 ),  (
-         'ram',
-         'Оперативная память',
+         3,
          '123456789',
          1,
          1,

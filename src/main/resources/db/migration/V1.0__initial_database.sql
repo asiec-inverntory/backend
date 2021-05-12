@@ -33,18 +33,22 @@ CREATE TABLE room (
     is_deleted  BOOLEAN     NOT NULL DEFAULT false
 );
 
+CREATE TABLE equipment_type (
+    id SERIAL UNIQUE,
+    type_name VARCHAR(50) UNIQUE,
+    human_readable VARCHAR(50) UNIQUE
+);
 
 CREATE TABLE equipment (
     id              SERIAL UNIQUE,
-    equipment_key    VARCHAR(50),
-    human_readable TEXT,
+    type INTEGER REFERENCES equipment_type (id),
     inventory_code  VARCHAR(50) UNIQUE,
     serial_code     VARCHAR(50) NOT NULL,
     room            INTEGER REFERENCES room (id),
     parent_equipment INTEGER REFERENCES equipment (id),
     is_atomic       BOOLEAN     NOT NULL,
     responsible INTEGER REFERENCES inventory_users (id),
-    equipment_type VARCHAR(50) NOT NULL,
+    equipment_variant VARCHAR(50) NOT NULL,
 
     is_deleted      BOOLEAN     NOT NULL DEFAULT false
 );

@@ -3,7 +3,7 @@ package ru.centralhardware.asiec.inventory.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentType;
+import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,9 +19,9 @@ public class Equipment implements Deletable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 50, nullable = false)
-    private String equipmentKey;
-    private String humanReadable;
+    @ManyToOne
+    @JoinColumn(name = "type")
+    private EquipmentType equipmentType;
     @Column(length = 50, nullable = false)
     private String inventory_code;
     private String serialCode;
@@ -44,7 +44,7 @@ public class Equipment implements Deletable{
     @JoinColumn(name = "responsible")
     private InventoryUser responsible;
     @Enumerated(EnumType.STRING)
-    private EquipmentType equipmentType;
+    private EquipmentVariant equipmentVariant;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;

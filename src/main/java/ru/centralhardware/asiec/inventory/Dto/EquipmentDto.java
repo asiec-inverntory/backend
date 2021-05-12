@@ -1,6 +1,6 @@
 package ru.centralhardware.asiec.inventory.Dto;
 
-import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentType;
+import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 
 import java.util.Set;
 
@@ -12,7 +12,7 @@ public record EquipmentDto (
     String inventoryCode,
     String serialCode,
     RoomDto room,
-    EquipmentType equipmentType,
+    EquipmentVariant equipmentType,
     String responsible,
     Set<PropertyDto> characteristics
 

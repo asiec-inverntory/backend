@@ -114,7 +114,7 @@ public class EquipmentService extends Equipment {
         if (characteristics.size() == 0) return false;
 
         for (FilterRequest request : filterRequests){
-            if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentKey())) return false;
+            if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())) return false;
 
             switch (request.operation()){
                 case "=" -> {
