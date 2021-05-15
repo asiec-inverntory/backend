@@ -25,14 +25,12 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenUtil jwtTokenUtil;
     private final UserMapper userMapper;
 
     public UserController(UserService userService,
                           JwtTokenUtil jwtTokenUtil,
                           UserMapper userMapper) {
         this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
         this.userMapper = userMapper;
     }
 

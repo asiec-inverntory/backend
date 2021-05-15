@@ -18,7 +18,7 @@ public class Unit implements Deletable {
     private String unit;
     private String description;
     @Column(nullable = false)
-    private boolean isDeleted = false;
+    private final boolean isDeleted = false;
 
 
     @OneToMany(mappedBy = "unit")

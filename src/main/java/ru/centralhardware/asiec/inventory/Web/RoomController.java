@@ -25,6 +25,7 @@ public class RoomController {
         this.buildingService = buildingService;
     }
 
+    @SuppressWarnings("unchecked")
     @ApiOperation(
             value = "get all room",
             httpMethod = "GET",

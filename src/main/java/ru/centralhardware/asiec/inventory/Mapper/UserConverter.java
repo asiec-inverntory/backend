@@ -1,7 +1,6 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
-import ru.centralhardware.asiec.inventory.Dto.HumanReadableHolder;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Service.UserService;
 import ru.centralhardware.asiec.inventory.SpringContext;

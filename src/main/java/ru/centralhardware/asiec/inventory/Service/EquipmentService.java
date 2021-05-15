@@ -22,14 +22,12 @@ import static java.util.function.Predicate.not;
 public class EquipmentService extends Equipment {
 
     private final EquipmentRepository equipmentRepository;
-    private final UserService userService;
     private final EquipmentMapper equipmentMapper;
 
     public EquipmentService(EquipmentRepository equipmentRepository,
                             UserService userService,
                             EquipmentMapper equipmentMapper) {
         this.equipmentRepository = equipmentRepository;
-        this.userService = userService;
         this.equipmentMapper = equipmentMapper;
     }
 

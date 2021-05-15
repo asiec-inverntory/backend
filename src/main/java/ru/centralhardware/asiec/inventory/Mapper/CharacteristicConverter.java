@@ -1,6 +1,5 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
-import ru.centralhardware.asiec.inventory.Dto.HumanReadableHolder;
 import ru.centralhardware.asiec.inventory.Dto.PropertyDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Service.CharacteristicService;

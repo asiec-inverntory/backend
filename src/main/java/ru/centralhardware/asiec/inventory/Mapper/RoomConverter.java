@@ -1,6 +1,5 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
-import ru.centralhardware.asiec.inventory.Dto.HumanReadableHolder;
 import ru.centralhardware.asiec.inventory.Dto.RoomDto;
 import ru.centralhardware.asiec.inventory.Entity.Room;
 import ru.centralhardware.asiec.inventory.Service.RoomService;

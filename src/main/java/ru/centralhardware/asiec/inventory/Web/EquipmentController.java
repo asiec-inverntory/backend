@@ -43,7 +43,6 @@ public class EquipmentController {
     private final CharacteristicService characteristicService;
     private final EquipmentTypeService equipmentTypeService;
     private final UserService userService;
-    private final JwtTokenUtil jwtTokenUtil;
     private final AttributeService attributeService;
     private final EquipmentMapper equipmentMapper;
 
@@ -58,7 +57,6 @@ public class EquipmentController {
         this.characteristicService = characteristicService;
         this.equipmentTypeService = equipmentTypeService;
         this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
         this.attributeService = attributeService;
         this.equipmentMapper = equipmentMapper;
     }
@@ -94,7 +92,8 @@ public class EquipmentController {
                 if (attributeOptional.isPresent()){
                     var attribute = attributeOptional.get();
                     switch (attribute.getType()){
-                        case NUMBER -> Integer.parseInt(it.value());
+                        case NUMBER -> //noinspection ResultOfMethodCallIgnored
+                                Integer.parseInt(it.value());
                         case RANGE -> {
                             var value = Integer.parseInt(it.value());
                             if (!(value >= attribute.getMinimum() && value <= attribute.getMaximum())) throw new OutOfRangeException();
