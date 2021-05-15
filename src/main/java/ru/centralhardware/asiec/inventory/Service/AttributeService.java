@@ -71,7 +71,18 @@ public class AttributeService {
                     attribute.getMinimum(),
                     attribute.getMaximum(),
                     attribute.getHumanReadable(),
-                    attribute.getCharacteristics().stream().map(Characteristic::getValue).collect(Collectors.toList())));
+                    attribute.getCharacteristics().
+                            stream().
+                            map(Characteristic::getValue).collect(Collectors.toList()),
+                    attribute.getCharacteristics().
+                            stream().
+                            map(it -> it.getEquipments()
+                                    .stream().
+                                            map(equipment -> equipment.getResponsible().getFio()).
+                                            toList()).
+                            flatMap(List::stream).
+                            distinct().
+                            toList()));
         }
         return res;
     }
