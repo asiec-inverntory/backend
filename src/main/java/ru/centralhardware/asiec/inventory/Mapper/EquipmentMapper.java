@@ -7,7 +7,15 @@ import org.mapstruct.factory.Mappers;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 
-@Mapper(uses = {UserConverter.class, CharacteristicConverter.class, RoomConverter.class, EquipmentConverter.class})
+@Mapper(uses =
+        {
+                UserConverter.class,
+                CharacteristicConverter.class,
+                RoomConverter.class,
+                EquipmentConverter.class
+        },
+        componentModel = "spring"
+        )
 public interface EquipmentMapper {
 
     EquipmentMapper INSTANCE = Mappers.getMapper(EquipmentMapper.class);

@@ -20,7 +20,6 @@ import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
-import ru.centralhardware.asiec.inventory.Entity.EquipmentType;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.*;
@@ -46,19 +45,22 @@ public class EquipmentController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AttributeService attributeService;
+    private final EquipmentMapper equipmentMapper;
 
     public EquipmentController(EquipmentService equipmentService,
                                CharacteristicService characteristicService,
                                EquipmentTypeService equipmentTypeService,
                                UserService userService,
                                JwtTokenUtil jwtTokenUtil,
-                               AttributeService attributeService) {
+                               AttributeService attributeService,
+                               EquipmentMapper equipmentMapper) {
         this.equipmentService = equipmentService;
         this.characteristicService = characteristicService;
         this.equipmentTypeService = equipmentTypeService;
         this.userService = userService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.attributeService = attributeService;
+        this.equipmentMapper = equipmentMapper;
     }
 
     @ApiOperation(
@@ -104,7 +106,7 @@ public class EquipmentController {
                 equipment.getCharacteristics().add(characteristic);
             });
             equipmentService.save(equipment);
-            res.add(EquipmentMapper.INSTANCE.equipmentToDto(equipment));
+            res.add(equipmentMapper.INSTANCE.equipmentToDto(equipment));
         }
         return ResponseEntity.ok(res);
     }

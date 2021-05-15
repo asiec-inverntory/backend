@@ -26,10 +26,14 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService, JwtTokenUtil jwtTokenUtil) {
+    public UserController(UserService userService,
+                          JwtTokenUtil jwtTokenUtil,
+                          UserMapper userMapper) {
         this.userService = userService;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.userMapper = userMapper;
     }
 
     @ApiOperation(
@@ -45,7 +49,7 @@ public class UserController {
     public ResponseEntity<?> me(@ApiIgnore Principal principal){
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isPresent()){
-            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
+            return ResponseEntity.ok(userMapper.userToDto(userOptional.get()));
         } else {
             return ResponseEntity.noContent().build();
         }
@@ -65,7 +69,7 @@ public class UserController {
     public ResponseEntity<?> getUser(@PathVariable Integer id){
         var userOptional = userService.findById(id);
         if (userOptional.isPresent()){
-            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userOptional.get()));
+            return ResponseEntity.ok(userMapper.userToDto(userOptional.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -86,7 +90,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody  CreateUserDto userDto,@ApiIgnore Principal principal){
         var createdBy = userService.findByUsername(principal.getName());
         if (createdBy.isPresent()){
-            return ResponseEntity.ok(UserMapper.INSTANCE.userToDto(userService.create(userDto, createdBy.get())));
+            return ResponseEntity.ok(userMapper.userToDto(userService.create(userDto, createdBy.get())));
         } else {
             return ResponseEntity.status(404).build();
         }

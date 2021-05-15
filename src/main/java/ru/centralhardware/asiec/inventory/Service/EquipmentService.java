@@ -23,10 +23,14 @@ public class EquipmentService extends Equipment {
 
     private final EquipmentRepository equipmentRepository;
     private final UserService userService;
+    private final EquipmentMapper equipmentMapper;
 
-    public EquipmentService(EquipmentRepository equipmentRepository, UserService userService) {
+    public EquipmentService(EquipmentRepository equipmentRepository,
+                            UserService userService,
+                            EquipmentMapper equipmentMapper) {
         this.equipmentRepository = equipmentRepository;
         this.userService = userService;
+        this.equipmentMapper = equipmentMapper;
     }
 
     public Optional<Equipment> findById(int id){
@@ -55,7 +59,7 @@ public class EquipmentService extends Equipment {
 
     public Optional<EquipmentDto> findBySerialAndInventoryCode(String serialCode, String inventoryCode){
         var res = equipmentRepository.findBySerialCodeAndInventoryCode(serialCode, inventoryCode);
-        return res.map(EquipmentMapper.INSTANCE::equipmentToDto);
+        return res.map(equipmentMapper.INSTANCE::equipmentToDto);
     }
 
     public boolean existById(int id){
@@ -88,7 +92,7 @@ public class EquipmentService extends Equipment {
                 stream().
                 filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(EquipmentMapper.INSTANCE::equipmentToDto).
+                map(equipmentMapper.INSTANCE::equipmentToDto).
                 collect(Collectors.toList());
     }
 
@@ -98,7 +102,7 @@ public class EquipmentService extends Equipment {
                 get().
                 filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(EquipmentMapper.INSTANCE::equipmentToDto).
+                map(equipmentMapper.INSTANCE::equipmentToDto).
                 collect(Collectors.toList());
     }
 

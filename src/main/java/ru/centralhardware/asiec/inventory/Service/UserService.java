@@ -16,9 +16,12 @@ import static java.util.function.Predicate.not;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public Optional<InventoryUser> findByUsername(String username){
@@ -39,13 +42,13 @@ public class UserService {
     }
 
     public InventoryUser create(CreateUserDto userDto, InventoryUser createdBy){
-        var user = UserMapper.INSTANCE.dtoToUser(userDto);
+        var user = userMapper.dtoToUser(userDto);
         user.setId(null);
         return userRepository.save(user);
     }
 
     public InventoryUser update(CreateUserDto userDto){
-        var user = UserMapper.INSTANCE.dtoToUser(userDto);
+        var user = userMapper.dtoToUser(userDto);
         return userRepository.save(user);
     }
 
