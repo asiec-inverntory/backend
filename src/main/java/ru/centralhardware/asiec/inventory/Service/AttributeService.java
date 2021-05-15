@@ -78,6 +78,7 @@ public class AttributeService {
                             stream().
                             map(it -> it.getEquipments()
                                     .stream().
+                                            filter(equipment  -> equipment.getResponsible() != null).
                                             map(equipment -> equipment.getResponsible().getFio()).
                                             toList()).
                             flatMap(List::stream).
