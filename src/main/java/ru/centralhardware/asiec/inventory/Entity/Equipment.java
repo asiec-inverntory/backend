@@ -23,7 +23,7 @@ public class Equipment implements Deletable{
     @JoinColumn(name = "type")
     private EquipmentType equipmentType;
     @Column(length = 50, nullable = false)
-    private String inventory_code;
+    private String inventoryCode;
     private String serialCode;
     @ManyToOne
     @JoinColumn(name = "room", nullable = false)

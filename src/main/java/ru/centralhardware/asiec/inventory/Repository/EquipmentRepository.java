@@ -8,12 +8,15 @@ import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional(rollbackFor=Throwable.class)
 public interface EquipmentRepository extends PagingAndSortingRepository<Equipment, Integer> {
 
     List<Equipment> findAllByResponsible(InventoryUser responsible, Pageable sort);
+
+    Optional<Equipment> findBySerialCodeAndInventoryCode(String serialCode, String inventoryCode);
 
     List<Equipment> findAll();
 

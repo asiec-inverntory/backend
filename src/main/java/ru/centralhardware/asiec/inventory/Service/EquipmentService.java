@@ -53,6 +53,11 @@ public class EquipmentService extends Equipment {
                 collect(Collectors.toList());
     }
 
+    public Optional<EquipmentDto> findBySerialAndInventoryCode(String serialCode, String inventoryCode){
+        var res = equipmentRepository.findBySerialCodeAndInventoryCode(serialCode, inventoryCode);
+        return res.map(EquipmentMapper.INSTANCE::equipmentToDto);
+    }
+
     public boolean existById(int id){
         var equipment = equipmentRepository.findById(id);
         return equipment.isPresent() && !equipment.get().isDeleted();

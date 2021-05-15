@@ -20,7 +20,7 @@ public class EquipmentConverter {
         return new HumanReadableHolder(equipment.getId(),
                 String.format("%s %s",
                         equipment.getEquipmentType().getTypeName(),
-                        equipment.getInventory_code()));
+                        equipment.getInventoryCode()));
     }
 
 }

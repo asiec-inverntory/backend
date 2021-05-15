@@ -109,6 +109,22 @@ public class EquipmentController {
         return ResponseEntity.ok(res);
     }
 
+    @ApiOperation(
+            value = "search equipment",
+            httpMethod = "GET",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, message = "successfully get searched equipment", response = EquipmentDto.class)
+    }
+    )
+    @GetMapping(path = "search")
+    public ResponseEntity<?> search(@RequestParam(required = false) String serialCode,
+                                    @RequestParam(required = false) String inventoryCode){
+        return ResponseEntity.ok(equipmentService.findBySerialAndInventoryCode(serialCode, inventoryCode));
+    }
+
 //    @ApiOperation(
 //            value = "update equipment",
 //            httpMethod = "POST",
@@ -144,7 +160,7 @@ public class EquipmentController {
             @ApiResponse(code = 401 , message = "unauthorized" ),
             @ApiResponse(code = 404 , message = "equipment not found" )}
     )
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "delete/{id}")
     public ResponseEntity<?> deleteEquipment(@RequestParam int id,@ApiIgnore Principal principal){
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) {
