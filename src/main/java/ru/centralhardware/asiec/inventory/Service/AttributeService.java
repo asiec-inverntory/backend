@@ -73,7 +73,9 @@ public class AttributeService {
                     attribute.getHumanReadable(),
                     attribute.getCharacteristics().
                             stream().
-                            map(Characteristic::getValue).collect(Collectors.toList()),
+                            map(Characteristic::getValue).
+                            distinct().
+                            collect(Collectors.toList()),
                     attribute.getCharacteristics().
                             stream().
                             map(it -> it.getEquipments()
