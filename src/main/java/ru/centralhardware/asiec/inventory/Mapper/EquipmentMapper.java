@@ -18,8 +18,6 @@ import ru.centralhardware.asiec.inventory.Entity.Equipment;
         )
 public interface EquipmentMapper {
 
-    EquipmentMapper INSTANCE = Mappers.getMapper(EquipmentMapper.class);
-
     @Mappings({
             @Mapping(target = "name", source = "equipmentType.humanReadable"),
             @Mapping(target = "equipmentKey", source = "equipmentType.typeName"),

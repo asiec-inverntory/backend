@@ -10,8 +10,6 @@ import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
         componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     UserDto userToDto(InventoryUser user);
     InventoryUser dtoToUser(CreateUserDto dto);
 

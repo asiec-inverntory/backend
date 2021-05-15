@@ -57,7 +57,7 @@ public class EquipmentService extends Equipment {
 
     public Optional<EquipmentDto> findBySerialAndInventoryCode(String serialCode, String inventoryCode){
         var res = equipmentRepository.findBySerialCodeAndInventoryCode(serialCode, inventoryCode);
-        return res.map(equipmentMapper.INSTANCE::equipmentToDto);
+        return res.map(equipmentMapper::equipmentToDto);
     }
 
     public boolean existById(int id){
@@ -90,7 +90,7 @@ public class EquipmentService extends Equipment {
                 stream().
                 filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper.INSTANCE::equipmentToDto).
+                map(equipmentMapper::equipmentToDto).
                 collect(Collectors.toList());
     }
 
@@ -100,7 +100,7 @@ public class EquipmentService extends Equipment {
                 get().
                 filter(not(Equipment::isDeleted)).
                 filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper.INSTANCE::equipmentToDto).
+                map(equipmentMapper::equipmentToDto).
                 collect(Collectors.toList());
     }
 
@@ -126,6 +126,7 @@ public class EquipmentService extends Equipment {
         Set<Characteristic> characteristics = equipment.getCharacteristics();
         if (characteristics.size() == 0) return false;
 
+        int matchCount = 0;
         for (FilterRequest request : filterRequests){
             if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())) return false;
 
@@ -134,14 +135,14 @@ public class EquipmentService extends Equipment {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (characteristic.getValue().equalsIgnoreCase(request.value())) return true;
+                        if (characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
                     }
                 }
                 case "!=" -> {
                     for (Characteristic characteristic : characteristics){
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
 
-                        if (!characteristic.getValue().equalsIgnoreCase(request.value())) return true;
+                        if (!characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
                     }
                 }
                 case ">" -> {
@@ -149,7 +150,7 @@ public class EquipmentService extends Equipment {
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
                         if (request.type() != ValueType.NUMBER) continue;
 
-                        if (graterThen(request.value(), characteristic.getValue())) return true;
+                        if (graterThen(request.value(), characteristic.getValue())) matchCount++;
                     }
                 }
                 case "<" -> {
@@ -157,26 +158,26 @@ public class EquipmentService extends Equipment {
                         if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
                         if (request.type() != ValueType.NUMBER) continue;
 
-                        if (lowerThen(request.value(), characteristic.getValue())) return true;
+                        if (lowerThen(request.value(), characteristic.getValue())) matchCount++;
                     }
                 }
             }
         }
-        return false;
+        return matchCount == filterRequests.size();
     }
 
     /**
      * @return true if first grater then second
      */
     private boolean graterThen(String first, String second){
-        return Integer.parseInt(first) > Integer.parseInt(second);
+        return Integer.parseInt(first) >= Integer.parseInt(second);
     }
 
     /**
      * @return true if first lower then second
      */
     private boolean lowerThen(String first, String second){
-        return Integer.parseInt(first) < Integer.parseInt(second);
+        return Integer.parseInt(first) <= Integer.parseInt(second);
     }
 
 }

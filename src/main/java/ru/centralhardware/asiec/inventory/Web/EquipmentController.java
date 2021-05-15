@@ -105,7 +105,7 @@ public class EquipmentController {
                 equipment.getCharacteristics().add(characteristic);
             });
             equipmentService.save(equipment);
-            res.add(equipmentMapper.INSTANCE.equipmentToDto(equipment));
+            res.add(equipmentMapper.equipmentToDto(equipment));
         }
         return ResponseEntity.ok(res);
     }

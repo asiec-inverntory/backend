@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
+import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Dto.PropertyDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
@@ -8,6 +9,7 @@ import ru.centralhardware.asiec.inventory.SpringContext;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 public class CharacteristicConverter {
 
     public Set<Characteristic> fromDto (Set<Integer> characteristic){
