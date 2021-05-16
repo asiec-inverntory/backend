@@ -1,6 +1,6 @@
 package ru.centralhardware.asiec.inventory.Web.Dto;
 
-import ru.centralhardware.asiec.inventory.Web.ValueType;
+import ru.centralhardware.asiec.inventory.Filter.ValueType;
 
 public record FilterRequest (
         ValueType type,

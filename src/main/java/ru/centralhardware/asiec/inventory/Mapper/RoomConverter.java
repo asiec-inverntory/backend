@@ -1,7 +1,7 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.RoomDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.RoomDto;
 import ru.centralhardware.asiec.inventory.Entity.Room;
 import ru.centralhardware.asiec.inventory.Service.RoomService;
 import ru.centralhardware.asiec.inventory.SpringContext;

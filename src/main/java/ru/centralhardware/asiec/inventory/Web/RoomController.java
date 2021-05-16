@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Service.BuildingService;
 
 @RestController
@@ -36,23 +36,23 @@ public class RoomController {
     })
     @GetMapping(path = "/all")
     public ResponseEntity<?> all(){
-        JSONObject building1 = new JSONObject();
+        var building1 = new JSONObject();
         building1.put("number", 1);
         var building1Room = new JSONArray();
         building1Room.addAll(buildingService.getRoomList(1));
         building1.put( "rooms", building1Room);
 
-        JSONObject building2 = new JSONObject();
+        var building2 = new JSONObject();
         building2.put("number", 2);
         var building2Room = new JSONArray();
         building2Room.addAll(buildingService.getRoomList(1));
         building2.put( "rooms", building2Room);
 
-        JSONArray buildings = new JSONArray();
+        var buildings = new JSONArray();
         buildings.add(building1);
         buildings.add(building2);
 
-        JSONObject res = new JSONObject();
+        var res = new JSONObject();
         res.put("buildings", buildings);
 
         return ResponseEntity.ok(res.toJSONString());

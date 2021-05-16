@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Dto.Create;
+package ru.centralhardware.asiec.inventory.Web.Dto.Create;
 
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 

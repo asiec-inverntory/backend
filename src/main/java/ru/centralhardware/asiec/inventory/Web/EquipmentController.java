@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
@@ -22,7 +22,7 @@ import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.*;
 import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
-import ru.centralhardware.asiec.inventory.Web.Exceptionhander.OutOfRangeException;
+import ru.centralhardware.asiec.inventory.Web.ExceptionHander.Exception.OutOfRangeException;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
@@ -176,7 +176,7 @@ public class EquipmentController {
     }
 
 
-    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "unchecked"})
+    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType"})
     @ApiOperation(
             value = "get pageable list of equipment",
             httpMethod = "GET",

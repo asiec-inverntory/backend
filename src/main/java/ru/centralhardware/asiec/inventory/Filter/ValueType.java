@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Web;
+package ru.centralhardware.asiec.inventory.Filter;
 
 public enum ValueType {
 

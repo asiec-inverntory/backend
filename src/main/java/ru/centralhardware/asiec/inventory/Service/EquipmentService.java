@@ -2,18 +2,14 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
-import ru.centralhardware.asiec.inventory.Entity.Characteristic;
+import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentRepository;
-import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
-import ru.centralhardware.asiec.inventory.Web.ValueType;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;

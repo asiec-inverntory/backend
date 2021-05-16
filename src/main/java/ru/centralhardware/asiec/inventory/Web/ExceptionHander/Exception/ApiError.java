@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Web.Exceptionhander;
+package ru.centralhardware.asiec.inventory.Web.ExceptionHander.Exception;
 
 import lombok.Getter;
 

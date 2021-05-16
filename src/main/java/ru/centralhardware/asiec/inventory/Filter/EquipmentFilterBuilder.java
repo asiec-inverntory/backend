@@ -8,7 +8,6 @@ import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Service.AttributeService;
 import ru.centralhardware.asiec.inventory.SpringContext;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
-import ru.centralhardware.asiec.inventory.Web.ValueType;
 
 import java.util.ArrayList;
 import java.util.List;

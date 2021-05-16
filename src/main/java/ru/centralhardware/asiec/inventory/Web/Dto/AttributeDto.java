@@ -1,4 +1,4 @@
-package ru.centralhardware.asiec.inventory.Dto;
+package ru.centralhardware.asiec.inventory.Web.Dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;

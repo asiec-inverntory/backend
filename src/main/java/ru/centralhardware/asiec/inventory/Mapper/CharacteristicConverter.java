@@ -1,7 +1,7 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.PropertyDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.PropertyDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Service.CharacteristicService;
 import ru.centralhardware.asiec.inventory.SpringContext;

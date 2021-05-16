@@ -1,8 +1,9 @@
-package ru.centralhardware.asiec.inventory.Web.Exceptionhander;
+package ru.centralhardware.asiec.inventory.Web.ExceptionHander;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.centralhardware.asiec.inventory.Web.ExceptionHander.Exception.ApiError;
 
 import javax.servlet.http.HttpServletRequest;
 

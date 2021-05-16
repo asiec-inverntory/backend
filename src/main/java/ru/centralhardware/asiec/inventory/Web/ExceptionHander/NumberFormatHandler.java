@@ -1,8 +1,8 @@
-package ru.centralhardware.asiec.inventory.Web.Exceptionhander;
+package ru.centralhardware.asiec.inventory.Web.ExceptionHander;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.centralhardware.asiec.inventory.Web.Exceptionhander.ApiError;
+import ru.centralhardware.asiec.inventory.Web.ExceptionHander.Exception.ApiError;
 
 import javax.servlet.http.HttpServletRequest;
 

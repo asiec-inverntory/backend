@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Main;
 import ru.centralhardware.asiec.inventory.Service.UserService;

@@ -33,7 +33,7 @@ public class AttributeController {
     })
     @GetMapping(path = "list")
     public ResponseEntity<?> getAttribute() throws JsonProcessingException {
-        return ResponseEntity.ok().body(service.getAttributesName());
+        return ResponseEntity.ok().body(service.getAttributesList());
     }
 
 //    @ApiOperation(

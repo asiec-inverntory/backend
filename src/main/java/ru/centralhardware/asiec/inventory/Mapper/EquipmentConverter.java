@@ -1,7 +1,7 @@
 package ru.centralhardware.asiec.inventory.Mapper;
 
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.HumanReadableHolder;
+import ru.centralhardware.asiec.inventory.Web.Dto.HumanReadableHolder;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Service.EquipmentService;
 import ru.centralhardware.asiec.inventory.SpringContext;

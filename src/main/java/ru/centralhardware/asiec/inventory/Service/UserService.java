@@ -2,7 +2,7 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.Create.CreateUserDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;

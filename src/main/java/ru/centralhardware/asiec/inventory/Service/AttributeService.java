@@ -3,7 +3,7 @@ package ru.centralhardware.asiec.inventory.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-import ru.centralhardware.asiec.inventory.Dto.AttributeDto;
+import ru.centralhardware.asiec.inventory.Web.Dto.AttributeDto;
 import ru.centralhardware.asiec.inventory.Entity.Attribute;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
@@ -32,7 +32,7 @@ public class AttributeService {
         return repository.findByAttribute(name);
     }
 
-    public String getAttributesName() throws JsonProcessingException {
+    public String getAttributesList() throws JsonProcessingException {
         List<Equipment> equipment = equipmentService.findAll();
         return formatAnswer(equipment);
     }
@@ -75,6 +75,7 @@ public class AttributeService {
                             stream().
                             map(Characteristic::getValue).
                             distinct().
+                            sorted().
                             collect(Collectors.toList()),
                     attribute.getCharacteristics().
                             stream().
@@ -85,6 +86,7 @@ public class AttributeService {
                                             toList()).
                             flatMap(List::stream).
                             distinct().
+                            sorted().
                             toList()));
         }
         return res;
