@@ -84,23 +84,14 @@ public class EquipmentService extends Equipment {
         equipmentRepository.deleteById(id);
     }
 
-    public List<EquipmentDto> list(InventoryUser user, Pageable sort, List<FilterRequest> filterRequests){
-        return equipmentRepository.
-                findAllByResponsible(user, sort).
-                stream().
-                filter(not(Equipment::isDeleted)).
-                filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper::equipmentToDto).
-                collect(Collectors.toList());
+    public List<Equipment> list(InventoryUser user, Pageable sort){
+        return equipmentRepository.findAllByResponsible(user, sort);
     }
 
-    public List<EquipmentDto> list(Pageable sort, List<FilterRequest> filterRequests){
+    public List<Equipment> list(Pageable sort){
         return equipmentRepository.
                 findAll(sort).
                 get().
-                filter(not(Equipment::isDeleted)).
-                filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper::equipmentToDto).
                 collect(Collectors.toList());
     }
 
@@ -108,76 +99,6 @@ public class EquipmentService extends Equipment {
         equipmentRepository.save(equipment);
     }
 
-    /**
-     * @param filterRequests filter conditions
-     * @param equipment list of equipment for filter
-     * @return true if must filtered
-     */
-    private boolean isFiltered(List<FilterRequest> filterRequests, Equipment equipment){
-        if (filterRequests == null) return true;
-        if (filterRequests.isEmpty()) return true;
 
-        for (FilterRequest request : filterRequests){
-            if (request.attributeName().equalsIgnoreCase("responsible")){
-                if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())) return true;
-            }
-        }
-
-        Set<Characteristic> characteristics = equipment.getCharacteristics();
-        if (characteristics.size() == 0) return false;
-
-        int matchCount = 0;
-        for (FilterRequest request : filterRequests){
-            if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())) return false;
-
-            switch (request.operation()){
-                case "=" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-
-                        if (characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
-                    }
-                }
-                case "!=" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-
-                        if (!characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
-                    }
-                }
-                case ">" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-                        if (request.type() != ValueType.NUMBER) continue;
-
-                        if (graterThen(request.value(), characteristic.getValue())) matchCount++;
-                    }
-                }
-                case "<" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-                        if (request.type() != ValueType.NUMBER) continue;
-
-                        if (lowerThen(request.value(), characteristic.getValue())) matchCount++;
-                    }
-                }
-            }
-        }
-        return matchCount == filterRequests.size();
-    }
-
-    /**
-     * @return true if first grater then second
-     */
-    private boolean graterThen(String first, String second){
-        return Integer.parseInt(first) >= Integer.parseInt(second);
-    }
-
-    /**
-     * @return true if first lower then second
-     */
-    private boolean lowerThen(String first, String second){
-        return Integer.parseInt(first) <= Integer.parseInt(second);
-    }
 
 }

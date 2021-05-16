@@ -4,9 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.centralhardware.asiec.inventory.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
-import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 import ru.centralhardware.asiec.inventory.Entity.Enum.EquipmentVariant;
 import ru.centralhardware.asiec.inventory.Entity.Enum.Role;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
+import ru.centralhardware.asiec.inventory.Filter.EquipmentFilterBuilder;
+import ru.centralhardware.asiec.inventory.Filter.EquipmentFilter;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.Security.JwtTokenUtil;
 import ru.centralhardware.asiec.inventory.Service.*;
-import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 import ru.centralhardware.asiec.inventory.Web.Dto.ReceiveEquipment;
 import ru.centralhardware.asiec.inventory.Web.Exceptionhander.OutOfRangeException;
 import springfox.documentation.annotations.ApiIgnore;
@@ -178,22 +175,7 @@ public class EquipmentController {
         }
     }
 
-    /**
-     * example filter json:
-     * [
-     *      {
-     *          "attributeName": "",
-     *          "operation": "=",
-     *          "value": ""
-     *      }
-     * ]
-     * list of support operation:
-     *      - != : filter request value and characteristic value are NOT equals
-     *      - =  : filter request value and characteristic value are equals
-     *      - >  : filter request value grater then characteristic value
-     *      - <  : filter request value lower then characteristic value
-     * WARNING: for < and > operation, if string can not be parsed its length is taken
-     */
+
     @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "unchecked"})
     @ApiOperation(
             value = "get pageable list of equipment",
@@ -210,94 +192,17 @@ public class EquipmentController {
                                           @RequestParam(required = false) String filter,
                                           @ApiIgnore Principal principal,
                                           HttpServletResponse response) throws ParseException {
-        List<FilterRequest> filterRequest = new ArrayList<>();
-        if (filter != null){
-            JSONObject object = (JSONObject) new JSONParser().parse(filter);
-            object.forEach((k,v) -> {
-                if (v instanceof JSONArray && k.equals("responsible")){
-                    ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
-                            ValueType.STRING,
-                            (String) k,
-                            (String) k,
-                            "=",
-                            (String) it
-                    )));
-                    return;
-                }
+        EquipmentFilter equipmentFilter = EquipmentFilterBuilder.of(filter);
 
-                if (!(v instanceof JSONObject)) return;
 
-                ((JSONObject) v).forEach((key,value) -> {
-                    AttributeType type = attributeService.getAttributeType((String) key);
-                    if (type == null) return;
-
-                    switch (type){
-                        case STRING -> {
-                            if (value instanceof JSONArray){
-                                ((JSONArray) value).forEach(it -> filterRequest.add(new FilterRequest(
-                                        ValueType.STRING,
-                                        (String) k,
-                                        (String) key,
-                                        "=",
-                                        (String) it
-                                )));
-                            } else {
-                                filterRequest.add(new FilterRequest(
-                                        ValueType.STRING,
-                                        (String) k,
-                                        (String) key,
-                                        "=",
-                                        (String) value
-                                ));
-                            }
-                        }
-                        case NUMBER -> {
-                            if (value instanceof JSONArray){
-                                ((JSONArray) value).forEach(it -> filterRequest.add(new FilterRequest(
-                                        ValueType.NUMBER,
-                                        (String) k,
-                                        (String) key,
-                                        "=",
-                                        (String) it
-                                )));
-                            } else {
-                                filterRequest.add(new FilterRequest(
-                                        ValueType.NUMBER,
-                                        (String) k,
-                                        (String) key,
-                                        "=",
-                                        (String) value
-                                ));
-                            }
-                        }
-                        case RANGE -> {
-                            filterRequest.add(new FilterRequest(
-                                    ValueType.NUMBER,
-                                    (String) k,
-                                    (String) key,
-                                    "<",
-                                    ((org.json.simple.JSONArray)value).get(0).toString()
-                            ));
-                            filterRequest.add(new FilterRequest(
-                                    ValueType.NUMBER,
-                                    (String) k,
-                                    (String) key,
-                                    ">",
-                                    ((org.json.simple.JSONArray)value).get(1).toString()
-                            ));
-                        }
-                    }
-                });
-            });
-        }
         response.addHeader("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
         Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentVariant")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
         if (userOptional.get().getRole() == Role.ADMIN){
-            return ResponseEntity.ok(equipmentService.list(pageable, filterRequest));
+            return ResponseEntity.ok(equipmentFilter.filter(equipmentService.list(pageable)));
         } else {
-            return ResponseEntity.ok(equipmentService.list(userOptional.get(), pageable, filterRequest));
+            return ResponseEntity.ok(equipmentFilter.filter(equipmentService.list(userOptional.get(), pageable), userOptional.get()));
         }
     }
 }
