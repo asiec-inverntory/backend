@@ -37,6 +37,9 @@ public class EquipmentFilter {
         this.equipmentMapper = SpringContext.getBean(EquipmentMapper.class);
     }
 
+    public List<FilterRequest> getFilterRequests() {
+        return List.of(filterRequests.toArray(new FilterRequest[]{}));
+    }
 
     public List<EquipmentDto> filter(List<Equipment> equipments, InventoryUser user){
         return equipments.
