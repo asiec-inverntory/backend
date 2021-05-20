@@ -190,6 +190,8 @@ public class EquipmentController {
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
+                                          @RequestParam(required = false) String serialCode,
+                                          @RequestParam(required = false) String inventoryCode,
                                           @ApiIgnore Principal principal,
                                           HttpServletResponse response) throws ParseException {
         EquipmentFilter equipmentFilter = EquipmentFilterBuilder.of(filter);
@@ -199,10 +201,27 @@ public class EquipmentController {
         Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentVariant")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<EquipmentDto> res = new ArrayList<>();
+
+        List<EquipmentDto> fullList ;
         if (userOptional.get().getRole() == Role.ADMIN){
-            return ResponseEntity.ok(equipmentFilter.filter(equipmentService.list(pageable)));
+            fullList = equipmentFilter.filter(equipmentService.list(pageable));
         } else {
-            return ResponseEntity.ok(equipmentFilter.filter(equipmentService.list(userOptional.get(), pageable), userOptional.get()));
+            fullList = equipmentFilter.filter(equipmentService.list(userOptional.get(), pageable), userOptional.get());
         }
+
+        var stream = fullList.stream();
+        if (serialCode != null){
+            stream = stream.
+                    filter(it -> it.serialCode().equalsIgnoreCase(serialCode));
+        }
+        if (inventoryCode != null){
+            stream = stream.
+                    filter(it -> it.inventoryCode().equalsIgnoreCase(inventoryCode));
+        }
+
+        res = stream.toList();
+        return ResponseEntity.ok(res);
     }
 }
