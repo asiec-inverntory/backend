@@ -202,7 +202,7 @@ public class EquipmentController {
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
 
-        List<EquipmentDto> res = new ArrayList<>();
+        List<EquipmentDto> res;
 
         List<EquipmentDto> fullList ;
         if (userOptional.get().getRole() == Role.ADMIN){

@@ -71,6 +71,9 @@ public class EquipmentFilter {
             if (request.attributeName().equalsIgnoreCase("responsible")){
                 if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())) return true;
             }
+            if (request.attributeName().equalsIgnoreCase("type")){
+                if (equipment.getEquipmentType().getTypeName().equalsIgnoreCase(request.value())) return true;
+            }
         }
 
         Set<Characteristic> characteristics = equipment.getCharacteristics();

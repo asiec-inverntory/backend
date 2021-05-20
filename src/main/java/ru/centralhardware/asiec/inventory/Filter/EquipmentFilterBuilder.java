@@ -35,6 +35,15 @@ public class EquipmentFilterBuilder {
                         (String) it
                 )));
                 return;
+            } else if (v instanceof JSONArray && k.equals("type")){
+                ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
+                        ValueType.STRING,
+                        (String) k,
+                        (String) k,
+                        "=",
+                        (String) it
+                )));
+                return;
             }
 
             if (!(v instanceof JSONObject)) return;
