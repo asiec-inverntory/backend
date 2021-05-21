@@ -8,6 +8,7 @@ import ru.centralhardware.asiec.inventory.Mapper.UserMapper;
 import ru.centralhardware.asiec.inventory.Repository.UserRepository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.function.Predicate.not;
@@ -24,12 +25,31 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    public List<InventoryUser> findAll(){
+        return userRepository.
+                findAll().
+                stream().
+                filter(not(InventoryUser::isDeleted)).
+                toList();
+    }
+
+    public List<String> responsible(){
+        return findAll().
+                stream().
+                filter(not(it -> it.getEquipment().isEmpty())).
+                map(InventoryUser::getFio).toList();
+    }
+
     public Optional<InventoryUser> findByUsername(String username){
-        return userRepository.findByUsername(username).filter(not(InventoryUser::isDeleted));
+        return userRepository.
+                findByUsername(username).
+                filter(not(InventoryUser::isDeleted));
     }
 
     public Optional<InventoryUser> findById(int id){
-        return userRepository.findById(id).filter(not(InventoryUser::isDeleted));
+        return userRepository.
+                findById(id).
+                filter(not(InventoryUser::isDeleted));
     }
 
     public void delete(int id) throws NotFoundException {
