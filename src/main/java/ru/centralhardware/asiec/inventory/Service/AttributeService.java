@@ -13,6 +13,8 @@ import ru.centralhardware.asiec.inventory.Repository.AttributeRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class AttributeService {
 
@@ -53,10 +55,19 @@ public class AttributeService {
         for (Equipment equipment : equipments){
             if (equipment.getCharacteristics().size() == 0) continue;
 
-            content.put(equipment.getEquipmentType().getTypeName(), getDto(equipment.getCharacteristics().
-                    stream().
-                    map(Characteristic::getAttribute).
-                    toList()));
+            if (content.containsKey(equipment.getEquipmentType().getTypeName())){
+                var toAppend = getDto(equipment.getCharacteristics().
+                        stream().
+                        map(Characteristic::getAttribute).
+                        filter(not(it -> content.get(equipment.getEquipmentType().getTypeName()).contains(it))).
+                        toList());
+                content.put(equipment.getEquipmentType().getTypeName(), toAppend);
+            } else {
+                content.put(equipment.getEquipmentType().getTypeName(), getDto(equipment.getCharacteristics().
+                        stream().
+                        map(Characteristic::getAttribute).
+                        toList()));
+            }
             humanReadable.put(equipment.getEquipmentType().getTypeName(), equipment.getEquipmentType().getHumanReadable());
         }
         return new ObjectMapper().writeValueAsString(List.of(content, humanReadable));

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.centralhardware.asiec.inventory.Entity.Enum.AttributeType;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record AttributeDto(
