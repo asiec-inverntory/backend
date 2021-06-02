@@ -198,7 +198,7 @@ public class EquipmentController {
 
 
         response.addHeader("X-Page-Count", String.valueOf(equipmentService.getPageCount(pageSize)));
-        Pageable pageable = PageRequest.of(page - 1, pageSize+1, Sort.by(sortBy.orElse("equipmentVariant")));
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy.orElse("equipmentVariant")));
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
 
