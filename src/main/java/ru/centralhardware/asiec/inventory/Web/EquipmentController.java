@@ -30,6 +30,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+
+import static java.util.function.Predicate.not;
 
 @RestController
 @Api(value = "equipment")
@@ -190,8 +193,7 @@ public class EquipmentController {
                                           @RequestParam int pageSize,
                                           @RequestParam(required = false) Optional<String> sortBy,
                                           @RequestParam(required = false) String filter,
-                                          @RequestParam(required = false) String serialCode,
-                                          @RequestParam(required = false) String inventoryCode,
+                                          @RequestParam(required = false) String search,
                                           @ApiIgnore Principal principal,
                                           HttpServletResponse response) throws ParseException {
         EquipmentFilter equipmentFilter = EquipmentFilterBuilder.of(filter);
@@ -202,7 +204,7 @@ public class EquipmentController {
         var userOptional = userService.findByUsername(principal.getName());
         if (userOptional.isEmpty()) return ResponseEntity.notFound().build();
 
-        List<EquipmentDto> res;
+        List<EquipmentDto> res = new ArrayList<>();
 
         List<EquipmentDto> fullList ;
         if (userOptional.get().getRole() == Role.ADMIN){
@@ -211,17 +213,18 @@ public class EquipmentController {
             fullList = equipmentFilter.filter(equipmentService.list(userOptional.get(), pageable), userOptional.get());
         }
 
-        var stream = fullList.stream();
-        if (serialCode != null){
-            stream = stream.
-                    filter(it -> it.serialCode().equalsIgnoreCase(serialCode));
+        if (search != null){
+            fullList.forEach(it -> {
+                if (it.serialCode() != null && it.serialCode().toLowerCase().contains(search)){
+                    res.add(it);
+                }
+                if (it.inventoryCode() != null && it.inventoryCode().toLowerCase().contains(search)){
+                    res.add(it);
+                }
+            });
+        } else {
+            res.addAll(fullList);
         }
-        if (inventoryCode != null){
-            stream = stream.
-                    filter(it -> it.inventoryCode().equalsIgnoreCase(inventoryCode));
-        }
-
-        res = stream.toList();
         return ResponseEntity.ok(res);
     }
 }
