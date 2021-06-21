@@ -16,8 +16,8 @@ public class UserConverter {
     public String toDto(InventoryUser user){
         if (user == null) return null;
         return String.format("%s %s %s",
-                user.getName(),
                 user.getSurname(),
+                user.getName(),
                 user.getLastName().isEmpty()? "" : user.getLastName());
     }
 

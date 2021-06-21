@@ -39,7 +39,7 @@ public class InventoryUser implements Deletable{
 
 
     public String getFio(){
-        return name + " " +  surname + " " + (lastName == null? "" : lastName);
+        return surname + " " + name  + " " + (lastName == null? "" : lastName);
     }
 
     @OneToMany(mappedBy = "responsible")
