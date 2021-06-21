@@ -16,4 +16,7 @@ INSERT INTO attribute (type, minimum, maximum, attribute, human_readable) VALUES
     ('STRING', null, null, 'ram_manufacturer', 'Производитель'),
     ('STRING', null, null, 'ram_type', 'Тип'),
     ('RANGE',  0,    4000, 'ram_frequency', 'Частота'),
-    ('STRING', null, null, 'ram_model', 'Модель');
+    ('STRING', null, null, 'ram_model', 'Модель'),
+    ('STRING', null, null, 'mouse_type', 'Тип компьютерной мыши'),
+    ('STRING', null, null, 'connection_interface', 'Интерфейс подключения к компьютеру'),
+    ('STRING', null, null, 'keyboard_type', 'Тип клавиатуры');

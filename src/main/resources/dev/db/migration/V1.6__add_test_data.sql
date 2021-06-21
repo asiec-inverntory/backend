@@ -30,7 +30,23 @@ INSERT INTO inventory_users  (
     'Жукова',
     'Тимофеевна',
     'OWNER'
-);
+), (
+      3,
+      'bob',
+      '8201c12212ab1aaa8acf4d2f5386939db503003eb43bac0dd7abd5d6080ebd6d',
+      'Иван',
+      'Попов',
+      'Иванович',
+      'OWNER'
+), (
+       4,
+       'bob2',
+       '8201c12212ab1aaa8acf4d2f5386939db503003eb43bac0dd7abd5d6080ebd6d',
+       'Александр',
+       'Попов',
+       'Александрович',
+       'OWNER'
+ );
 
 INSERT INTO equipment (
     type,
@@ -95,7 +111,25 @@ INSERT INTO equipment (
          2,
          'COMPONENT',
          true
-);
+),  (
+          4,
+          '123456789asdf',
+          1,
+          1,
+          true,
+          3,
+          'COMPONENT',
+          false
+ ),  (
+           5,
+           '123456789fdasw',
+           1,
+           1,
+           true,
+           4,
+           'COMPONENT',
+           false
+  );
 
 INSERT INTO characteristic (
     attribute,
@@ -130,9 +164,25 @@ INSERT INTO characteristic (
      'R532G1601U1S-U',
      null
  ),(
-       8,
-       'PSD34G13332',
-       null
+     8,
+     'PSD34G13332',
+     null
+),(
+     9,
+     'Проводная',
+     null
+),(
+     10,
+     'USB3',
+     null
+),(
+     11,
+     'Мембранная',
+     null
+),(
+     10,
+     'PS/2',
+     null
 );
 
 INSERT INTO characteristic2equipment (
@@ -146,4 +196,8 @@ INSERT INTO characteristic2equipment (
             (6, 5),
             (6, 6),
             (7, 5),
-            (8, 4);
+            (8, 4),
+            (9, 7),
+            (10, 7),
+            (11, 8),
+            (12, 8);
