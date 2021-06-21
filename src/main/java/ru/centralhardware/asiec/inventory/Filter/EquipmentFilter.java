@@ -65,7 +65,6 @@ public class EquipmentFilter {
      * @return true if must filtered
      */
     private boolean isFiltered(@NotNull List<FilterRequest> filterRequests, @NotNull Equipment equipment){
-        if (filterRequests == null) return true;
         if (filterRequests.isEmpty()) return true;
 
         for (FilterRequest request : filterRequests){

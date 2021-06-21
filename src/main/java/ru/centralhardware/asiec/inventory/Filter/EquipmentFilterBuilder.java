@@ -22,7 +22,7 @@ public class EquipmentFilterBuilder {
      * @throws ParseException if JSON invalid
      */
     public static EquipmentFilter of(String filter) throws ParseException {
-        if (filter == null || filter.isEmpty()) return new EquipmentFilter(List.of());
+        if (filter == null || filter.isBlank()) return new EquipmentFilter(List.of());
 
         List<FilterRequest> filterRequest = new ArrayList<>();
         JSONObject object = (JSONObject) new JSONParser().parse(filter);
