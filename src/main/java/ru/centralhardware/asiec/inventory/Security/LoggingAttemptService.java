@@ -3,8 +3,8 @@ package ru.centralhardware.asiec.inventory.Security;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Configuration.Config;
 
@@ -41,7 +41,7 @@ public class LoggingAttemptService {
      * invalidate cache when client getting token successfully
      * @param ip client ip address
      */
-    public void loginSucceeded(String ip) {
+    public void loginSucceeded(@NotNull String ip) {
         log.info("invalidate cache for " + ip);
         attemptsCache.invalidate(ip);
     }
@@ -50,7 +50,7 @@ public class LoggingAttemptService {
      * increase the number of login attempts
      * @param ip client ip address
      */
-    public void loginFailed(String ip) {
+    public void loginFailed(@NotNull String ip) {
         log.info("login failed: " + ip);
         int attempts;
         try {
@@ -67,7 +67,7 @@ public class LoggingAttemptService {
      * @param ip client ip address
      * @return true if ip blocked
      */
-    public boolean isBlocked(String ip) {
+    public boolean isBlocked(@NotNull String ip) {
         try {
             return attemptsCache.get(ip) >= config.maxLoginAttempt;
         } catch (ExecutionException e) {

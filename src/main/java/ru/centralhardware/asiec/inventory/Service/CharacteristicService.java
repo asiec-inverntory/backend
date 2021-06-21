@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Repository.CharacteristicRepository;
@@ -19,7 +20,7 @@ public class CharacteristicService {
         return characteristicRepository.findById(id);
     }
 
-    public void save(Characteristic characteristic){
+    public void save(@NotNull Characteristic characteristic){
         characteristicRepository.save(characteristic);
     }
 }

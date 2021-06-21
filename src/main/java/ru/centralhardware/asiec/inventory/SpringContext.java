@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ public class SpringContext {
         context = applicationContext;
     }
 
-    public static <T> T getBean(Class<T> clazz) {
+    public static <T> T getBean(@NotNull Class<T> clazz) {
         return context.getBean(clazz);
     }
 

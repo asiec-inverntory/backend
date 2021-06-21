@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Filter;
 
+import org.jetbrains.annotations.NotNull;
 import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
 import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
@@ -32,7 +33,7 @@ public class EquipmentFilter {
      *      - >  : filter request value grater then characteristic value
      *      - <  : filter request value lower then characteristic value
      */
-    protected EquipmentFilter(List<FilterRequest> filterRequests){
+    protected EquipmentFilter(@NotNull List<FilterRequest> filterRequests){
         this.filterRequests = filterRequests;
         this.equipmentMapper = SpringContext.getBean(EquipmentMapper.class);
     }
@@ -41,7 +42,7 @@ public class EquipmentFilter {
         return List.of(filterRequests.toArray(new FilterRequest[]{}));
     }
 
-    public List<EquipmentDto> filter(List<Equipment> equipments, InventoryUser user){
+    public List<EquipmentDto> filter(@NotNull List<Equipment> equipments, @NotNull InventoryUser user){
         return equipments.
                 stream().
                 filter(it -> it.getResponsible().equals(user)).
@@ -50,7 +51,7 @@ public class EquipmentFilter {
                 collect(Collectors.toList());
     }
 
-    public List<EquipmentDto> filter(List<Equipment> equipments){
+    public List<EquipmentDto> filter(@NotNull List<Equipment> equipments){
         return equipments.
                 stream().
                 filter(equipment -> isFiltered(filterRequests, equipment)).
@@ -63,7 +64,7 @@ public class EquipmentFilter {
      * @param equipment list of equipment for filter
      * @return true if must filtered
      */
-    private boolean isFiltered(List<FilterRequest> filterRequests, Equipment equipment){
+    private boolean isFiltered(@NotNull List<FilterRequest> filterRequests, @NotNull Equipment equipment){
         if (filterRequests == null) return true;
         if (filterRequests.isEmpty()) return true;
 
@@ -122,14 +123,14 @@ public class EquipmentFilter {
     /**
      * @return true if first grater then second
      */
-    private boolean graterThen(String first, String second){
+    private boolean graterThen(@NotNull String first, @NotNull String second){
         return Integer.parseInt(first) >= Integer.parseInt(second);
     }
 
     /**
      * @return true if first lower then second
      */
-    private boolean lowerThen(String first, String second){
+    private boolean lowerThen(@NotNull String first, @NotNull String second){
         return Integer.parseInt(first) <= Integer.parseInt(second);
     }
 

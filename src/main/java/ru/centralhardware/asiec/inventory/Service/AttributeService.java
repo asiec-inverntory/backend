@@ -2,6 +2,7 @@ package ru.centralhardware.asiec.inventory.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Web.Dto.AttributeDto;
 import ru.centralhardware.asiec.inventory.Entity.Attribute;
@@ -26,11 +27,11 @@ public class AttributeService {
         this.equipmentService = equipmentService;
     }
 
-    public void save(Attribute attribute){
+    public void save(@NotNull Attribute attribute){
         repository.save(attribute);
     }
 
-    public Optional<Attribute> findByName(String name){
+    public Optional<Attribute> findByName(@NotNull String name){
         return repository.findByAttribute(name);
     }
 
@@ -39,7 +40,7 @@ public class AttributeService {
         return formatAnswer(equipment);
     }
 
-    public AttributeType getAttributeType(String name){
+    public AttributeType getAttributeType(@NotNull String name){
         var attribute =  repository.findByAttribute(name);
 
         return attribute.map(Attribute::getType).orElse(null);
@@ -49,7 +50,7 @@ public class AttributeService {
         return formatAnswer(equipmentService.findById(equipmentId).stream().toList());
     }
 
-    private String formatAnswer(List<Equipment> equipments) throws JsonProcessingException {
+    private String formatAnswer(@NotNull List<Equipment> equipments) throws JsonProcessingException {
         Map<String, List<AttributeDto>> content = new HashMap<>();
         Map<String, String> humanReadable = new HashMap<>();
         for (Equipment equipment : equipments){
@@ -73,7 +74,7 @@ public class AttributeService {
         return new ObjectMapper().writeValueAsString(List.of(content, humanReadable));
     }
 
-    private List<AttributeDto> getDto(List<Attribute> attributes){
+    private List<AttributeDto> getDto(@NotNull List<Attribute> attributes){
         List<AttributeDto> res = new ArrayList<>();
         for (Attribute attribute : attributes){
             res.add(new AttributeDto(

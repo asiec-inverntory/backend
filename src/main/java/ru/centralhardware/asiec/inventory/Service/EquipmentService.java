@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
@@ -43,7 +44,7 @@ public class EquipmentService extends Equipment {
                 collect(Collectors.toList());
     }
 
-    public List<Equipment> findAll(Pageable pageable){
+    public List<Equipment> findAll(@NotNull Pageable pageable){
         return equipmentRepository.
                 findAll(pageable).
                 stream().
@@ -61,17 +62,17 @@ public class EquipmentService extends Equipment {
         return equipment.isPresent() && !equipment.get().isDeleted();
     }
 
-    public boolean hasAccess(int id, InventoryUser user){
+    public boolean hasAccess(int id, @NotNull InventoryUser user){
         var equipment = equipmentRepository.findById(id);
         return equipment.map(value -> value.getResponsible().getId().equals(id)).orElse(false);
     }
 
-//    public Equipment create(ReceiveEquipmentDto dto, InventoryUser createdBy){
+//    public Equipment create(@NotNull ReceiveEquipmentDto dto, InventoryUser createdBy){
 //        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
 //        return equipmentRepository.save(equipment);
 //    }
 //
-//    public Equipment update(ReceiveEquipmentDto dto, InventoryUser updatedBy){
+//    public Equipment update(@NotNull ReceiveEquipmentDto dto, InventoryUser updatedBy){
 //        var equipment = EquipmentMapper.INSTANCE.dtoToEquipment(dto);
 //        return equipmentRepository.save(equipment);
 //    }
@@ -80,18 +81,18 @@ public class EquipmentService extends Equipment {
         equipmentRepository.deleteById(id);
     }
 
-    public List<Equipment> list(InventoryUser user, Pageable sort){
+    public List<Equipment> list(@NotNull InventoryUser user, Pageable sort){
         return equipmentRepository.findAllByResponsible(user, sort);
     }
 
-    public List<Equipment> list(Pageable sort){
+    public List<Equipment> list(@NotNull Pageable sort){
         return equipmentRepository.
                 findAll(sort).
                 get().
                 collect(Collectors.toList());
     }
 
-    public void save(Equipment equipment){
+    public void save(@NotNull Equipment equipment){
         equipmentRepository.save(equipment);
     }
 

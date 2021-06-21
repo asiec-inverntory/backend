@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,7 @@ public class UserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         var userOptional = userRepository.findByUsername(username);
         User.UserBuilder builder;
         if (userOptional.isPresent()){

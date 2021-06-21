@@ -1,6 +1,7 @@
 package ru.centralhardware.asiec.inventory.Service;
 
 import javassist.NotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Web.Dto.Create.CreateUserDto;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
@@ -40,7 +41,7 @@ public class UserService {
                 map(InventoryUser::getFio).toList();
     }
 
-    public Optional<InventoryUser> findByUsername(String username){
+    public Optional<InventoryUser> findByUsername(@NotNull String username){
         return userRepository.
                 findByUsername(username).
                 filter(not(InventoryUser::isDeleted));
@@ -61,18 +62,18 @@ public class UserService {
         }
     }
 
-    public InventoryUser create(CreateUserDto userDto, InventoryUser createdBy){
+    public InventoryUser create(@NotNull CreateUserDto userDto, InventoryUser createdBy){
         var user = userMapper.dtoToUser(userDto);
         user.setId(null);
         return userRepository.save(user);
     }
 
-    public InventoryUser update(CreateUserDto userDto){
+    public InventoryUser update(@NotNull CreateUserDto userDto){
         var user = userMapper.dtoToUser(userDto);
         return userRepository.save(user);
     }
 
-    public void setLastLogin(String username){
+    public void setLastLogin(@NotNull String username){
         userRepository.findByUsername(username).ifPresent(user -> user.setLastLogin(new Date()));
     }
 

@@ -30,9 +30,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-
-import static java.util.function.Predicate.not;
 
 @RestController
 @Api(value = "equipment")

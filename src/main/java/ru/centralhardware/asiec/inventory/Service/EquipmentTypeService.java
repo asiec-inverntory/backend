@@ -1,5 +1,6 @@
 package ru.centralhardware.asiec.inventory.Service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.centralhardware.asiec.inventory.Entity.EquipmentType;
 import ru.centralhardware.asiec.inventory.Repository.EquipmentTypeRepository;
@@ -11,11 +12,11 @@ public class EquipmentTypeService {
 
     private final EquipmentTypeRepository equipmentTypeRepository;
 
-    public EquipmentTypeService(EquipmentTypeRepository equipmentTypeRepository) {
+    public EquipmentTypeService(@NotNull EquipmentTypeRepository equipmentTypeRepository) {
         this.equipmentTypeRepository = equipmentTypeRepository;
     }
 
-    public Optional<EquipmentType> findByName(String typeName){
+    public Optional<EquipmentType> findByName(@NotNull String typeName){
         return equipmentTypeRepository.findByTypeName(typeName);
     }
 }
