@@ -21,7 +21,7 @@ public class EquipmentFilterBuilder {
      * @return constructed instance of  ${@link EquipmentFilter}
      * @throws ParseException if JSON invalid
      */
-    public static EquipmentFilter of(@NotNull String filter) throws ParseException {
+    public static EquipmentFilter of(String filter) throws ParseException {
         if (filter == null || filter.isEmpty()) return new EquipmentFilter(List.of());
 
         List<FilterRequest> filterRequest = new ArrayList<>();
