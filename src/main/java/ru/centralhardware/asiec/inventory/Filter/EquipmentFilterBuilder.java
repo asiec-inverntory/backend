@@ -30,7 +30,7 @@ public class EquipmentFilterBuilder {
             if (v instanceof JSONArray && k.equals("responsible")){
                 ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
                         ValueType.STRING,
-                        (String) k,
+                        (String) it,
                         (String) k,
                         "=",
                         (String) it
@@ -39,7 +39,7 @@ public class EquipmentFilterBuilder {
             } else if (v instanceof JSONArray && k.equals("type")){
                 ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
                         ValueType.STRING,
-                        (String) k,
+                        (String) it,
                         (String) k,
                         "=",
                         (String) it

@@ -2,16 +2,15 @@ package ru.centralhardware.asiec.inventory.Filter;
 
 import org.jetbrains.annotations.NotNull;
 import ru.centralhardware.asiec.inventory.Web.Dto.EquipmentDto;
-import ru.centralhardware.asiec.inventory.Entity.Characteristic;
 import ru.centralhardware.asiec.inventory.Entity.Equipment;
 import ru.centralhardware.asiec.inventory.Entity.InventoryUser;
 import ru.centralhardware.asiec.inventory.Mapper.EquipmentMapper;
 import ru.centralhardware.asiec.inventory.SpringContext;
 import ru.centralhardware.asiec.inventory.Web.Dto.FilterRequest;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EquipmentFilter {
 
@@ -43,80 +42,63 @@ public class EquipmentFilter {
     }
 
     public List<EquipmentDto> filter(@NotNull List<Equipment> equipments, @NotNull InventoryUser user){
-        return equipments.
-                stream().
-                filter(it -> it.getResponsible().equals(user)).
-                filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper::equipmentToDto).
-                collect(Collectors.toList());
+        return null;
     }
 
     public List<EquipmentDto> filter(@NotNull List<Equipment> equipments){
-        return equipments.
-                stream().
-                filter(equipment -> isFiltered(filterRequests, equipment)).
-                map(equipmentMapper::equipmentToDto).
-                collect(Collectors.toList());
-    }
+        List<EquipmentDto> res = new ArrayList<>();
 
-    /**
-     * @param filterRequests filter conditions
-     * @param equipment list of equipment for filter
-     * @return true if must filtered
-     */
-    private boolean isFiltered(@NotNull List<FilterRequest> filterRequests, @NotNull Equipment equipment){
-        if (filterRequests.isEmpty()) return true;
-
-        for (FilterRequest request : filterRequests){
-            if (request.attributeName().equalsIgnoreCase("responsible")){
-                if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())) return true;
-            }
-            if (request.attributeName().equalsIgnoreCase("type")){
-                if (equipment.getEquipmentType().getTypeName().equalsIgnoreCase(request.value())) return true;
-            }
-        }
-
-        Set<Characteristic> characteristics = equipment.getCharacteristics();
-        if (characteristics.size() == 0) return false;
-
-        int matchCount = 0;
-        for (FilterRequest request : filterRequests){
-            if (!request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())) return false;
-
-            switch (request.operation()){
-                case "=" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-
-                        if (characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
+        equipments.stream().forEach(equipment -> {
+            equipment.getCharacteristics().stream().forEach(characteristic -> {
+                AtomicInteger matchCount = new AtomicInteger();
+                filterRequests.stream().forEach(request -> {
+                    if (request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())){
+                       if (request.attributeName().equalsIgnoreCase("responsible")){
+                            if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())){
+                                matchCount.getAndIncrement();
+                            }
+                       } else if (request.attributeName().equalsIgnoreCase("type")){
+                            if (equipment.getEquipmentType().getTypeName().equalsIgnoreCase(request.value())){
+                                matchCount.getAndIncrement();
+                            }
+                       } else {
+                           if (request.attributeName().equalsIgnoreCase(characteristic.getAttribute().getAttribute())){
+                               switch (request.operation()){
+                                   case "!=" -> {
+                                       if (!request.value().equalsIgnoreCase(characteristic.getValue())){
+                                           matchCount.getAndIncrement();
+                                       }
+                                   }
+                                   case "=" -> {
+                                       if (request.value().equalsIgnoreCase(characteristic.getValue())){
+                                           matchCount.getAndIncrement();
+                                       }
+                                   }
+                                   case ">" -> {
+                                       if (request.type() != ValueType.NUMBER) {
+                                           if (graterThen(request.value(), characteristic.getValue())){
+                                               matchCount.getAndIncrement();
+                                           }
+                                       }
+                                   }
+                                   case "<" -> {
+                                       if (request.type() != ValueType.NUMBER){
+                                           if (lowerThen(request.value(), characteristic.getValue())) {
+                                               matchCount.getAndIncrement();
+                                           }
+                                       };
+                                   }
+                               }
+                           }
+                       }
                     }
+                });
+                if (matchCount.get() == filterRequests.size()) {
+                    res.add(equipmentMapper.equipmentToDto(equipment));
                 }
-                case "!=" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-
-                        if (!characteristic.getValue().equalsIgnoreCase(request.value())) matchCount++;
-                    }
-                }
-                case ">" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-                        if (request.type() != ValueType.NUMBER) continue;
-
-                        if (graterThen(request.value(), characteristic.getValue())) matchCount++;
-                    }
-                }
-                case "<" -> {
-                    for (Characteristic characteristic : characteristics){
-                        if (!characteristic.getAttribute().getAttribute().equals(request.attributeName())) continue;
-                        if (request.type() != ValueType.NUMBER) continue;
-
-                        if (lowerThen(request.value(), characteristic.getValue())) matchCount++;
-                    }
-                }
-            }
-        }
-        return matchCount == filterRequests.size();
+            });
+        });
+        return res;
     }
 
     /**
