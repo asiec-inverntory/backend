@@ -46,6 +46,8 @@ public class EquipmentFilter {
     }
 
     public List<EquipmentDto> filter(@NotNull List<Equipment> equipments){
+        if (filterRequests.isEmpty()) return equipments.stream().map(equipmentMapper::equipmentToDto).toList();
+
         List<EquipmentDto> res = new ArrayList<>();
 
         equipments.stream().forEach(equipment -> {

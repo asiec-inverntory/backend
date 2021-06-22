@@ -88,7 +88,7 @@ public class EquipmentService extends Equipment {
     }
 
     public List<Equipment> list(@NotNull Pageable sort){
-        return findAll(sort);
+        return equipmentRepository.findAll(sort).get().toList();
     }
 
     public void save(@NotNull Equipment equipment){
