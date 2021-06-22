@@ -77,14 +77,14 @@ public class EquipmentFilter {
                                         }
                                     }
                                     case ">" -> {
-                                        if (request.type() != ValueType.NUMBER) {
+                                        if (request.type() == ValueType.NUMBER) {
                                             if (graterThen(request.value(), characteristic.getValue())){
                                                 matchCount.getAndIncrement();
                                             }
                                         }
                                     }
                                     case "<" -> {
-                                        if (request.type() != ValueType.NUMBER){
+                                        if (request.type() == ValueType.NUMBER){
                                             if (lowerThen(request.value(), characteristic.getValue())) {
                                                 matchCount.getAndIncrement();
                                             }
