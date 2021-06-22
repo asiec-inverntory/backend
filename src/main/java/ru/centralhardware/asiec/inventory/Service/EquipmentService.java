@@ -82,14 +82,13 @@ public class EquipmentService extends Equipment {
     }
 
     public List<Equipment> list(@NotNull InventoryUser user, Pageable sort){
-        return equipmentRepository.findAllByResponsible(user, sort);
+        return equipmentRepository.findAllByResponsible(user, sort).stream().
+                filter(not(Equipment::isDeleted)).
+                collect(Collectors.toList());
     }
 
     public List<Equipment> list(@NotNull Pageable sort){
-        return equipmentRepository.
-                findAll(sort).
-                get().
-                collect(Collectors.toList());
+        return findAll(sort);
     }
 
     public void save(@NotNull Equipment equipment){

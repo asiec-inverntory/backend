@@ -222,6 +222,6 @@ public class EquipmentController {
         } else {
             res.addAll(fullList);
         }
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(res.stream().distinct().toList());
     }
 }
