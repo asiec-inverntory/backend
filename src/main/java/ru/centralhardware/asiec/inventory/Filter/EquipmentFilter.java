@@ -52,47 +52,47 @@ public class EquipmentFilter {
             equipment.getCharacteristics().stream().forEach(characteristic -> {
                 AtomicInteger matchCount = new AtomicInteger();
                 filterRequests.stream().forEach(request -> {
-                    if (request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())){
-                       if (request.attributeName().equalsIgnoreCase("responsible")){
-                           String[] word = equipment.getResponsible().getFio().split(" ");
-                           String fio = String.format("%s %s. %s", word[0], word[1].charAt(0), word[2].charAt(0));
-                            if (fio.equalsIgnoreCase(request.value())){
-                                matchCount.getAndIncrement();
+                    if (request.attributeName().equalsIgnoreCase("responsible")){
+                        String[] word = equipment.getResponsible().getFio().split(" ");
+                        String fio = String.format("%s %s.%s.", word[0], word[1].charAt(0), word[2].charAt(0));
+                        if (fio.equalsIgnoreCase(request.value())){
+                            matchCount.getAndIncrement();
+                        }
+                    } else if (request.attributeName().equalsIgnoreCase("type")){
+                        if (equipment.getEquipmentType().getTypeName().equalsIgnoreCase(request.value())){
+                            matchCount.getAndIncrement();
+                        }
+                    } else {
+                        if (request.equipmentKey().equalsIgnoreCase(equipment.getEquipmentType().getTypeName())){
+                            if (request.attributeName().equalsIgnoreCase(characteristic.getAttribute().getAttribute())){
+                                switch (request.operation()){
+                                    case "!=" -> {
+                                        if (!request.value().equalsIgnoreCase(characteristic.getValue())){
+                                            matchCount.getAndIncrement();
+                                        }
+                                    }
+                                    case "=" -> {
+                                        if (request.value().equalsIgnoreCase(characteristic.getValue())){
+                                            matchCount.getAndIncrement();
+                                        }
+                                    }
+                                    case ">" -> {
+                                        if (request.type() != ValueType.NUMBER) {
+                                            if (graterThen(request.value(), characteristic.getValue())){
+                                                matchCount.getAndIncrement();
+                                            }
+                                        }
+                                    }
+                                    case "<" -> {
+                                        if (request.type() != ValueType.NUMBER){
+                                            if (lowerThen(request.value(), characteristic.getValue())) {
+                                                matchCount.getAndIncrement();
+                                            }
+                                        };
+                                    }
+                                }
                             }
-                       } else if (request.attributeName().equalsIgnoreCase("type")){
-                            if (equipment.getEquipmentType().getTypeName().equalsIgnoreCase(request.value())){
-                                matchCount.getAndIncrement();
-                            }
-                       } else {
-                           if (request.attributeName().equalsIgnoreCase(characteristic.getAttribute().getAttribute())){
-                               switch (request.operation()){
-                                   case "!=" -> {
-                                       if (!request.value().equalsIgnoreCase(characteristic.getValue())){
-                                           matchCount.getAndIncrement();
-                                       }
-                                   }
-                                   case "=" -> {
-                                       if (request.value().equalsIgnoreCase(characteristic.getValue())){
-                                           matchCount.getAndIncrement();
-                                       }
-                                   }
-                                   case ">" -> {
-                                       if (request.type() != ValueType.NUMBER) {
-                                           if (graterThen(request.value(), characteristic.getValue())){
-                                               matchCount.getAndIncrement();
-                                           }
-                                       }
-                                   }
-                                   case "<" -> {
-                                       if (request.type() != ValueType.NUMBER){
-                                           if (lowerThen(request.value(), characteristic.getValue())) {
-                                               matchCount.getAndIncrement();
-                                           }
-                                       };
-                                   }
-                               }
-                           }
-                       }
+                        }
                     }
                 });
                 if (matchCount.get() == filterRequests.size()) {
