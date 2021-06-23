@@ -55,9 +55,7 @@ public class EquipmentFilter {
                 AtomicInteger matchCount = new AtomicInteger();
                 filterRequests.stream().forEach(request -> {
                     if (request.attributeName().equalsIgnoreCase("responsible")){
-                        String[] word = equipment.getResponsible().getFio().split(" ");
-                        String fio = String.format("%s %s.%s.", word[0], word[1].charAt(0), word[2].charAt(0));
-                        if (fio.equalsIgnoreCase(request.value())){
+                        if (equipment.getResponsible().getFio().equalsIgnoreCase(request.value())){
                             matchCount.getAndIncrement();
                         }
                     } else if (request.attributeName().equalsIgnoreCase("type")){
