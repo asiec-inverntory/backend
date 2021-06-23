@@ -44,6 +44,7 @@ public class EquipmentFilterBuilder {
                         "=",
                         (String) v
                 ));
+                return;
             } else if (v instanceof JSONArray && k.equals("type")){
                 ((JSONArray) v).forEach(it -> filterRequest.add(new FilterRequest(
                         ValueType.STRING,
@@ -61,6 +62,7 @@ public class EquipmentFilterBuilder {
                         "=",
                         (String) v
                 ));
+                return;
             }
 
             if (!(v instanceof JSONObject)) return;
